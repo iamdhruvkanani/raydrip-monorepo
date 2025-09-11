@@ -31,9 +31,14 @@ export default function RegisterPage() {
             // On success, optionally redirect to login
             alert('Registration successful. Please log in.')
             router.push('/login')
-        } catch (err: any) {
-            setError(err.message)
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message)
+            } else {
+                setError(String(err)) // fallback for non-Error throwables
+            }
         }
+
     }
 
     return (

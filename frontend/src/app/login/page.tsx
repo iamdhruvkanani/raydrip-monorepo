@@ -32,8 +32,12 @@ export default function LoginPage() {
 
             localStorage.setItem('raydrip_token', data.token)
             router.push('/profile')
-        } catch (err: any) {
-            setError(err.message)
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message)
+            } else {
+                setError(String(err)) // fallback for non-Error throwables
+            }
         }
     }
 

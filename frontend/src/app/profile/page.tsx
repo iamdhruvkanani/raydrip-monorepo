@@ -20,9 +20,14 @@ export default function ProfilePage() {
                 if (!res.ok) throw new Error(data.message || 'Failed to fetch profile')
                 setEmail(data.email)
                 setName(data.name || '')
-            } catch (err: any) {
-                setError(err.message)
+            } catch (err: unknown) {
+                if (err instanceof Error) {
+                    setError(err.message)
+                } else {
+                    setError(String(err)) // fallback for non-Error throwables
+                }
             }
+
         }
         fetchProfile()
     }, [])
