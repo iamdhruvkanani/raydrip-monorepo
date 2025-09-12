@@ -12,11 +12,11 @@ export default function Header() {
     const [mounted, setMounted] = useState(false)
     const [isShrunk, setIsShrunk] = useState(false)
     const { theme, setTheme } = useTheme()
-    const pathname = usePathname()
+    const pathname = usePathname() || '/'
 
     const [mobileShopOpen, setMobileShopOpen] = useState(false)
-
     const [shopOpen, setShopOpen] = useState(false)
+
     const handleShopToggle = () => setShopOpen((prev) => !prev)
     const handleShopClose = () => setShopOpen(false)
 
@@ -45,39 +45,65 @@ export default function Header() {
 
     const toggleMenu = () => setIsOpen(!isOpen)
 
+    // Normalize path helper to remove trailing slash except root
+    const normalizePath = (path: string) => {
+        if (!path) return '/'
+        if (path === '/') return '/'
+        return path.endsWith('/') ? path.slice(0, -1) : path
+    }
+
+    const currentPath = normalizePath(pathname)
+
+    // Shop is active on /shop and any /shop/* path
+    const isShopActive = currentPath === '/shop' || currentPath.startsWith('/shop/')
+
+    // General active check function
+    const isActive = (href: string) => {
+        const normalizedHref = normalizePath(href)
+        if (normalizedHref === '/') return currentPath === '/'
+        if (normalizedHref === '/shop') return isShopActive
+        return currentPath === normalizedHref
+    }
+
     return (
         <motion.header
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className={`fixed w-full z-50 top-0 left-0 bg-bg-light/80 dark:bg-bg-dark/80 backdrop-blur-xl border-b border-accent-gold-light/20 dark:border-accent-gold-dark/20 transition-all duration-300 ${isShrunk ? 'py-2 shadow-lg' : 'py-4'
+            className={`fixed w-full z-50 top-0 left-0 bg-bg-light/80 dark:bg-bg-dark/80 backdrop-blur-xl border-b border-accent-gold-light/20 dark:border-accent-gold-dark/20 transition-all duration-300 ${isShrunk ? 'py-1.5 shadow-lg' : 'py-3'
                 }`}
         >
             {/* Logo */}
             <div className="max-w-7xl mx-auto flex justify-between items-center px-6">
                 <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-                    <Link href="/" className="inline-flex items-center space-x-3">
+                    {/* <Link href="/" className="inline-flex items-center space-x-3">
                         <span className="text-2xl font-serif text-accent-gold-light dark:text-accent-gold-dark font-bold">
                             RAYDRIP
                         </span>
-                        {/* <Image
-                            src="/raydrip-logo-3.png"
+                    </Link> */}
+
+                    <Link href="/" className="inline-flex items-center space-x-3 m-0 p-0">
+
+                        <Image
+                            src="/raydrip-logo.png"
                             alt="RayDrip Logo"
-                            width={100}
-                            height={50}
-                            priority={true}
-                            quality={90}
-                            className="select-none"
-                        /> */}
+                            height={36}
+                            width={120}
+                            style={{ height: 36, width: 'auto' }}
+                            className="max-h-10 w-auto select-none"
+                            priority
+                        />
                     </Link>
+
+
+
                 </motion.div>
 
                 {/* Desktop Menu */}
                 <nav className="hidden md:flex space-x-8">
-                    {/* Render non-Shop nav items */}
+                    {/* Non-Shop nav items */}
                     {['Home', 'About', 'Contact'].map((item, index) => {
                         const href = item === 'Home' ? '/' : `/${item.toLowerCase()}`
-                        const isActive = pathname === href
                         return (
                             <motion.div
                                 key={item}
@@ -87,13 +113,13 @@ export default function Header() {
                             >
                                 <Link
                                     href={href}
-                                    className={`relative font-medium transition-colors duration-300 cursor-pointer ${isActive
-                                            ? 'text-accent-gold-light dark:text-accent-gold-dark'
-                                            : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark'
+                                    className={`relative font-medium transition-colors duration-300 cursor-pointer ${isActive(href)
+                                        ? 'text-accent-gold-light dark:text-accent-gold-dark'
+                                        : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark'
                                         }`}
                                 >
                                     {item}
-                                    {isActive && (
+                                    {isActive(href) && (
                                         <motion.span
                                             layoutId="underline"
                                             className="absolute -bottom-1 left-0 w-full h-0.5 bg-accent-gold-light dark:bg-accent-gold-dark"
@@ -112,9 +138,9 @@ export default function Header() {
                     >
                         <motion.button
                             onClick={handleShopToggle}
-                            className={`font-medium cursor-pointer flex items-center gap-1 ${pathname.startsWith('/shop')
-                                    ? 'text-accent-gold-light dark:text-accent-gold-dark'
-                                    : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark'
+                            className={`font-medium cursor-pointer flex items-center gap-1 ${isActive('/shop')
+                                ? 'text-accent-gold-light dark:text-accent-gold-dark'
+                                : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark'
                                 }`}
                             aria-haspopup="true"
                             aria-expanded={shopOpen}
@@ -139,7 +165,10 @@ export default function Header() {
                                         <Link
                                             key={cat.href}
                                             href={cat.href}
-                                            className="block px-6 py-3 font-medium text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark hover:bg-accent-gold-light/[0.07] dark:hover:bg-accent-gold-dark/[0.07] whitespace-nowrap"
+                                            className={`block px-6 py-3 font-medium whitespace-nowrap ${isActive(cat.href)
+                                                ? 'text-accent-gold-light dark:text-accent-gold-dark'
+                                                : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark hover:bg-accent-gold-light/[0.07] dark:hover:bg-accent-gold-dark/[0.07]'
+                                                }`}
                                             onClick={() => setShopOpen(false)}
                                         >
                                             {cat.label}
@@ -208,7 +237,10 @@ export default function Header() {
                                     >
                                         <Link
                                             href={href}
-                                            className="block text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark transition-colors duration-300 font-medium py-2"
+                                            className={`block font-medium py-2 transition-colors duration-300 ${isActive(href)
+                                                ? 'text-accent-gold-light dark:text-accent-gold-dark'
+                                                : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark'
+                                                }`}
                                             onClick={() => setIsOpen(false)}
                                         >
                                             {item}
@@ -216,18 +248,21 @@ export default function Header() {
                                     </motion.div>
                                 )
                             })}
+
                             {/* Mobile Shop Section */}
                             <div>
                                 <button
                                     onClick={() => setMobileShopOpen(!mobileShopOpen)}
-                                    className="font-medium text-accent-gold-light dark:text-accent-gold-dark w-full text-left flex justify-between items-center py-2"
+                                    className={`font-medium w-full text-left flex justify-between items-center py-2 transition-colors duration-300 ${isShopActive
+                                        ? 'text-accent-gold-light dark:text-accent-gold-dark'
+                                        : 'text-accent-gold-light/70 dark:text-accent-gold-dark/70 hover:text-accent-gold-light dark:hover:text-accent-gold-dark'
+                                        }`}
                                     aria-expanded={mobileShopOpen}
                                     aria-controls="mobile-shop-submenu"
                                 >
                                     Shop
                                     <svg
-                                        className={`w-4 h-4 transform transition-transform duration-200 ${mobileShopOpen ? "rotate-180" : ""
-                                            }`}
+                                        className={`w-4 h-4 transform transition-transform duration-200 ${mobileShopOpen ? 'rotate-180' : ''}`}
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -242,14 +277,15 @@ export default function Header() {
                                             initial={{ height: 0, opacity: 0 }}
                                             animate={{ height: 'auto', opacity: 1 }}
                                             exit={{ height: 0, opacity: 0 }}
-                                            transition={{ duration: 0.25, ease: "easeInOut" }}
+                                            transition={{ duration: 0.25, ease: 'easeInOut' }}
                                             className="pl-4 mt-2 flex flex-col space-y-1 overflow-hidden"
                                         >
                                             {shopCategories.map(cat => (
                                                 <Link
                                                     key={cat.href}
                                                     href={cat.href}
-                                                    className="block text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark transition-colors duration-300 font-medium py-2"
+                                                    className={`block py-2 text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark transition-colors duration-300 font-medium ${isActive(cat.href) ? 'font-semibold' : ''
+                                                        }`}
                                                     onClick={() => {
                                                         setIsOpen(false)
                                                         setMobileShopOpen(false)

@@ -39,7 +39,7 @@ export function ThemeProvider({
         })
     }
 
-    // Sync theme state with html class and localStorage (next-themes handles this internally as well)
+    // Sync theme state with html class and localStorage
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const initialTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
