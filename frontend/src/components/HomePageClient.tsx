@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ProductCard from '@/components/ProductCard'
+import Image from 'next/image'
 const newArrivalProducts = [
     {
         id: 'na1',
@@ -153,6 +154,20 @@ export default function HomePage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1.6, delay: 0.3, ease: 'easeOut' }}
                 >
+                    {/* <div className="mx-auto max-w-5xl px-4 md:px-0 text-center relative z-10">
+                        <Image
+                            src="/logo-tagline.png"  // Path in /public folder
+                            alt="RayDrip Logo"
+                            width={400}      // Adjust size as needed
+                            height={150}     // Maintain aspect ratio
+                            priority={true}
+                            quality={90}
+                            className="mx-auto select-none"
+                        />
+                    </div> */}
+
+
+
                     <h1
                         className="
       text-4xl sm:text-6xl md:text-8xl font-serif font-extrabold tracking-tight mb-6
@@ -181,6 +196,8 @@ export default function HomePage() {
                     >
                         {heroSlides[currentIndex].subtitle}
                     </p>
+
+
 
                     <button
                         onClick={() => alert('Explore collection clicked!')}
