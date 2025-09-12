@@ -30,23 +30,22 @@ export function ThemeProvider({
 }: CustomThemeProviderProps) {
     const [theme, setTheme] = useState<string>(defaultTheme)
 
+    // On mount, force light mode and clear stored theme to always start light
+    useEffect(() => {
+        setTheme('light')
+        document.documentElement.classList.remove('dark')
+        localStorage.setItem('theme', 'light')
+    }, [])
+
+    // Toggle function updates state, html class, and localStorage synchronously
     const toggleTheme = () => {
         setTheme(current => {
             const newTheme = current === 'dark' ? 'light' : 'dark'
-            // Also update html class via next-themes's internal logic
             document.documentElement.classList.toggle('dark', newTheme === 'dark')
+            localStorage.setItem('theme', newTheme)
             return newTheme
         })
     }
-
-    // Sync theme state with html class and localStorage
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const initialTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-            setTheme(initialTheme)
-            document.documentElement.classList.toggle('dark', initialTheme === 'dark')
-        }
-    }, [])
 
     return (
         <NextThemesProvider

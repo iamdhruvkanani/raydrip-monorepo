@@ -32,11 +32,7 @@ export default function Header() {
         setMounted(true)
 
         const handleScroll = () => {
-            if (window.scrollY > 50) {
-                setIsShrunk(true)
-            } else {
-                setIsShrunk(false)
-            }
+            setIsShrunk(window.scrollY > 50)
         }
 
         window.addEventListener('scroll', handleScroll)
@@ -54,14 +50,12 @@ export default function Header() {
 
     const currentPath = normalizePath(pathname)
 
-    // Shop is active on /shop and any /shop/* path
-    const isShopActive = currentPath === '/shop' || currentPath.startsWith('/shop/')
+    // Shop button active if on /shop or any /shop/* sub-path
+    const isShopButtonActive = currentPath === '/shop' || currentPath.startsWith('/shop/')
 
-    // General active check function
+    // Active link if exact pathname matches normalized href
     const isActive = (href: string) => {
         const normalizedHref = normalizePath(href)
-        if (normalizedHref === '/') return currentPath === '/'
-        if (normalizedHref === '/shop') return isShopActive
         return currentPath === normalizedHref
     }
 
@@ -77,26 +71,20 @@ export default function Header() {
             <div className="max-w-7xl mx-auto flex justify-between items-center px-6">
                 <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
                     {/* <Link href="/" className="inline-flex items-center space-x-3">
-                        <span className="text-2xl font-serif text-accent-gold-light dark:text-accent-gold-dark font-bold">
-                            RAYDRIP
-                        </span>
-                    </Link> */}
-
+            <span className="text-2xl font-serif text-accent-gold-light dark:text-accent-gold-dark font-bold">
+              RAYDRIP
+            </span>
+          </Link> */}
                     <Link href="/" className="inline-flex items-center space-x-3 m-0 p-0">
-
                         <Image
                             src="/raydrip-logo.png"
                             alt="RayDrip Logo"
                             height={36}
                             width={120}
-                            style={{ height: 36, width: 'auto' }}
-                            className="max-h-10 w-auto select-none"
+                            className="w-auto select-none transform scale-150 h-14"
                             priority
                         />
                     </Link>
-
-
-
                 </motion.div>
 
                 {/* Desktop Menu */}
@@ -138,7 +126,7 @@ export default function Header() {
                     >
                         <motion.button
                             onClick={handleShopToggle}
-                            className={`font-medium cursor-pointer flex items-center gap-1 ${isActive('/shop')
+                            className={`font-medium cursor-pointer flex items-center gap-1 ${isShopButtonActive
                                 ? 'text-accent-gold-light dark:text-accent-gold-dark'
                                 : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark'
                                 }`}
@@ -166,7 +154,7 @@ export default function Header() {
                                             key={cat.href}
                                             href={cat.href}
                                             className={`block px-6 py-3 font-medium whitespace-nowrap ${isActive(cat.href)
-                                                ? 'text-accent-gold-light dark:text-accent-gold-dark'
+                                                ? 'text-accent-gold-light dark:text-accent-gold-dark font-semibold'
                                                 : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark hover:bg-accent-gold-light/[0.07] dark:hover:bg-accent-gold-dark/[0.07]'
                                                 }`}
                                             onClick={() => setShopOpen(false)}
@@ -182,7 +170,6 @@ export default function Header() {
 
                 {/* Theme Toggle + Mobile Menu */}
                 <div className="flex items-center space-x-4">
-                    {/* Theme Toggle Button */}
                     {mounted && (
                         <motion.button
                             whileHover={{ scale: 1.1 }}
@@ -195,7 +182,6 @@ export default function Header() {
                         </motion.button>
                     )}
 
-                    {/* Mobile Hamburger */}
                     <motion.button
                         className="md:hidden relative w-8 h-8 flex flex-col justify-center"
                         onClick={toggleMenu}
@@ -214,7 +200,6 @@ export default function Header() {
                 </div>
             </div>
 
-            {/* Mobile Menu */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.nav
@@ -225,7 +210,6 @@ export default function Header() {
                         className="md:hidden bg-surface-light dark:bg-surface-dark border-t border-accent-gold-light/20 dark:border-accent-gold-dark/20"
                     >
                         <div className="px-6 py-6 space-y-4">
-                            {/* Mobile nav items except Shop */}
                             {['Home', 'About', 'Contact'].map((item, index) => {
                                 const href = item === 'Home' ? '/' : `/${item.toLowerCase()}`
                                 return (
@@ -249,13 +233,12 @@ export default function Header() {
                                 )
                             })}
 
-                            {/* Mobile Shop Section */}
                             <div>
                                 <button
                                     onClick={() => setMobileShopOpen(!mobileShopOpen)}
-                                    className={`font-medium w-full text-left flex justify-between items-center py-2 transition-colors duration-300 ${isShopActive
+                                    className={`font-medium w-full text-left flex justify-between items-center py-2 transition-colors duration-300 ${isShopButtonActive
                                         ? 'text-accent-gold-light dark:text-accent-gold-dark'
-                                        : 'text-accent-gold-light/70 dark:text-accent-gold-dark/70 hover:text-accent-gold-light dark:hover:text-accent-gold-dark'
+                                        : ''
                                         }`}
                                     aria-expanded={mobileShopOpen}
                                     aria-controls="mobile-shop-submenu"
@@ -284,7 +267,7 @@ export default function Header() {
                                                 <Link
                                                     key={cat.href}
                                                     href={cat.href}
-                                                    className={`block py-2 text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark transition-colors duration-300 font-medium ${isActive(cat.href) ? 'font-semibold' : ''
+                                                    className={`block py-2 text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark transition-colors duration-300 font-medium ${isActive(cat.href) ? 'text-accent-gold-light dark:text-accent-gold-dark font-semibold' : ''
                                                         }`}
                                                     onClick={() => {
                                                         setIsOpen(false)

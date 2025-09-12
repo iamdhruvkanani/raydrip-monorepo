@@ -42,7 +42,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="bg-bg-light dark:bg-bg-dark py-12 px-4 sm:px-8 md:px-12 max-w-7xl mx-auto rounded-lg shadow-xl relative overflow-hidden pt-24"
+            className="bg-bg-light dark:bg-bg-dark py-12 px-4 sm:px-8 md:px-12 max-w-7xl mx-auto rounded-lg shadow-xl relative overflow-hidden"
 
         >
             {/* Decorative golden shape */}
