@@ -27,57 +27,50 @@ export default function ProductCard({ product }: { product: Product }) {
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
             whileHover={{
-                y: -12,
-                scale: 1.03,
-                boxShadow: '0 25px 50px -12px rgba(201,169,110,0.4)', // subtle golden shadow
+                y: -8,
+                scale: 1.02,
+                boxShadow: '0 8px 32px -4px rgba(201,169,110,0.15)', // subtle golden shadow
             }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="group bg-surface-light dark:bg-surface-dark rounded-3xl overflow-hidden shadow-xl border border-accent-gold-light/20 dark:border-accent-gold-dark/20 hover:border-accent-gold-light/40 dark:hover:border-accent-gold-dark/40 cursor-pointer flex flex-col"
-            style={{ minHeight: '470px' }}
+            className="group bg-surface-light dark:bg-surface-dark rounded-2xl overflow-hidden shadow-md border border-accent-gold-light/20 dark:border-accent-gold-dark/20 hover:border-accent-gold-light/40 dark:hover:border-accent-gold-dark/40 cursor-pointer flex flex-col h-full"
         >
-            {/* Image with Parallax Effect */}
-            <div className="overflow-hidden w-full aspect-[2/3] relative rounded-t-3xl">
+            <div className="aspect-square w-full bg-white flex items-center justify-center overflow-hidden rounded-2xl">
                 <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                    whileHover={{ scale: 1.07 }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
                     className="w-full h-full"
                 >
                     <motion.img
                         src={product.imageUrl}
                         alt={product.name}
-                        className="w-full h-full object-cover rounded-t-3xl"
+                        className="w-full h-full object-top object-cover rounded-t-2xl"
                         loading="lazy"
-                        initial={{ scale: 1.1, opacity: 0 }}
+                        initial={{ scale: 1.07, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.8 }}
+                        transition={{ duration: 0.5 }}
                     />
                 </motion.div>
-
                 {/* Gradient Overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-3xl" />
-            </div>
-
-            {/* Content */}
-            <div className="p-6 flex flex-col flex-grow justify-between">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-2xl" />
+            </div >
+            <div className="p-4 sm:p-6 flex flex-col flex-grow">
                 <motion.h3
-                    className="font-serif text-xl font-semibold text-text-primary-light dark:text-text-primary-dark mb-2 line-clamp-2 group-hover:text-accent-gold-light dark:group-hover:text-accent-gold-dark transition-colors duration-300"
+                    className="font-serif text-base sm:text-lg font-semibold text-text-primary-light dark:text-text-primary-dark mb-1 line-clamp-2 group-hover:text-accent-gold-light dark:group-hover:text-accent-gold-dark transition-colors duration-300"
                     title={product.name}
                 >
                     {product.name}
                 </motion.h3>
-
-                <p className="text-accent-gold-light dark:text-accent-gold-dark font-bold text-lg mb-6 select-none">
+                <p className="text-accent-gold-light dark:text-accent-gold-dark font-bold text-sm sm:text-lg mb-4 select-none">
                     {product.price}
                 </p>
-
                 <button
                     onClick={handleAddToCart}
-                    className="bg-accent-gold-light dark:bg-accent-gold-dark text-text-primary-light px-8 py-3 rounded-full font-semibold hover:shadow-2xl active:scale-95 transition-transform duration-300 select-none"
+                    className="bg-accent-gold-light dark:bg-accent-gold-dark text-text-primary-light w-full rounded-full py-2 sm:py-3 font-semibold hover:shadow-xl active:scale-95 transition duration-200 select-none"
                     aria-label={`Add ${product.name} to cart`}
                 >
                     Add to Cart
                 </button>
             </div>
-        </motion.article>
+        </motion.article >
     )
 }

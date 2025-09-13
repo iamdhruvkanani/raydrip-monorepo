@@ -4,34 +4,35 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ProductCard from '@/components/ProductCard'
 import Image from 'next/image'
+
 const newArrivalProducts = [
     {
         id: 'na1',
         name: 'Elegant Silk Saree',
         price: '₹3499',
         imageUrl:
-            'https://images.unsplash.com/photo-1542068829-1115f7259450?q=80&w=1288&auto=format&fit=crop',
+            'https://images.jdmagicbox.com/quickquotes/images_main/printed-kurti-for-women-2008003957-dy21qvl1.jpg',
     },
     {
         id: 'na2',
         name: 'Handcrafted Leather Bag',
         price: '₹7999',
         imageUrl:
-            'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?q=80&w=1287&auto=format&fit=crop',
+            'https://sutionline.in/cdn/shop/files/18403MISTEDYELLOW1.webp?v=1722076201&width=1200',
     },
     {
         id: 'na3',
         name: 'Luxury Watch',
         price: '₹14999',
         imageUrl:
-            'https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?q=80&w=1315&auto=format&fit=crop',
+            'https://kanooda.com/wp-content/uploads/2024/04/PIK03230.webp',
     },
     {
         id: 'na4',
         name: 'Silk Scarf',
         price: '₹1299',
         imageUrl:
-            'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1287&auto=format&fit=crop',
+            'https://nayoclothing.com/cdn/shop/products/BER3118_1_1080x.jpg?v=1754029498',
     },
 ]
 
@@ -101,6 +102,8 @@ const featuredProducts = [
             'https://assets0.mirraw.com/images/12091953/A911388_1_zoom.jpg?1701933379',
     },
 ]
+
+
 
 export default function HomePage() {
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -245,7 +248,7 @@ export default function HomePage() {
                         </h2>
                         <div className="mx-auto w-20 h-1 rounded-full bg-gradient-to-r from-accent-gold-light to-accent-sage-light dark:from-accent-gold-dark dark:to-accent-sage-dark" />
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                         {featuredProducts.map((product) => (
                             <ProductCard key={product.id} product={product} />
                         ))}
@@ -263,7 +266,7 @@ export default function HomePage() {
                         </h2>
                         <div className="mx-auto w-20 h-1 rounded-full bg-gradient-to-r from-accent-gold-light to-accent-sage-light dark:from-accent-gold-dark dark:to-accent-sage-dark" />
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                         {newArrivalProducts.map((product) => (
                             <ProductCard key={product.id} product={product} />
                         ))}
