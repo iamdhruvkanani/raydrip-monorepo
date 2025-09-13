@@ -28,6 +28,7 @@ export default function Header() {
         { label: "Bell Sleeves Kurtis", href: "/shop/bell-sleeves-kurtis" },
     ]
 
+
     useEffect(() => {
         setMounted(true)
 

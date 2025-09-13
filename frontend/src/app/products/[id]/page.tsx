@@ -1,26 +1,9 @@
-// app/products/[id]/page.tsx
+// app/products/[id]/page.tsx (Product details page)
 import React from 'react'
 import ProductDetails from '@/components/ProductDetails'
-import { Product } from '@/types/product'
+import { PRODUCTS } from '@/data/products'
 
-const PRODUCTS: Product[] = [
-    {
-        id: 'p1',
-        name: 'Cyan Anarkali',
-        description: 'Elegant hand-embroidered Anarkali with gold detailing.',
-        price: '₹2299',
-        originalPrice: '₹2999',
-        imageUrl: 'https://kasthuribaicompany.com/wp-content/uploads/2021/04/5416-1.jpg',
-        isOnSale: true,
-        salePercentage: 23,
-        features: ['100% Cotton', 'Hand-wash only', 'Available in all sizes'],
-    },
-    // Add more products here
-]
-
-type Params = {
-    id: string
-}
+type Params = { id: string }
 
 export default async function ProductPage({ params }: { params: Promise<Params> }) {
     const { id } = await params

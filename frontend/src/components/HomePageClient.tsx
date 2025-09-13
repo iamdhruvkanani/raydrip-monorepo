@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import { motion, AnimatePresence } from 'framer-motion'
 import ProductCard from '@/components/ProductCard'
+import { getFeaturedProducts, getNewArrivalProducts } from '@/data/products'
 
 const heroSlides = [
     {
@@ -35,78 +36,15 @@ const slideVariants = {
     exit: { opacity: 0, scale: 0.95 },
 }
 
-const featuredProducts = [
-    {
-        id: 'p1',
-        name: 'Cyan Anarkali',
-        price: '₹2299',
-        originalPrice: '₹2999',
-        imageUrl:
-            'https://kasthuribaicompany.com/wp-content/uploads/2021/04/5416-1.jpg',
-        isOnSale: true,
-        salePercentage: 23,
-    },
-    {
-        id: 'p2',
-        name: 'Navy Blue Kurti',
-        price: '₹599',
-        imageUrl:
-            'https://www.shoplibas.com/cdn/shop/files/29655_1_main.jpg?v=1748424427&width=1080',
-        badge: 'Best Seller',
-    },
-    {
-        id: 'p3',
-        name: 'Embroidered Rani Rayon Floor Length Kurti',
-        price: '₹1500',
-        imageUrl:
-            'https://kajols.com/cdn/shop/products/embroidered-rani-rayon-floor-length-kurti-256862-1000x1375.jpg?v=1685001609',
-        badge: 'New',
-    },
-    {
-        id: 'p4',
-        name: 'White Short Kurti',
-        price: '₹1200',
-        imageUrl:
-            'https://assets0.mirraw.com/images/12091953/A911388_1_zoom.jpg?1701933379',
-    },
-]
 
-const newArrivalProducts = [
-    {
-        id: 'na1',
-        name: 'Elegant Silk Saree',
-        price: '',
-        originalPrice: '₹1500',
-        imageUrl:
-            'https://images.jdmagicbox.com/quickquotes/images_main/printed-kurti-for-women-2008003957-dy21qvl1.jpg',
-        isOnSale: true,
-        salePercentage: 33,
-    },
-    {
-        id: 'na2',
-        name: 'Handcrafted Leather Bag',
-        price: '₹7999',
-        imageUrl:
-            'https://sutionline.in/cdn/shop/files/18403MISTEDYELLOW1.webp?v=1722076201&width=1200',
-        badge: 'Best Seller',
-    },
-    {
-        id: 'na3',
-        name: 'Luxury Watch',
-        price: '₹14999',
-        imageUrl: 'https://kanooda.com/wp-content/uploads/2024/04/PIK03230.webp',
-    },
-    {
-        id: 'na4',
-        name: 'Silk Scarf',
-        price: '₹1299',
-        imageUrl:
-            'https://nayoclothing.com/cdn/shop/products/BER3118_1_1080x.jpg?v=1754029498',
-    },
-]
 
 export default function HomePageClient() {
     const [currentIndex, setCurrentIndex] = useState(0)
+
+
+
+    const featuredProducts = getFeaturedProducts()
+    const newArrivalProducts = getNewArrivalProducts()
 
     const nextSlide = useCallback(() => {
         setCurrentIndex((prev) => (prev + 1) % heroSlides.length)
@@ -269,7 +207,7 @@ export default function HomePageClient() {
                             role="list"
                             className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
                         >
-                            {featuredProducts.map((product) => (
+                            {featuredProducts.map(product => (
                                 <article role="listitem" key={product.id}>
                                     <ProductCard product={product} />
                                 </article>
@@ -294,7 +232,7 @@ export default function HomePageClient() {
                             role="list"
                             className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
                         >
-                            {newArrivalProducts.map((product) => (
+                            {newArrivalProducts.map(product => (
                                 <article role="listitem" key={product.id}>
                                     <ProductCard product={product} />
                                 </article>
