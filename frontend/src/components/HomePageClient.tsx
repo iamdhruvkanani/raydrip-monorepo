@@ -9,9 +9,13 @@ const newArrivalProducts = [
     {
         id: 'na1',
         name: 'Elegant Silk Saree',
-        price: '₹3499',
+        price: '',
+        originalPrice: '1500',
         imageUrl:
             'https://images.jdmagicbox.com/quickquotes/images_main/printed-kurti-for-women-2008003957-dy21qvl1.jpg',
+        isOnSale: true,
+        salePercentage: 33,
+
     },
     {
         id: 'na2',
@@ -19,6 +23,7 @@ const newArrivalProducts = [
         price: '₹7999',
         imageUrl:
             'https://sutionline.in/cdn/shop/files/18403MISTEDYELLOW1.webp?v=1722076201&width=1200',
+        badge: 'Best Seller'
     },
     {
         id: 'na3',
@@ -84,7 +89,7 @@ const featuredProducts = [
         price: '₹599',
         imageUrl:
             // 'https://plus.unsplash.com/premium_photo-1666264200743-d216de5a4996?q=80&w=1287&auto=format&fit=crop',
-            'https://www.shoplibas.com/cdn/shop/files/29655_1_main.jpg?v=1748424427&width=1080 ',
+            'https://www.shoplibas.com/cdn/shop/files/29655_1_main.jpg?v=1748424427&width=1080',
     }, {
         id: 'p3',
         name: 'Embroidered Rani Rayon Floor Length Kurti',
@@ -267,7 +272,7 @@ export default function HomePage() {
                         <div className="mx-auto w-20 h-1 rounded-full bg-gradient-to-r from-accent-gold-light to-accent-sage-light dark:from-accent-gold-dark dark:to-accent-sage-dark" />
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                        {newArrivalProducts.map((product) => (
+                        {newArrivalProducts.map(product => (
                             <ProductCard key={product.id} product={product} />
                         ))}
                     </div>
