@@ -1,12 +1,14 @@
-'use client'
+import { RefObject, useRef } from 'react'
 import { useInView } from 'framer-motion'
-import { useRef } from 'react'
 
-export const useScrollAnimation = () => {
-  const ref = useRef(null)
+export const useScrollAnimation = (): {
+  ref: RefObject<HTMLDivElement | null>
+  isInView: boolean
+} => {
+  const ref = useRef<HTMLDivElement | null>(null)
   const isInView = useInView(ref, {
     once: true,
-    margin: "-100px",
+    margin: '-100px',
     amount: 0.3,
   })
 
