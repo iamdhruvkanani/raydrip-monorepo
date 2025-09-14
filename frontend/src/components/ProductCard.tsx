@@ -15,7 +15,7 @@ interface Props {
 
 const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
     const { ref: scrollRef } = useScrollAnimation()
-    const { addToCart } = useCart()
+    // const { addToCart } = useCart()
 
     const setRefs = (node: HTMLDivElement | null) => {
         if (scrollRef && typeof scrollRef === 'object' && 'current' in scrollRef) {

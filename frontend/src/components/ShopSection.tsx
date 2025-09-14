@@ -1,9 +1,10 @@
 // components/ShopSection.tsx
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import ProductCard from '@/components/ProductCard'
 import { getAllProducts, getProductsBySubCategoryNormalized } from '@/data/products'
+import Pagination from '@/components/Pagination'
 
 interface ShopSectionProps {
     selectedSubCategory: string
@@ -16,7 +17,6 @@ function titleCase(str: string): string {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ')
 }
-
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -46,11 +46,26 @@ const cardVariants = {
     },
 }
 
+const PAGE_SIZE = 12 // Set page size here
+
 export default function ShopSection({ selectedSubCategory }: ShopSectionProps) {
-    const products =
+    const allProducts =
         selectedSubCategory === 'View All Products'
             ? getAllProducts()
             : getProductsBySubCategoryNormalized(selectedSubCategory)
+
+    // Added pagination state here as requested
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const totalPages = Math.ceil(allProducts.length / PAGE_SIZE)
+    const startIndex = (currentPage - 1) * PAGE_SIZE
+    const currentProducts = allProducts.slice(startIndex, startIndex + PAGE_SIZE)
+
+    const goToPage = (page: number) => {
+        if (page < 1 || page > totalPages) return
+        setCurrentPage(page)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-bg-light to-surface-light dark:from-bg-dark dark:to-surface-dark">
@@ -65,7 +80,6 @@ export default function ShopSection({ selectedSubCategory }: ShopSectionProps) {
                     {selectedSubCategory === 'View All Products'
                         ? 'All Products'
                         : titleCase(selectedSubCategory.replace(/-/g, ' '))}
-
                 </h2>
                 <div className="w-24 h-1 bg-accent-gold-light dark:bg-accent-gold-dark mx-auto rounded-full"></div>
                 <p className="text-text-secondary-light dark:text-text-secondary-dark mt-4 max-w-2xl mx-auto">
@@ -73,22 +87,25 @@ export default function ShopSection({ selectedSubCategory }: ShopSectionProps) {
                 </p>
             </motion.div>
 
-            {/* Responsive 2-column grid */}
+            {/* Responsive Grid */}
             <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="grid grid-cols-2 gap-8 md:gap-12"
+                className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-12 md:px-0"
             >
-                {products.map((product) => (
+                {currentProducts.map(product => (
                     <motion.div key={product.id} variants={cardVariants}>
                         <ProductCard product={product} />
                     </motion.div>
                 ))}
             </motion.div>
 
+            {/* Pagination */}
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={goToPage} />
+
             {/* Empty State */}
-            {products.length === 0 && (
+            {allProducts.length === 0 && (
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
