@@ -214,3 +214,41 @@ export default function CheckoutPage() {
         </main>
     )
 }
+
+
+
+//For Razor pay
+// const options = {
+//   key: 'YOUR_KEY_ID',
+//   amount: orderAmount,
+//   currency: 'INR',
+//   name: 'Your Shop Name',
+//   description: 'Order Description',
+//   order_id: razorpayOrderId, // from your backend
+//   prefill: {
+//     name: customerName,      // optional—you can leave blank
+//     email: customerEmail,    // optional
+//     contact: customerPhone,  // optional
+//   },
+//   notes: {
+//     address: shippingAddress // optional
+//   },
+//   theme: {
+//     color: '#D4AF37'         // gold accent
+//   },
+//   modal: {
+//     ondismiss: () => { /* handle dismiss */ },
+//     escape: true,
+//     backdropclose: false
+//   },
+//   // Enable built-in customer form fields:
+//   customer: {
+//     name: true,
+//     email: true,
+//     contact: true,
+//     // address fields (line1, line2, city, state, pincode) can be enabled via `notes`
+//   }
+// }
+
+// const rzp = new Razorpay(options)
+// rzp.open()

@@ -5,6 +5,7 @@ import Head from 'next/head'
 import { motion, AnimatePresence } from 'framer-motion'
 import ProductCard from '@/components/ProductCard'
 import { getFeaturedProducts, getNewArrivalProducts } from '@/data/products'
+import { useRouter } from 'next/navigation'
 
 const desktopSlides = [
     {
@@ -15,13 +16,15 @@ const desktopSlides = [
     },
     {
         id: 2,
-        imageUrl: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=2370&auto=format&fit=crop',
+        imageUrl:
+            'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=2370&auto=format&fit=crop',
         title: 'RayDrip',
         subtitle: 'Wear Your Moment',
     },
     {
         id: 3,
-        imageUrl: 'https://plus.unsplash.com/premium_photo-1714226832576-f4356d4ab92b?q=80&w=2370&auto=format&fit=crop',
+        imageUrl:
+            'https://plus.unsplash.com/premium_photo-1714226832576-f4356d4ab92b?q=80&w=2370&auto=format&fit=crop',
         title: 'RayDrip',
         subtitle: 'Wear Your Moment',
     },
@@ -68,6 +71,7 @@ function useWindowWidth() {
 }
 
 export default function HomePageClient() {
+    const router = useRouter()
     const width = useWindowWidth()
     const isMobile = width > 0 && width < 768 // breakpoint for mobile
 
@@ -87,7 +91,7 @@ export default function HomePageClient() {
     const newArrivalProducts = getNewArrivalProducts()
 
     const nextSlide = useCallback(() => {
-        setCurrentIndex((prev) => (prev + 1) % slides.length)
+        setCurrentIndex(prev => (prev + 1) % slides.length)
     }, [slides.length])
 
     useEffect(() => {
@@ -119,10 +123,15 @@ export default function HomePageClient() {
         })),
     }
 
+
+    const navigateToShop = () => {
+        router.push('/shop')
+    }
+
     return (
         <>
             <Head>
-                <title>RayDrip • Premium Ethnic Apparel & Accessories</title>
+                <title>RayDrip • Premium Ethnic Wear</title>
                 <meta
                     name="description"
                     content="Shop RayDrip’s curated collection of premium ethnic apparel. Discover featured products, new arrivals, seasonal sales, and best-sellers with exclusive discounts."
@@ -217,7 +226,7 @@ export default function HomePageClient() {
                         </p>
 
                         <button
-                            onClick={() => alert('Explore collection clicked!')}
+                            onClick={navigateToShop}
                             className="
               inline-block bg-accent-gold-light dark:bg-accent-gold-dark
               text-text-primary-light dark:text-text-primary-dark
@@ -236,7 +245,10 @@ export default function HomePageClient() {
                 </section>
 
                 {/* Featured Products Section */}
-                <section aria-labelledby="featured-heading" className="py-16 md:py-24 px-6 md:px-12 bg-bg-light dark:bg-bg-dark">
+                <section
+                    aria-labelledby="featured-heading"
+                    className="py-16 md:py-24 px-6 md:px-12 bg-bg-light dark:bg-bg-dark"
+                >
                     <div className="max-w-7xl mx-auto">
                         <h2
                             id="featured-heading"
@@ -244,8 +256,11 @@ export default function HomePageClient() {
                         >
                             Featured Products
                         </h2>
-                        <div role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                            {featuredProducts.map((product) => (
+                        <div
+                            role="list"
+                            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
+                        >
+                            {featuredProducts.map(product => (
                                 <article role="listitem" key={product.id}>
                                     <ProductCard product={product} />
                                 </article>
@@ -255,7 +270,10 @@ export default function HomePageClient() {
                 </section>
 
                 {/* New Arrivals Section */}
-                <section aria-labelledby="newarrivals-heading" className="py-16 md:py-24 px-6 md:px-12 bg-bg-light dark:bg-bg-dark">
+                <section
+                    aria-labelledby="newarrivals-heading"
+                    className="py-16 md:py-24 px-6 md:px-12 bg-bg-light dark:bg-bg-dark"
+                >
                     <div className="max-w-7xl mx-auto">
                         <h2
                             id="newarrivals-heading"
@@ -263,8 +281,11 @@ export default function HomePageClient() {
                         >
                             New Arrivals
                         </h2>
-                        <div role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                            {newArrivalProducts.map((product) => (
+                        <div
+                            role="list"
+                            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
+                        >
+                            {newArrivalProducts.map(product => (
                                 <article role="listitem" key={product.id}>
                                     <ProductCard product={product} />
                                 </article>
@@ -280,9 +301,9 @@ export default function HomePageClient() {
                             About RayDrip
                         </h3>
                         <p className="text-lg md:text-xl max-w-4xl mx-auto text-text-secondary-light dark:text-text-secondary-dark leading-relaxed">
-                            RayDrip is a premium brand dedicated to crafting timeless apparel that lets you wear your moment with style
-                            and confidence. Every piece is carefully designed and made from the finest fabrics for unmatched comfort and
-                            durability.
+                            RayDrip is a premium brand dedicated to crafting timeless apparel that lets you wear your moment with
+                            style and confidence. Every piece is carefully designed and made from the finest fabrics for unmatched
+                            comfort and durability.
                         </p>
                     </div>
                 </section>
@@ -294,8 +315,9 @@ export default function HomePageClient() {
                             Ready to Upgrade Your Style?
                         </h3>
                         <button
-                            onClick={() => alert('Shop Now clicked!')}
+                            onClick={navigateToShop}
                             className="bg-text-primary-light dark:bg-text-primary-dark text-bg-light dark:text-bg-dark px-10 py-4 rounded-full font-semibold shadow-md hover:shadow-lg transition duration-300 select-none"
+                            aria-label="Shop Now"
                         >
                             Shop Now
                         </button>
