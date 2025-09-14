@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import { useScrollAnimation } from '@/hooks/useScrollAnimations'
 import Image from 'next/image'
 import { Product } from '@/types/product'
-import { useCart } from '@/context/CartContext'
 import AddCartButton from '@/components/AddToCartButton'
 import toast from 'react-hot-toast'
 
@@ -15,7 +14,6 @@ interface Props {
 
 const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
     const { ref: scrollRef } = useScrollAnimation()
-    // const { addToCart } = useCart()
 
     const setRefs = (node: HTMLDivElement | null) => {
         if (scrollRef && typeof scrollRef === 'object' && 'current' in scrollRef) {
@@ -38,8 +36,6 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
     }
 
     const handleAddCart = () => {
-
-        // addToCart(product, 1);
         toast.success(
             <div className="flex items-center space-x-2">
                 <span className="font-semibold text-white">{product.name}</span>
@@ -48,8 +44,8 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
             {
                 duration: 1000,
                 style: {
-                    background: 'linear-gradient(90deg, #D4AF37, #FFD700)', // gold gradient
-                    color: '#fff', // white text for better visibility
+                    background: 'linear-gradient(90deg, #D4AF37, #FFD700)',
+                    color: '#fff',
                     borderRadius: '12px',
                     boxShadow: '0 4px 14px rgba(212, 175, 55, 0.5)',
                     padding: '12px 20px',
@@ -62,9 +58,8 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
                     secondary: '#FFD700',
                 },
             }
-        );
-    };
-
+        )
+    }
 
     return (
         <Link
@@ -75,13 +70,13 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
         >
             <motion.article
                 ref={setRefs}
-                className="group rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md flex flex-col overflow-hidden"
+                className="group rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md flex flex-col overflow-hidden h-[430px] sm:h-[460px]"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 whileHover={{ scale: 1.02, y: -4 }}
                 transition={{ duration: 0.3 }}
             >
-                <div className="relative aspect-[4/5] bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-700 overflow-hidden">
+                <div className="relative aspect-[4/5] bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-700 overflow-hidden rounded-t-xl">
                     {product.isOnSale && (
                         <span className="absolute top-3 left-3 bg-red-600 text-white text-xs px-3 py-1 rounded-full font-bold z-10 select-none">
                             -{product.salePercentage}%
@@ -110,7 +105,7 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
                             <>
                                 <span className="text-yellow-600 dark:text-yellow-400 font-bold text-lg">{getSalePrice()}</span>
                                 <span className="line-through text-gray-400 dark:text-gray-500">{product.originalPrice}</span>
-                                <span className="rounded-full bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-xs px-2 py-0.5 whitespace-nowrap font-semibold">
+                                <span className="rounded-full bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-xs px-2 py-0.5 whitespace-nowrap font-semibold mt-1 sm:mt-0">
                                     Save ₹
                                     {(
                                         parseFloat(product.originalPrice.replace('₹', '').replace(/,/g, '')) -
