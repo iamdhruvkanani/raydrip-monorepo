@@ -1,8 +1,10 @@
 'use client'
+
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import AddToCartButton from '@/components/AddToCartButton'
 import {
     Heart,
     Share2,
@@ -16,9 +18,10 @@ import {
     Minus,
     Info,
     Ruler,
-    Package
+    Package,
 } from 'lucide-react'
 import { Product } from '@/types/product'
+import { useCart } from '@/context/CartContext'
 
 interface ProductDetailsProps {
     product: Product
@@ -40,11 +43,13 @@ const itemVariants = {
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }
+        transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
     },
 }
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
+    const { addToCart } = useCart()
+
     const [selectedSize, setSelectedSize] = useState('')
     const [quantity, setQuantity] = useState(1)
     const [activeTab, setActiveTab] = useState('details')
@@ -66,6 +71,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             alert('Please select a size')
             return
         }
+        addToCart(product, quantity)
         alert(`Added ${quantity} x ${product.name} (Size: ${selectedSize}) to cart`)
     }
 
@@ -79,17 +85,21 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Breadcrumb */}
                 <motion.nav variants={itemVariants} className="flex items-center space-x-2 text-sm mb-8">
-                    <Link href="/" className="text-text-secondary-light dark:text-text-secondary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark">
+                    <Link
+                        href="/"
+                        className="text-text-secondary-light dark:text-text-secondary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark"
+                    >
                         Home
                     </Link>
                     <ChevronRight className="w-4 h-4 text-text-secondary-light dark:text-text-secondary-dark" />
-                    <Link href="/shop" className="text-text-secondary-light dark:text-text-secondary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark">
+                    <Link
+                        href="/shop"
+                        className="text-text-secondary-light dark:text-text-secondary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark"
+                    >
                         Shop
                     </Link>
                     <ChevronRight className="w-4 h-4 text-text-secondary-light dark:text-text-secondary-dark" />
-                    <span className="text-text-primary-light dark:text-text-primary-dark font-medium">
-                        {product.name}
-                    </span>
+                    <span className="text-text-primary-light dark:text-text-primary-dark font-medium">{product.name}</span>
                 </motion.nav>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
@@ -124,9 +134,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => setIsWishlisted(!isWishlisted)}
-                                    className={`p-3 rounded-full shadow-lg backdrop-blur-sm transition-colors ${isWishlisted
-                                        ? 'bg-red-500 text-white'
-                                        : 'bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-300'
+                                    className={`p-3 rounded-full shadow-lg backdrop-blur-sm transition-colors ${isWishlisted ? 'bg-red-500 text-white' : 'bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-300'
                                         }`}
                                     aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
                                 >
@@ -147,7 +155,10 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                         {/* Thumbnail Images */}
                         <div className="grid grid-cols-4 gap-2">
                             {[1, 2, 3, 4].map((i) => (
-                                <div key={i} className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-accent-gold-light dark:hover:ring-accent-gold-dark transition-all">
+                                <div
+                                    key={i}
+                                    className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-accent-gold-light dark:hover:ring-accent-gold-dark transition-all"
+                                >
                                     <Image
                                         src={product.imageUrl}
                                         alt={`${product.name} view ${i}`}
@@ -171,50 +182,43 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                             <div className="flex items-center space-x-4 mb-4">
                                 <div className="flex items-center">
                                     {[...Array(5)].map((_, i) => (
-                                        <Star key={i} className={`w-5 h-5 ${i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300 dark:text-gray-600'}`} />
+                                        <Star
+                                            key={i}
+                                            className={`w-5 h-5 ${i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300 dark:text-gray-600'
+                                                }`}
+                                        />
                                     ))}
-                                    <span className="ml-2 text-sm text-text-secondary-light dark:text-text-secondary-dark">
-                                        4.2 (127 reviews)
-                                    </span>
+                                    <span className="ml-2 text-sm text-text-secondary-light dark:text-text-secondary-dark">4.2 (127 reviews)</span>
                                 </div>
 
-                                <span className="text-sm text-accent-gold-light dark:text-accent-gold-dark font-medium">
-                                    In Stock
-                                </span>
+                                <span className="text-sm text-accent-gold-light dark:text-accent-gold-dark font-medium">In Stock</span>
                             </div>
                         </div>
 
                         {/* Price */}
                         <div className="flex flex-wrap items-baseline gap-3">
-                            <span className="text-3xl font-bold text-text-primary-light dark:text-text-primary-dark">
-                                {getSalePrice()}
-                            </span>
+                            <span className="text-3xl font-bold text-text-primary-light dark:text-text-primary-dark">{getSalePrice()}</span>
                             {product.originalPrice && product.isOnSale && (
                                 <>
-                                    <span className="text-xl text-gray-400 dark:text-gray-500 line-through">
-                                        {product.originalPrice}
-                                    </span>
+                                    <span className="text-xl text-gray-400 dark:text-gray-500 line-through">{product.originalPrice}</span>
                                     <span className="text-lg text-green-600 dark:text-green-400 font-semibold">
-                                        Save ₹{(parseFloat(product.originalPrice.replace('₹', '').replace(',', '')) - parseFloat(getSalePrice().replace('₹', '').replace(',', ''))).toLocaleString()}
+                                        Save ₹
+                                        {(
+                                            parseFloat(product.originalPrice.replace('₹', '').replace(/,/g, '')) -
+                                            parseFloat(getSalePrice().replace('₹', '').replace(/,/g, ''))
+                                        ).toLocaleString()}
                                     </span>
                                 </>
                             )}
                         </div>
 
-                        <p className="text-sm text-text-secondary-light dark:text-text-secondary-dark">
-                            MRP inclusive of all taxes
-                        </p>
+                        <p className="text-sm text-text-secondary-light dark:text-text-secondary-dark">MRP inclusive of all taxes</p>
 
                         {/* Size Selection */}
                         <div>
                             <div className="flex items-center justify-between mb-3">
-                                <label className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark">
-                                    Size
-                                </label>
-                                <button
-                                    className="text-sm text-accent-gold-light dark:text-accent-gold-dark hover:underline flex items-center"
-                                    type="button"
-                                >
+                                <label className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark">Size</label>
+                                <button className="text-sm text-accent-gold-light dark:text-accent-gold-dark hover:underline flex items-center" type="button">
                                     <Ruler className="w-4 h-4 mr-1" />
                                     Size Guide
                                 </button>
@@ -239,9 +243,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
                         {/* Quantity */}
                         <div>
-                            <label className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark mb-3 block">
-                                Quantity
-                            </label>
+                            <label className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark mb-3 block">Quantity</label>
                             <div className="flex items-center space-x-4">
                                 <div className="flex items-center border-2 border-gray-200 dark:border-gray-700 rounded-lg">
                                     <button
@@ -267,21 +269,21 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
                         {/* Action Buttons */}
                         <div className="space-y-4">
-                            <motion.button
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                onClick={handleAddToCart}
+                            <AddToCartButton
+                                product={product}
+                                quantity={quantity}
+                                // selectedSize={selectedSize}
+                                // disabled={!selectedSize}
+                                // onClick={handleAddToCart}
                                 className="w-full bg-gradient-to-r from-accent-gold-light to-yellow-500 dark:from-accent-gold-dark dark:to-yellow-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center space-x-2"
-                                type="button"
-                            >
-                                <ShoppingBag className="w-5 h-5" />
-                                <span>Add to Cart</span>
-                            </motion.button>
+                                aria-label="Add to cart"
+                            />
 
                             <motion.button
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
-                                className="w-full border-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark py-4 rounded-xl font-bold text-lg hover:bg-accent-gold-light dark:hover:bg-accent-gold-dark hover:text-white transition-all"
+                                disabled={!selectedSize}
+                                className="w-full border-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark py-4 rounded-xl font-bold text-lg hover:bg-accent-gold-light dark:hover:bg-accent-gold-dark hover:text-white transition-all disabled:cursor-not-allowed active:scale-95 disabled:opacity-50"
                                 type="button"
                             >
                                 Buy Now
@@ -326,17 +328,9 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 >
                                     <Icon className="w-4 h-4" />
                                     <span>{label}</span>
-
-                                    {/* {activeTab === id && (
-                                        <span
-                                            className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-accent-gold-light to-accent-gold-dark rounded-full"
-                                            style={{ transition: 'width 0.3s ease' }}
-                                        />
-                                    )} */}
                                 </button>
                             ))}
                         </nav>
-
                     </div>
 
                     <AnimatePresence mode="wait">
@@ -351,8 +345,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                             {activeTab === 'details' && (
                                 <div className="prose dark:prose-invert max-w-none">
                                     <p className="text-text-primary-light dark:text-text-primary-dark leading-relaxed mb-6">
-                                        Elegant and comfortable kurti crafted with premium materials. Features include adjustable elements,
-                                        high-quality stitching, and a modern silhouette that flatters all body types.
+                                        Elegant and comfortable kurti crafted with premium materials. Features include adjustable elements, high-quality stitching, and a modern silhouette that flatters all body types.
                                     </p>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>

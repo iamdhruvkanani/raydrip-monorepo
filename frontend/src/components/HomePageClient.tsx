@@ -6,25 +6,43 @@ import { motion, AnimatePresence } from 'framer-motion'
 import ProductCard from '@/components/ProductCard'
 import { getFeaturedProducts, getNewArrivalProducts } from '@/data/products'
 
-const heroSlides = [
+const desktopSlides = [
     {
         id: 1,
-        imageUrl:
-            'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=2370&auto=format&fit=crop',
+        imageUrl: '/banner1-desktop.jpeg', // Use separate desktop banner images in public folder
         title: 'RayDrip',
         subtitle: 'Wear Your Moment',
     },
     {
         id: 2,
-        imageUrl:
-            'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=2370&auto=format&fit=crop',
+        imageUrl: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=2370&auto=format&fit=crop',
         title: 'RayDrip',
         subtitle: 'Wear Your Moment',
     },
     {
         id: 3,
-        imageUrl:
-            'https://plus.unsplash.com/premium_photo-1714226832576-f4356d4ab92b?q=80&w=2370&auto=format&fit=crop',
+        imageUrl: 'https://plus.unsplash.com/premium_photo-1714226832576-f4356d4ab92b?q=80&w=2370&auto=format&fit=crop',
+        title: 'RayDrip',
+        subtitle: 'Wear Your Moment',
+    },
+]
+
+const mobileSlides = [
+    {
+        id: 1,
+        imageUrl: '/banner1.jpeg', // Use separate mobile banner images in public folder
+        title: 'RayDrip',
+        subtitle: 'Wear Your Moment',
+    },
+    {
+        id: 2,
+        imageUrl: '/banner2.jpeg',
+        title: 'RayDrip',
+        subtitle: 'Wear Your Moment',
+    },
+    {
+        id: 3,
+        imageUrl: '/banner3.jpeg',
         title: 'RayDrip',
         subtitle: 'Wear Your Moment',
     },
@@ -36,24 +54,47 @@ const slideVariants = {
     exit: { opacity: 0, scale: 0.95 },
 }
 
+function useWindowWidth() {
+    const [width, setWidth] = useState(0)
 
+    useEffect(() => {
+        setWidth(window.innerWidth)
+        const handleResize = () => setWidth(window.innerWidth)
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
+
+    return width
+}
 
 export default function HomePageClient() {
+    const width = useWindowWidth()
+    const isMobile = width > 0 && width < 768 // breakpoint for mobile
+
+    const slides = isMobile ? mobileSlides : desktopSlides
+
     const [currentIndex, setCurrentIndex] = useState(0)
 
-
+    const getImageSrc = (src: string) => {
+        if (src.startsWith('http') || src.startsWith('https')) {
+            return src // external URL
+        } else {
+            return `/${src.replace(/^\/+/, '')}` // local public file
+        }
+    }
 
     const featuredProducts = getFeaturedProducts()
     const newArrivalProducts = getNewArrivalProducts()
 
     const nextSlide = useCallback(() => {
-        setCurrentIndex((prev) => (prev + 1) % heroSlides.length)
-    }, [])
+        setCurrentIndex((prev) => (prev + 1) % slides.length)
+    }, [slides.length])
 
     useEffect(() => {
+        if (slides.length === 0) return
         const timer = setTimeout(() => nextSlide(), 5000)
         return () => clearTimeout(timer)
-    }, [currentIndex, nextSlide])
+    }, [currentIndex, nextSlide, slides.length])
 
     const jsonLd = {
         '@context': 'https://schema.org',
@@ -115,15 +156,18 @@ export default function HomePageClient() {
 
             <main>
                 {/* Hero Section */}
-                <section className="relative h-[80vh] md:h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-bg-light via-surface-light to-bg-light dark:from-bg-dark dark:via-surface-dark dark:to-bg-dark px-4">
+                <section
+                    className="relative h-[80vh] md:h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-bg-light via-surface-light to-bg-light dark:from-bg-dark dark:via-surface-dark dark:to-bg-dark px-4"
+                    aria-label="Hero banner slideshow"
+                >
                     <div className="absolute w-full h-full">
                         <AnimatePresence initial={false} mode="wait">
-                            {heroSlides.map(
+                            {slides.map(
                                 (slide, index) =>
                                     index === currentIndex && (
                                         <motion.img
                                             key={slide.id}
-                                            src={slide.imageUrl}
+                                            src={getImageSrc(slide.imageUrl)}
                                             alt={`Slide ${slide.id}`}
                                             className="absolute inset-0 w-full h-full object-cover brightness-75"
                                             variants={slideVariants}
@@ -133,7 +177,7 @@ export default function HomePageClient() {
                                             transition={{ duration: 0.8 }}
                                             loading="lazy"
                                         />
-                                    )
+                                    ),
                             )}
                         </AnimatePresence>
 
@@ -155,7 +199,7 @@ export default function HomePageClient() {
             "
                             style={{ letterSpacing: '-0.02em', lineHeight: '1.1' }}
                         >
-                            {heroSlides[currentIndex].title}
+                            {slides[currentIndex].title}
                         </h1>
 
                         <p
@@ -169,7 +213,7 @@ export default function HomePageClient() {
             "
                             style={{ letterSpacing: '0.015em' }}
                         >
-                            {heroSlides[currentIndex].subtitle}
+                            {slides[currentIndex].subtitle}
                         </p>
 
                         <button
@@ -192,10 +236,7 @@ export default function HomePageClient() {
                 </section>
 
                 {/* Featured Products Section */}
-                <section
-                    aria-labelledby="featured-heading"
-                    className="py-16 md:py-24 px-6 md:px-12 bg-bg-light dark:bg-bg-dark"
-                >
+                <section aria-labelledby="featured-heading" className="py-16 md:py-24 px-6 md:px-12 bg-bg-light dark:bg-bg-dark">
                     <div className="max-w-7xl mx-auto">
                         <h2
                             id="featured-heading"
@@ -203,11 +244,8 @@ export default function HomePageClient() {
                         >
                             Featured Products
                         </h2>
-                        <div
-                            role="list"
-                            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
-                        >
-                            {featuredProducts.map(product => (
+                        <div role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                            {featuredProducts.map((product) => (
                                 <article role="listitem" key={product.id}>
                                     <ProductCard product={product} />
                                 </article>
@@ -217,10 +255,7 @@ export default function HomePageClient() {
                 </section>
 
                 {/* New Arrivals Section */}
-                <section
-                    aria-labelledby="newarrivals-heading"
-                    className="py-16 md:py-24 px-6 md:px-12 bg-bg-light dark:bg-bg-dark"
-                >
+                <section aria-labelledby="newarrivals-heading" className="py-16 md:py-24 px-6 md:px-12 bg-bg-light dark:bg-bg-dark">
                     <div className="max-w-7xl mx-auto">
                         <h2
                             id="newarrivals-heading"
@@ -228,11 +263,8 @@ export default function HomePageClient() {
                         >
                             New Arrivals
                         </h2>
-                        <div
-                            role="list"
-                            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
-                        >
-                            {newArrivalProducts.map(product => (
+                        <div role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                            {newArrivalProducts.map((product) => (
                                 <article role="listitem" key={product.id}>
                                     <ProductCard product={product} />
                                 </article>
@@ -248,7 +280,9 @@ export default function HomePageClient() {
                             About RayDrip
                         </h3>
                         <p className="text-lg md:text-xl max-w-4xl mx-auto text-text-secondary-light dark:text-text-secondary-dark leading-relaxed">
-                            RayDrip is a premium brand dedicated to crafting timeless apparel that lets you wear your moment with style and confidence. Every piece is carefully designed and made from the finest fabrics for unmatched comfort and durability.
+                            RayDrip is a premium brand dedicated to crafting timeless apparel that lets you wear your moment with style
+                            and confidence. Every piece is carefully designed and made from the finest fabrics for unmatched comfort and
+                            durability.
                         </p>
                     </div>
                 </section>

@@ -73,7 +73,7 @@ export default function AboutPage() {
                         >
                             <div className="relative rounded-full overflow-hidden shadow-xl ring-2 ring-accent-gold-light dark:ring-accent-gold-dark w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48">
                                 <Image
-                                    src="/aarushi-shah-profile.jpeg"
+                                    src="/aarushi-shah-profile.png"
                                     alt="Aarushi Shah"
                                     fill
                                     sizes="(max-width: 768px) 128px, (max-width: 1200px) 160px, 192px"
