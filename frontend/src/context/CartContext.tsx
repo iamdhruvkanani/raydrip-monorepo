@@ -58,25 +58,33 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     const updateSize = (productId: string, newSize: string, oldSize?: string) => {
         setCart((prev) => {
+            // Find old item's index
             const indexOld = prev.findIndex(
                 (item) => item.id === productId && item.selectedSize === oldSize
             )
-            if (indexOld === -1) return prev
+            if (indexOld === -1) return prev // nothing to update
 
             const oldItem = prev[indexOld]
-            let updated = prev.filter((_, i) => i !== indexOld)
+            // Remove old item
+            const filtered = prev.filter((_, i) => i !== indexOld)
 
-            const indexNew = updated.findIndex(
+            // Find if newSize variant exists to merge quantities
+            const indexNew = filtered.findIndex(
                 (item) => item.id === productId && item.selectedSize === newSize
             )
+
             if (indexNew >= 0) {
-                updated[indexNew].quantity += oldItem.quantity
+                // Create new array immutably, updating merged quantity
+                return filtered.map((item, idx) =>
+                    idx === indexNew ? { ...item, quantity: item.quantity + oldItem.quantity } : item
+                )
             } else {
-                updated.push({ ...oldItem, selectedSize: newSize })
+                // Add new item with updated size, keep rest
+                return [...filtered, { ...oldItem, selectedSize: newSize }]
             }
-            return updated
         })
     }
+
 
     const clear = () => setCart([])
 
