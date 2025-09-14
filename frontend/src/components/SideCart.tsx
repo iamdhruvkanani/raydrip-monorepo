@@ -114,7 +114,7 @@ export default function SideCart({ isOpen, onClose }: SideCartProps) {
                       <img
                         src={item.imageUrl}
                         alt={item.name}
-                        className="w-20 h-20 rounded-2xl object-cover border-2 border-gray-200 dark:border-gray-700 flex-shrink-0"
+                        className="object-top w-20 h-20 rounded-2xl object-cover border-2 border-gray-200 dark:border-gray-700 flex-shrink-0"
                       />
                       <div className="flex-1 min-w-0 space-y-2">
                         <p className="font-semibold text-lg text-gray-900 dark:text-white line-clamp-2">{item.name}</p>
