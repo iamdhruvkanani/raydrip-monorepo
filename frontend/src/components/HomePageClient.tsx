@@ -6,11 +6,13 @@ import { motion, AnimatePresence } from 'framer-motion'
 import ProductCard from '@/components/ProductCard'
 import { getFeaturedProducts, getNewArrivalProducts } from '@/data/products'
 import { useRouter } from 'next/navigation'
+import ProductCarousel from '@/components/ProductCarousel'
+
 
 const desktopSlides = [
     {
         id: 1,
-        imageUrl: '/banner1-desktop.jpeg', // Use separate desktop banner images in public folder
+        imageUrl: '/banner1.jpeg', // Use separate desktop banner images in public folder
         title: 'RayDrip',
         subtitle: 'Wear Your Moment',
     },
@@ -244,55 +246,19 @@ export default function HomePageClient() {
                     </motion.div>
                 </section>
 
-                {/* Featured Products Section */}
-                <section
-                    aria-labelledby="featured-heading"
-                    className="py-16 md:py-24 px-6 md:px-12 bg-bg-light dark:bg-bg-dark"
-                >
-                    <div className="max-w-7xl mx-auto">
-                        <h2
-                            id="featured-heading"
-                            className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-text-primary-light dark:text-text-primary-dark mb-6 text-center"
-                        >
-                            Featured Products
-                        </h2>
-                        <div
-                            role="list"
-                            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
-                        >
-                            {featuredProducts.map(product => (
-                                <article role="listitem" key={product.id}>
-                                    <ProductCard product={product} />
-                                </article>
-                            ))}
-                        </div>
-                    </div>
-                </section>
 
-                {/* New Arrivals Section */}
-                <section
-                    aria-labelledby="newarrivals-heading"
-                    className="py-16 md:py-24 px-6 md:px-12 bg-bg-light dark:bg-bg-dark"
-                >
-                    <div className="max-w-7xl mx-auto">
-                        <h2
-                            id="newarrivals-heading"
-                            className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-text-primary-light dark:text-text-primary-dark mb-6 text-center"
-                        >
-                            New Arrivals
-                        </h2>
-                        <div
-                            role="list"
-                            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
-                        >
-                            {newArrivalProducts.map(product => (
-                                <article role="listitem" key={product.id}>
-                                    <ProductCard product={product} />
-                                </article>
-                            ))}
-                        </div>
-                    </div>
-                </section>
+                <ProductCarousel title="Featured Products">
+                    {featuredProducts.map(product => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
+                </ProductCarousel>
+
+                <ProductCarousel title="New Arrivals">
+                    {newArrivalProducts.map(product => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
+                </ProductCarousel>
+
 
                 {/* About Section */}
                 <section className="bg-surface-light dark:bg-surface-dark py-20 px-6 md:px-12">

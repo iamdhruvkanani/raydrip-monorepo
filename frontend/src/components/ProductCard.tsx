@@ -88,7 +88,7 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
                         </span>
                     )}
                     {product.badge && !product.isOnSale && (
-                        <span className="absolute top-3 left-3 bg-yellow-400 text-white text-xs px-3 py-1 rounded-full font-semibold z-10 select-none">
+                        <span className="absolute top-3 right-2 bg-yellow-400 text-white text-xs px-3 py-1 rounded-full font-semibold z-10 select-none">
                             {product.badge}
                         </span>
                     )}
@@ -98,7 +98,7 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
                         fill
                         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         priority={false}
-                        className="object-contain p-4 transition-transform duration-700 group-hover:scale-110"
+                        className="object-contain p-4 transition-transform scale-100 duration-700 group-hover:scale-110"
                     />
                 </div>
                 <div className="p-4 flex flex-col flex-grow">

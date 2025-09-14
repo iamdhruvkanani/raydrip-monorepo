@@ -205,6 +205,9 @@ export const PRODUCTS: Product[] = [
         category: 'shop',
         subCategory: 'Floral Kurtis',
     },
+
+
+
 ]
 
 export function getFeaturedProducts(): Product[] {
