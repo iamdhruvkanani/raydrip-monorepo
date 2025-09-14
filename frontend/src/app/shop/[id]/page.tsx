@@ -1,18 +1,26 @@
-// app/shop/[id]/page.tsx
 import ShopSection from '@/components/ShopSection'
+import { Metadata } from 'next'
 
 type Params = {
     id: string
 }
 
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+    const { id } = await params
+    const categoryName = id.replace(/-/g, ' ')
+
+    return {
+        title: `${categoryName} | RayDrip Shop`,
+        description: `Browse our ${categoryName} collection`,
+    }
+}
+
 export default async function SubCategoryPage({ params }: { params: Promise<Params> }) {
     const { id } = await params
-    // example: 'backless-kurtis' => 'backless kurtis' (normalized in filter)
     const subCategory = id
 
     return (
-        <main className="max-w-7xl mx-auto p-6 md:p-12">
-            <h1 className="text-3xl font-semibold mb-6 capitalize">{subCategory.replace(/-/g, ' ')}</h1>
+        <main className="max-w-7xl mx-auto px-6 md:px-12 py-12">
             <ShopSection selectedSubCategory={subCategory} />
         </main>
     )

@@ -58,7 +58,8 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
                     visible: { opacity: 1, y: 0 },
                 }}
                 initial="hidden"
-                animate={isInView ? 'visible' : 'hidden'}
+                // animate={isInView ? 'visible' : 'hidden'}
+                animate="visible"
                 whileHover={{
                     y: -8,
                     scale: 1.02,
@@ -83,6 +84,7 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
                             alt={product.name}
                             width={300}
                             height={375}
+                            loading='eager'
                             className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out filter group-hover:brightness-110"
                             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                             priority={false}
