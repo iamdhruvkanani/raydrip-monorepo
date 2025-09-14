@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { Product } from '@/types/product'
 import { useCart } from '@/context/CartContext'
 import AddCartButton from '@/components/AddToCartButton'
+import toast from 'react-hot-toast'
 
 interface Props {
     product: Product
@@ -35,6 +36,35 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
         }
         return product.price
     }
+
+    const handleAddCart = () => {
+
+        // addToCart(product, 1);
+        toast.success(
+            <div className="flex items-center space-x-2">
+                <span className="font-semibold text-white">{product.name}</span>
+                <span className="font-bold text-white drop-shadow-md">added to cart!</span>
+            </div>,
+            {
+                duration: 1000,
+                style: {
+                    background: 'linear-gradient(90deg, #D4AF37, #FFD700)', // gold gradient
+                    color: '#fff', // white text for better visibility
+                    borderRadius: '12px',
+                    boxShadow: '0 4px 14px rgba(212, 175, 55, 0.5)',
+                    padding: '12px 20px',
+                    fontWeight: 600,
+                    fontSize: 16,
+                    maxWidth: 360,
+                },
+                iconTheme: {
+                    primary: '#fff',
+                    secondary: '#FFD700',
+                },
+            }
+        );
+    };
+
 
     return (
         <Link
@@ -92,7 +122,7 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
                             <span className="font-semibold text-gray-900 dark:text-white text-lg">{product.price}</span>
                         )}
                     </div>
-                    <AddCartButton product={product} className="mt-auto" />
+                    <AddCartButton product={product} onClick={handleAddCart} className="mt-auto" />
                 </div>
             </motion.article>
         </Link>

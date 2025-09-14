@@ -23,6 +23,7 @@ import {
 } from 'lucide-react'
 import { Product } from '@/types/product'
 import { useCart } from '@/context/CartContext'
+import toast from 'react-hot-toast'
 
 interface ProductDetailsProps {
     product: Product
@@ -66,6 +67,29 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     const handleAddToCart = () => {
         if (!selectedSize) return
         addToCart(product, quantity, selectedSize)
+        toast.success(
+            <div className="flex items-center space-x-2">
+                <span className="font-semibold text-white">{product.name}</span>
+                <span className="font-bold text-white drop-shadow-md">added to cart!</span>
+            </div>,
+            {
+                duration: 1000,
+                style: {
+                    background: 'linear-gradient(90deg, #D4AF37, #FFD700)',
+                    color: '#fff',
+                    borderRadius: '12px',
+                    boxShadow: '0 4px 14px rgba(212, 175, 55, 0.5)',
+                    padding: '12px 20px',
+                    fontWeight: 600,
+                    fontSize: 16,
+                    maxWidth: 360,
+                },
+                iconTheme: {
+                    primary: '#fff',
+                    secondary: '#FFD700',
+                },
+            }
+        )
     }
 
     const handleBuyNow = () => {
@@ -126,8 +150,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => setIsWishlisted(!isWishlisted)}
                                     className={`p-3 rounded-full shadow-lg backdrop-blur-sm transition-colors ${isWishlisted
-                                            ? 'bg-red-500 text-white'
-                                            : 'bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-300'
+                                        ? 'bg-red-500 text-white'
+                                        : 'bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-300'
                                         }`}
                                     aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
                                 >
@@ -219,8 +243,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                         type="button"
                                         onClick={() => setSelectedSize(size)}
                                         className={`py-3 px-4 border-2 rounded-lg text-sm font-medium transition-all ${selectedSize === size
-                                                ? 'border-accent-gold-light dark:border-accent-gold-dark bg-accent-gold-light dark:bg-accent-gold-dark text-white'
-                                                : 'border-gray-200 dark:border-gray-700 text-text-primary-light dark:text-text-primary-dark hover:border-accent-gold-light dark:hover:border-accent-gold-dark'
+                                            ? 'border-accent-gold-light dark:border-accent-gold-dark bg-accent-gold-light dark:bg-accent-gold-dark text-white'
+                                            : 'border-gray-200 dark:border-gray-700 text-text-primary-light dark:text-text-primary-dark hover:border-accent-gold-light dark:hover:border-accent-gold-dark'
                                             }`}
                                     >
                                         {size}
@@ -259,8 +283,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 onClick={handleAddToCart}
                                 disabled={!selectedSize}
                                 className={`w-full flex items-center justify-center py-4 rounded-xl font-bold text-lg tracking-wide transition ${selectedSize
-                                        ? 'bg-gradient-to-r from-accent-gold-light to-yellow-500 dark:from-accent-gold-dark dark:to-yellow-600 text-text-primary-light dark:text-text-primary-dark hover:shadow-xl'
-                                        : 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
+                                    ? 'bg-gradient-to-r from-accent-gold-light to-yellow-500 dark:from-accent-gold-dark dark:to-yellow-600 text-text-primary-light dark:text-text-primary-dark hover:shadow-xl'
+                                    : 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
                                     }`}
                                 aria-label="Add to cart"
                             >
@@ -272,8 +296,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 onClick={handleBuyNow}
                                 disabled={!selectedSize}
                                 className={`w-full py-4 rounded-xl font-bold text-lg tracking-wide transition ${selectedSize
-                                        ? 'border-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark hover:bg-accent-gold-light dark:hover:bg-accent-gold-dark hover:text-white'
-                                        : 'border-2 border-gray-300 dark:border-gray-700 text-gray-500 cursor-not-allowed'
+                                    ? 'border-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark hover:bg-accent-gold-light dark:hover:bg-accent-gold-dark hover:text-white'
+                                    : 'border-2 border-gray-300 dark:border-gray-700 text-gray-500 cursor-not-allowed'
                                     }`}
                                 aria-label="Buy now"
                             >
@@ -312,8 +336,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                         type="button"
                                         onClick={() => setActiveTab(id as any)}
                                         className={`relative py-4 font-medium text-sm flex items-center space-x-2 whitespace-nowrap transition-colors ${activeTab === id
-                                                ? 'border-b-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark'
-                                                : 'border-b border-transparent text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark'
+                                            ? 'border-b-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark'
+                                            : 'border-b border-transparent text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark'
                                             }`}
                                     >
                                         <Icon className="w-4 h-4" />
