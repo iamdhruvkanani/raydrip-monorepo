@@ -1,8 +1,9 @@
 // components/ShopSection.tsx
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import ProductCard from '@/components/ProductCard'
+import ProductCardMobile from '@/components/ProductCardMobile'
 import { getAllProducts, getProductsBySubCategoryNormalized } from '@/data/products'
 import Pagination from '@/components/Pagination'
 
@@ -46,15 +47,23 @@ const cardVariants = {
     },
 }
 
-const PAGE_SIZE = 12 // Set page size here
+const PAGE_SIZE = 12
 
 export default function ShopSection({ selectedSubCategory }: ShopSectionProps) {
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        const onResize = () => setIsMobile(window.innerWidth < 768)
+        onResize()
+        window.addEventListener('resize', onResize)
+        return () => window.removeEventListener('resize', onResize)
+    }, [])
+
     const allProducts =
         selectedSubCategory === 'View All Products'
             ? getAllProducts()
             : getProductsBySubCategoryNormalized(selectedSubCategory)
 
-    // Added pagination state here as requested
     const [currentPage, setCurrentPage] = useState(1)
 
     const totalPages = Math.ceil(allProducts.length / PAGE_SIZE)
@@ -92,11 +101,15 @@ export default function ShopSection({ selectedSubCategory }: ShopSectionProps) {
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-12 md:px-0"
+                className="max-w-7xl mx-auto grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4 md:gap-12 md:px-0"
             >
                 {currentProducts.map(product => (
                     <motion.div key={product.id} variants={cardVariants}>
-                        <ProductCard product={product} />
+                        {isMobile ? (
+                            <ProductCardMobile product={product} />
+                        ) : (
+                            <ProductCard product={product} />
+                        )}
                     </motion.div>
                 ))}
             </motion.div>
