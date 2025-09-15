@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function ShopPage() {
     return (
-        <main className="max-w-7xl mx-auto px-6 md:px-12 py-12">
+        <main className="max-w-7xl mx-auto px-6 md:px-12 py-4">
             <ShopSection selectedSubCategory="View All Products" />
         </main>
     )

@@ -35,7 +35,7 @@ export default function RootLayout({
         >
           <CartProvider> {/* Wrap the app with CartProvider */}
 
-            <div className="pt-[6.5rem] min-h-screen bg-bg-light dark:bg-bg-dark text-text-primary-light dark:text-text-primary-dark transition-colors duration-300">
+            <div className="pt-[5.5rem] min-h-screen bg-bg-light dark:bg-bg-dark text-text-primary-light dark:text-text-primary-dark transition-colors duration-300">
 
               <Header />
               {children}

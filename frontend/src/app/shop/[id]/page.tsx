@@ -15,7 +15,7 @@ export default async function SubCategoryPage({ params }: { params: Promise<Para
     const { id } = await params
     const subCategory = id
     return (
-        <main className="max-w-7xl mx-auto px-6 md:px-12 py-12">
+        <main className="max-w-7xl mx-auto px-6 md:px-12 py-4">
             <ShopSection selectedSubCategory={subCategory} />
         </main>
     )

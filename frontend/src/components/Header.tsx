@@ -96,17 +96,22 @@ export default function Header() {
                 </AnimatePresence >
 
                 {/* Logo and nav container */}
-                < div className="pt-7 max-w-7xl mx-auto flex justify-between items-center px-6 py-2.5" >
+                < div className=" max-w-7xl mx-auto flex justify-between items-center px-6 pt-3 -mb-3" >
                     {/* Logo */}
-                    < motion.div whileHover={{ scale: 1.05 }
-                    } transition={{ duration: 0.2 }}>
+                    < motion.div
+                        initial={{ scale: 2 }}
+                        animate={{ scale: 2 }}
+                        whileHover={{ scale: 2.2 }}
+                        transition={{ duration: 0.2 }}
+                        className='pt-1 pb-0'
+                    >
                         <Link href="/" className="inline-flex items-center space-x-3 m-0 p-0">
                             <Image
                                 src="/raydrip-logo.png"
                                 alt="RayDrip Logo"
                                 height={36}
                                 width={120}
-                                className="w-auto select-none transform scale-150 h-14"
+                                className="w-auto select-none h-14"
                                 priority
                             />
                         </Link>
