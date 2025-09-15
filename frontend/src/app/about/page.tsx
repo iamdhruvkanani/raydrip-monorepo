@@ -152,7 +152,7 @@ export default function AboutPage() {
                                             </span>
                                         </div>
                                         <div className="mb-2">
-                                            <span className="block text-xl font-extrabold font-serif text-text-primary-light dark:text-text-primary-dark group-hover:text-accent-gold-dark dark:group-hover:text-accent-gold-light">{label}</span>
+                                            <span className="block text-xl font-extrabold font-serif text-accent-gold-light dark:text-accent-gold-dark group-hover:text-accent-gold-dark dark:group-hover:text-accent-gold-light">{label}</span>
                                         </div>
                                         <div className="text-sm text-text-secondary-light dark:text-text-secondary-dark">
                                             {description}
