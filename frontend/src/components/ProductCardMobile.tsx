@@ -54,9 +54,9 @@ export default function ProductCardMobile({ product }: Props) {
             tabIndex={-1}
             aria-label={`View details about ${product.name}`}
         >
-            <article className="group rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md flex flex-col overflow-hidden h-[350px] sm:h-[380px]">
-                <div className="relative aspect-[4/5] bg-gray-100 dark:bg-gray-800 overflow-hidden rounded-t-lg">
-                    {/* Sale and Badge Logic */}
+            <article className="group rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md flex flex-col overflow-hidden h-[380px]">
+                <div className="relative w-full h-[220px] bg-gray-100 dark:bg-gray-800 overflow-hidden rounded-t-lg flex items-center justify-center">
+                    {/* Sale and badge logic */}
                     {product.isOnSale && (
                         <span className="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-0.5 rounded font-bold select-none z-10">
                             -{product.salePercentage}%
@@ -67,14 +67,13 @@ export default function ProductCardMobile({ product }: Props) {
                             {product.badge}
                         </span>
                     )}
-
                     <Image
                         src={product.imageUrl}
                         alt={product.name}
                         fill
-                        sizes="50vw"
+                        sizes="95vw"
                         priority={false}
-                        className="object-contain p-3 transition-transform scale-100 duration-500 group-hover:scale-105"
+                        className="object-contain p-1 sm:p-2 transition-transform scale-100 duration-500 group-hover:scale-105"
                     />
                 </div>
                 <div className="p-3 flex flex-col flex-grow">
