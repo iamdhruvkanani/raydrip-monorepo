@@ -88,3 +88,34 @@ body {
   display: none;
   /* Chrome, Safari, Opera */
 }
+
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  animation: marquee 15s linear infinite;
+}
+
+@keyframes slow-marquee {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-slow-marquee {
+  display: inline-flex;
+  animation: slow-marquee 25s linear infinite;
+}

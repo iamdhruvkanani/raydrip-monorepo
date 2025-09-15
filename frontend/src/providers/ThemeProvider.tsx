@@ -9,7 +9,7 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-    theme: 'light',
+    theme: 'dark',
     toggleTheme: () => { },
 })
 
@@ -24,22 +24,22 @@ interface CustomThemeProviderProps {
 export function ThemeProvider({
     children,
     attribute = 'class',
-    defaultTheme = 'light',
+    defaultTheme = 'dark', // Set default theme to dark
     enableSystem = true,
     disableTransitionOnChange = false,
 }: CustomThemeProviderProps) {
     const [theme, setTheme] = useState<string>(defaultTheme)
 
-    // On mount, force light mode and clear stored theme to always start light
+    // On mount, force dark mode and clear stored theme to always start dark
     useEffect(() => {
-        setTheme('light')
-        document.documentElement.classList.remove('dark')
-        localStorage.setItem('theme', 'light')
+        setTheme('dark')
+        document.documentElement.classList.add('dark')
+        localStorage.setItem('theme', 'dark')
     }, [])
 
-    // Toggle function updates state, html class, and localStorage synchronously
+    // Toggle function updates theme state, html class, and localStorage synchronously
     const toggleTheme = () => {
-        setTheme(current => {
+        setTheme((current) => {
             const newTheme = current === 'dark' ? 'light' : 'dark'
             document.documentElement.classList.toggle('dark', newTheme === 'dark')
             localStorage.setItem('theme', newTheme)

@@ -6,6 +6,8 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { CartProvider } from '@/context/CartContext'  // <-- import your CartProvider
 import { Toaster } from 'react-hot-toast' // import Toaster
+import OfferMarquee from '@/components/OfferMarquee'
+
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
@@ -32,7 +34,9 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           <CartProvider> {/* Wrap the app with CartProvider */}
-            <div className="pt-16 min-h-screen bg-bg-light dark:bg-bg-dark text-text-primary-light dark:text-text-primary-dark transition-colors duration-300">
+
+            <div className="pt-[6.5rem] min-h-screen bg-bg-light dark:bg-bg-dark text-text-primary-light dark:text-text-primary-dark transition-colors duration-300">
+
               <Header />
               {children}
               <Footer />
@@ -40,7 +44,7 @@ export default function RootLayout({
               <Toaster
                 position="top-right"
                 toastOptions={{
-                  duration: 4000,
+                  duration: 1000,
                   style: {
                     background: 'linear-gradient(90deg, #D4AF37, #FFD700)', // premium gold gradient
                     color: '#1a202c', // dark text for contrast

@@ -9,6 +9,7 @@ import Image from 'next/image'
 import { useCart } from '@/context/CartContext'
 import SideCart from '@/components/SideCart'
 import { debounce } from 'lodash'
+import OfferMarquee from './OfferMarquee'
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false)
@@ -79,17 +80,26 @@ export default function Header() {
 
     return (
         <>
+
+
+
             <motion.header
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: 'easeOut' }}
-                className={`fixed w-full z-50 top-0 left-0 bg-bg-light/80 dark:bg-bg-dark/80 backdrop-blur-xl border-b border-accent-gold-light/20 dark:border-accent-gold-dark/20 transition-all duration-300 ${isShrunk ? 'py-1.5 shadow-lg' : 'py-3'
-                    }`}
+                className={`fixed top-0 w-full z-50 left-0 bg-bg-light/80 dark:bg-bg-dark/80 backdrop-blur-xl border-b border-accent-gold-light/20 dark:border-accent-gold-dark/20 transition-all duration-300 ${isShrunk ? 'py-1.5 shadow-lg' : 'py-3'}`}
+            // className={`fixed w-full z-50 top-0 left-0 bg-bg-light/80 dark:bg-bg-dark/80 backdrop-blur-xl border-b border-accent-gold-light/20 dark:border-accent-gold-dark/20 transition-all duration-300 ${isShrunk ? 'py-1.5 shadow-lg' : 'py-3'}`}
             >
+                {/* Separate Marquee Component */}
+                < AnimatePresence >
+                    <OfferMarquee isVisible={!isShrunk} />
+                </AnimatePresence >
+
                 {/* Logo and nav container */}
-                <div className="max-w-7xl mx-auto flex justify-between items-center px-6">
+                < div className="pt-7 max-w-7xl mx-auto flex justify-between items-center px-6 py-2.5" >
                     {/* Logo */}
-                    <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+                    < motion.div whileHover={{ scale: 1.05 }
+                    } transition={{ duration: 0.2 }}>
                         <Link href="/" className="inline-flex items-center space-x-3 m-0 p-0">
                             <Image
                                 src="/raydrip-logo.png"
@@ -100,37 +110,39 @@ export default function Header() {
                                 priority
                             />
                         </Link>
-                    </motion.div>
+                    </motion.div >
 
                     {/* Desktop Menu */}
-                    <nav className="hidden md:flex space-x-8">
-                        {['Home', 'About', 'Contact'].map((item, index) => {
-                            const href = item === 'Home' ? '/' : `/${item.toLowerCase()}`
-                            return (
-                                <motion.div
-                                    key={item}
-                                    initial={{ opacity: 0, y: -20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.1 + 0.5 }}
-                                >
-                                    <Link
-                                        href={href}
-                                        className={`relative font-medium transition-colors duration-300 cursor-pointer ${isActive(href)
-                                            ? 'text-accent-gold-light dark:text-accent-gold-dark'
-                                            : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark'
-                                            }`}
+                    < nav className="hidden md:flex space-x-8" >
+                        {
+                            ['Home', 'About', 'Contact'].map((item, index) => {
+                                const href = item === 'Home' ? '/' : `/${item.toLowerCase()}`
+                                return (
+                                    <motion.div
+                                        key={item}
+                                        initial={{ opacity: 0, y: -20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.1 + 0.5 }}
                                     >
-                                        {item}
-                                        {isActive(href) && (
-                                            <motion.span
-                                                layoutId="underline"
-                                                className="absolute -bottom-1 left-0 w-full h-0.5 bg-accent-gold-light dark:bg-accent-gold-dark"
-                                            />
-                                        )}
-                                    </Link>
-                                </motion.div>
-                            )
-                        })}
+                                        <Link
+                                            href={href}
+                                            className={`relative font-medium transition-colors duration-300 cursor-pointer ${isActive(href)
+                                                ? 'text-accent-gold-light dark:text-accent-gold-dark'
+                                                : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark'
+                                                }`}
+                                        >
+                                            {item}
+                                            {isActive(href) && (
+                                                <motion.span
+                                                    layoutId="underline"
+                                                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-accent-gold-light dark:bg-accent-gold-dark"
+                                                />
+                                            )}
+                                        </Link>
+                                    </motion.div>
+                                )
+                            })
+                        }
 
                         {/* Shop dropdown */}
                         <div
@@ -192,10 +204,10 @@ export default function Header() {
                                 )}
                             </AnimatePresence>
                         </div>
-                    </nav>
+                    </nav >
 
                     {/* Right side: Theme toggle, cart icon, mobile menu */}
-                    <div className="flex items-center space-x-4">
+                    < div className="flex items-center space-x-4" >
                         {mounted && (
                             <motion.button
                                 whileHover={{ scale: 1.1 }}
@@ -242,101 +254,103 @@ export default function Header() {
                                 )}
                             </AnimatePresence>
                         </motion.button>
-                    </div>
-                </div>
+                    </div >
+                </div >
 
                 {/* Mobile menu */}
                 <AnimatePresence>
-                    {isOpen && (
-                        <motion.nav
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="md:hidden bg-surface-light dark:bg-surface-dark border-t border-accent-gold-light/20 dark:border-accent-gold-dark/20"
-                        >
-                            <div className="px-6 py-6 space-y-4">
-                                {['Home', 'About', 'Contact'].map((item, index) => {
-                                    const href = item === 'Home' ? '/' : `/${item.toLowerCase()}`
-                                    return (
-                                        <motion.div
-                                            key={item}
-                                            initial={{ opacity: 0, x: -20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: index * 0.1 }}
-                                        >
-                                            <Link
-                                                href={href}
-                                                className={`block font-medium py-2 transition-colors duration-300 ${isActive(href)
-                                                    ? 'text-accent-gold-light dark:text-accent-gold-dark'
-                                                    : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark'
-                                                    }`}
-                                                onClick={() => setIsOpen(false)}
-                                            >
-                                                {item}
-                                            </Link>
-                                        </motion.div>
-                                    )
-                                })}
-
-                                <div>
-                                    <button
-                                        onClick={() => setMobileShopOpen(!mobileShopOpen)}
-                                        className={`font-medium w-full text-left flex justify-between items-center py-2 transition-colors duration-300 ${isShopButtonActive ? 'text-accent-gold-light dark:text-accent-gold-dark' : ''
-                                            }`}
-                                        aria-expanded={mobileShopOpen}
-                                        aria-controls="mobile-shop-submenu"
-                                    >
-                                        Shop
-                                        <svg
-                                            className={`w-4 h-4 transform transition-transform duration-200 ${mobileShopOpen ? 'rotate-180' : ''
-                                                }`}
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                            aria-hidden="true"
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </button>
-                                    <AnimatePresence>
-                                        {mobileShopOpen && (
+                    {
+                        isOpen && (
+                            <motion.nav
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="md:hidden bg-surface-light dark:bg-surface-dark border-t border-accent-gold-light/20 dark:border-accent-gold-dark/20"
+                            >
+                                <div className="px-6 py-6 space-y-4">
+                                    {['Home', 'About', 'Contact'].map((item, index) => {
+                                        const href = item === 'Home' ? '/' : `/${item.toLowerCase()}`
+                                        return (
                                             <motion.div
-                                                id="mobile-shop-submenu"
-                                                role="menu"
-                                                initial={{ height: 0, opacity: 0 }}
-                                                animate={{ height: 'auto', opacity: 1 }}
-                                                exit={{ height: 0, opacity: 0 }}
-                                                transition={{ duration: 0.25, ease: 'easeInOut' }}
-                                                className="pl-4 mt-2 flex flex-col space-y-1 overflow-hidden"
+                                                key={item}
+                                                initial={{ opacity: 0, x: -20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: index * 0.1 }}
                                             >
-                                                {shopCategories.map((cat) => (
-                                                    <Link
-                                                        key={cat.href}
-                                                        href={cat.href}
-                                                        role="menuitem"
-                                                        className={`block py-2 text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark transition-colors duration-300 font-medium ${isActive(cat.href) ? 'text-accent-gold-light dark:text-accent-gold-dark font-semibold' : ''
-                                                            }`}
-                                                        onClick={() => {
-                                                            setIsOpen(false)
-                                                            setMobileShopOpen(false)
-                                                        }}
-                                                    >
-                                                        {cat.label}
-                                                    </Link>
-                                                ))}
+                                                <Link
+                                                    href={href}
+                                                    className={`block font-medium py-2 transition-colors duration-300 ${isActive(href)
+                                                        ? 'text-accent-gold-light dark:text-accent-gold-dark'
+                                                        : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark'
+                                                        }`}
+                                                    onClick={() => setIsOpen(false)}
+                                                >
+                                                    {item}
+                                                </Link>
                                             </motion.div>
-                                        )}
-                                    </AnimatePresence>
+                                        )
+                                    })}
+
+                                    <div>
+                                        <button
+                                            onClick={() => setMobileShopOpen(!mobileShopOpen)}
+                                            className={`font-medium w-full text-left flex justify-between items-center py-2 transition-colors duration-300 ${isShopButtonActive ? 'text-accent-gold-light dark:text-accent-gold-dark' : ''
+                                                }`}
+                                            aria-expanded={mobileShopOpen}
+                                            aria-controls="mobile-shop-submenu"
+                                        >
+                                            Shop
+                                            <svg
+                                                className={`w-4 h-4 transform transition-transform duration-200 ${mobileShopOpen ? 'rotate-180' : ''
+                                                    }`}
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                                aria-hidden="true"
+                                            >
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </button>
+                                        <AnimatePresence>
+                                            {mobileShopOpen && (
+                                                <motion.div
+                                                    id="mobile-shop-submenu"
+                                                    role="menu"
+                                                    initial={{ height: 0, opacity: 0 }}
+                                                    animate={{ height: 'auto', opacity: 1 }}
+                                                    exit={{ height: 0, opacity: 0 }}
+                                                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                                                    className="pl-4 mt-2 flex flex-col space-y-1 overflow-hidden"
+                                                >
+                                                    {shopCategories.map((cat) => (
+                                                        <Link
+                                                            key={cat.href}
+                                                            href={cat.href}
+                                                            role="menuitem"
+                                                            className={`block py-2 text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark transition-colors duration-300 font-medium ${isActive(cat.href) ? 'text-accent-gold-light dark:text-accent-gold-dark font-semibold' : ''
+                                                                }`}
+                                                            onClick={() => {
+                                                                setIsOpen(false)
+                                                                setMobileShopOpen(false)
+                                                            }}
+                                                        >
+                                                            {cat.label}
+                                                        </Link>
+                                                    ))}
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
                                 </div>
-                            </div>
-                        </motion.nav>
-                    )}
-                </AnimatePresence>
-            </motion.header>
+                            </motion.nav>
+                        )
+                    }
+                </AnimatePresence >
+            </motion.header >
 
             {/* SideCart Drawer Component */}
-            <SideCart isOpen={sideCartOpen} onClose={() => setSideCartOpen(false)} />
+            < SideCart isOpen={sideCartOpen} onClose={() => setSideCartOpen(false)} />
         </>
     )
 }
