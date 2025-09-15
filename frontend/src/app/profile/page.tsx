@@ -13,7 +13,7 @@ export default function ProfilePage() {
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/users/profile`, {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem('raydrip_token')}`,
                     },
                 })
                 const data = await res.json()
@@ -36,11 +36,11 @@ export default function ProfilePage() {
         setError('')
         setSuccess('')
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/user/profile`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/users/profile`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    Authorization: `Bearer ${localStorage.getItem('raydrip_token')}`,
                 },
                 body: JSON.stringify({ name }),
             })

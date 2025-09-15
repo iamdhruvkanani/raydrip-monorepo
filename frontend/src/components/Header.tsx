@@ -3,13 +3,16 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from 'next-themes'
-import { Sun, Moon, Menu, X, ShoppingCart } from 'lucide-react'
+import { Sun, Moon, Menu, X, ShoppingCart, User } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { useCart } from '@/context/CartContext'
 import SideCart from '@/components/SideCart'
 import { debounce } from 'lodash'
-import OfferMarquee from './OfferMarquee'
+import OfferMarquee from '@/components/OfferMarquee'
+import { useRouter } from 'next/navigation'
+
+import AccountDropdown from '@/components/AccountDropdown'
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false)
@@ -18,6 +21,8 @@ export default function Header() {
     const { theme, setTheme } = useTheme()
     const pathname = usePathname() || '/'
     const { totalItems } = useCart()
+    // const [loginModalOpen, setLoginModalOpen] = useState(false)
+    const router = useRouter()
 
     const [mobileShopOpen, setMobileShopOpen] = useState(false)
     const [shopOpen, setShopOpen] = useState(false)
@@ -225,14 +230,20 @@ export default function Header() {
                             </motion.button>
                         )}
 
+                        {/* Account Icon */}
+                        <AccountDropdown onLogout={() => router.push('/login')} />
+
+
+
+
                         {/* Cart Icon with badge (opens side cart) */}
                         <button
                             onClick={() => setSideCartOpen(true)}
                             aria-label="Open cart"
-                            className="relative text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark transition-colors"
+                            className="relative p-2 rounded-full bg-surface-light dark:bg-surface-dark text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark transition-colors duration-300"
                             type="button"
                         >
-                            <ShoppingCart className="w-6 h-6" />
+                            <ShoppingCart size={20} />
                             {totalItems > 0 && (
                                 <span
                                     className="absolute -top-2 -right-2 bg-red-600 text-white text-xs min-w-[18px] min-h-[18px] leading-[18px] px-1.5 rounded-full font-semibold text-center select-none"

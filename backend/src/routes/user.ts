@@ -89,7 +89,7 @@ router.get('/profile', authenticateToken, async (req: AuthenticatedRequest, res:
         if (!req.user) {
             return res.status(401).json({ message: 'Unauthorized' })
         }
-        const result = await pool.query('SELECT id, email FROM users WHERE id = $1', [req.user.id])
+        const result = await pool.query('SELECT id, email, name FROM users WHERE id = $1', [req.user.id])
         if (result.rows.length === 0) return res.status(404).json({ message: 'User not found' })
 
         res.json(result.rows[0])
@@ -98,5 +98,24 @@ router.get('/profile', authenticateToken, async (req: AuthenticatedRequest, res:
         res.status(500).json({ message: 'Server error' })
     }
 })
+
+// Update user profile route (PUT)
+router.put('/profile', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+        if (!req.user) return res.status(401).json({ message: 'Unauthorized' })
+        const { name } = req.body
+        if (!name) return res.status(400).json({ message: 'Name is required' })
+
+        const result = await pool.query('UPDATE users SET name = $1 WHERE id = $2 RETURNING id, email, name', [name, req.user.id])
+        if (result.rows.length === 0) return res.status(404).json({ message: 'User not found' })
+
+        res.json(result.rows[0])
+    } catch (error) {
+        console.error('PUT /profile error:', error)
+        res.status(500).json({ message: 'Server error', error: error instanceof Error ? error.message : String(error) })
+    }
+})
+
+
 
 export default router
