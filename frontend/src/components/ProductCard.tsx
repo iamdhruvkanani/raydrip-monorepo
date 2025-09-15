@@ -43,6 +43,7 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
             </div>,
             {
                 duration: 1000,
+                position: 'top-center',
                 style: {
                     background: 'linear-gradient(90deg, #D4AF37, #FFD700)',
                     color: '#fff',
