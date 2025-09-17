@@ -3,6 +3,7 @@ import { Metadata } from 'next'
 type Params = {
     id: string
 }
+
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
     const { id } = await params
     const categoryName = id.replace(/-/g, ' ')
@@ -11,6 +12,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
         description: `Browse our ${categoryName} collection`,
     }
 }
+
+
 export default async function SubCategoryPage({ params }: { params: Promise<Params> }) {
     const { id } = await params
     const subCategory = id

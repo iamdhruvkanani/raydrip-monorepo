@@ -20,7 +20,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
         openGraph: {
             title: product.name,
             description: `Shop ${product.name} - Premium fashion at its finest`,
-            images: [product.imageUrl],
+            images: product.imageUrl && product.imageUrl.length > 0 ? [product.imageUrl[0]] : []
+
         },
     }
 }
