@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import AddToCartButton from '@/components/AddToCartButton'
+import { SizeModal } from '@/components/SizeModal'
 import {
     Heart,
     Share2,
@@ -12,14 +12,12 @@ import {
     Truck,
     Shield,
     RotateCcw,
-    Star,
     ChevronRight,
     Plus,
     Minus,
     Info,
     Ruler,
     Package,
-    AlertTriangle,
 } from 'lucide-react'
 import { Product } from '@/types/product'
 import { useCart } from '@/context/CartContext'
@@ -38,7 +36,6 @@ const containerVariants = {
     },
 }
 
-
 const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -49,8 +46,8 @@ const itemVariants = {
 }
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
-    const [selectedImageIndex, setSelectedImageIndex] = React.useState(0)
-
+    const [isSizeOpen, setIsSizeOpen] = useState(false)
+    const [selectedImageIndex, setSelectedImageIndex] = useState(0)
     const badgeText = getProductBadge(product)
     const { addToCart } = useCart()
     const [selectedSize, setSelectedSize] = useState<string>('')
@@ -100,7 +97,6 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     const handleBuyNow = () => {
         if (!selectedSize) return
         addToCart(product, quantity, selectedSize)
-        // navigate to checkout page
         window.location.href = '/checkout'
     }
 
@@ -125,6 +121,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                     <span className="text-text-primary-light dark:text-text-primary-dark font-medium">{product.name}</span>
                 </motion.nav>
 
+                <SizeModal open={isSizeOpen} onClose={() => setIsSizeOpen(false)} />
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
                     {/* Product Images */}
                     <motion.div variants={itemVariants} className="space-y-4">
@@ -133,7 +131,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 src={
                                     product.imageUrl && product.imageUrl.length > 0
                                         ? product.imageUrl[selectedImageIndex]
-                                        : "/placeholder-image.png"
+                                        : '/placeholder-image.png'
                                 }
                                 alt={product.name}
                                 fill
@@ -141,7 +139,6 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 priority
                                 sizes="(max-width: 768px) 100vw, 50vw"
                             />
-
 
                             {product.isOnSale && product.salePercentage && (
                                 <div className="absolute top-4 left-4 bg-red-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
@@ -159,9 +156,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => setIsWishlisted(!isWishlisted)}
-                                    className={`p-3 rounded-full shadow-lg backdrop-blur-sm transition-colors ${isWishlisted
-                                        ? 'bg-red-500 text-white'
-                                        : 'bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-300'
+                                    className={`p-3 rounded-full shadow-lg backdrop-blur-sm transition-colors ${isWishlisted ? 'bg-red-500 text-white' : 'bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-300'
                                         }`}
                                     aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
                                 >
@@ -181,26 +176,25 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
                         {/* Thumbnail Images */}
                         <div className="grid grid-cols-4 gap-2">
-                            {(product.imageUrl && product.imageUrl.length > 0 ? product.imageUrl : ["/placeholder-image.png"]).map((img, idx) => (
-                                <div
-                                    key={img + idx}
-                                    onClick={() => setSelectedImageIndex(idx)}
-                                    className={`aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-accent-gold-light dark:hover:ring-accent-gold-dark transition-all
-    ${selectedImageIndex === idx ? 'ring-2 ring-accent-gold-light dark:ring-accent-gold-dark' : ''}
-  `}
-                                >
-                                    <Image
-                                        src={img}
-                                        alt={`${product.name} view ${idx + 1}`}
-                                        width={100}
-                                        height={100}
-                                        className="object-contain w-full h-full opacity-80 hover:opacity-100 transition-opacity"
-                                    />
-                                </div>
-
-                            ))}
+                            {(product.imageUrl && product.imageUrl.length > 0 ? product.imageUrl : ['/placeholder-image.png']).map(
+                                (img, idx) => (
+                                    <div
+                                        key={img + idx}
+                                        onClick={() => setSelectedImageIndex(idx)}
+                                        className={`aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-accent-gold-light dark:hover:ring-accent-gold-dark transition-all ${selectedImageIndex === idx ? 'ring-2 ring-accent-gold-light dark:ring-accent-gold-dark' : ''
+                                            }`}
+                                    >
+                                        <Image
+                                            src={img}
+                                            alt={`${product.name} view ${idx + 1}`}
+                                            width={100}
+                                            height={100}
+                                            className="object-contain w-full h-full opacity-80 hover:opacity-100 transition-opacity"
+                                        />
+                                    </div>
+                                )
+                            )}
                         </div>
-
                     </motion.div>
 
                     {/* Product Info */}
@@ -211,7 +205,6 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 {product.name}
                             </h1>
                             <div className="flex items-center space-x-4 mb-4">
-
                                 <span className="text-sm text-accent-gold-light dark:text-accent-gold-dark font-medium">In Stock</span>
                             </div>
                         </div>
@@ -238,7 +231,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                         <div>
                             <div className="flex items-center justify-between mb-3">
                                 <label className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark">Size</label>
-                                <button className="text-sm text-accent-gold-light dark:text-accent-gold-dark hover:underline flex items-center" type="button">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsSizeOpen(true)}
+                                    className="text-sm text-accent-gold-light dark:text-accent-gold-dark hover:underline flex items-center"
+                                >
                                     <Ruler className="w-4 h-4 mr-1" />
                                     Size Guide
                                 </button>
@@ -250,8 +247,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                         type="button"
                                         onClick={() => setSelectedSize(size)}
                                         className={`py-3 px-4 border-2 rounded-lg text-sm font-medium transition-all ${selectedSize === size
-                                            ? 'border-accent-gold-light dark:border-accent-gold-dark bg-accent-gold-light dark:bg-accent-gold-dark text-white'
-                                            : 'border-gray-200 dark:border-gray-700 text-text-primary-light dark:text-text-primary-dark hover:border-accent-gold-light dark:hover:border-accent-gold-dark'
+                                                ? 'border-accent-gold-light dark:border-accent-gold-dark bg-accent-gold-light dark:bg-accent-gold-dark text-white'
+                                                : 'border-gray-200 dark:border-gray-700 text-text-primary-light dark:text-text-primary-dark hover:border-accent-gold-light dark:hover:border-accent-gold-dark'
                                             }`}
                                     >
                                         {size}
@@ -290,8 +287,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 onClick={handleAddToCart}
                                 disabled={!selectedSize}
                                 className={`w-full flex items-center justify-center py-4 rounded-xl font-bold text-lg tracking-wide transition ${selectedSize
-                                    ? 'bg-gradient-to-r from-accent-gold-light to-yellow-500 dark:from-accent-gold-dark dark:to-yellow-600 text-text-primary-light dark:text-text-primary-dark hover:shadow-xl'
-                                    : 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
+                                        ? 'bg-gradient-to-r from-accent-gold-light to-yellow-500 dark:from-accent-gold-dark dark:to-yellow-600 text-text-primary-light dark:text-text-primary-dark hover:shadow-xl'
+                                        : 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
                                     }`}
                                 aria-label="Add to cart"
                             >
@@ -299,13 +296,12 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 Add to Cart
                             </button>
 
-
                             <button
                                 onClick={handleBuyNow}
                                 disabled={!selectedSize}
                                 className={`w-full py-4 rounded-xl font-bold text-lg tracking-wide transition ${selectedSize
-                                    ? 'border-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark hover:bg-accent-gold-light dark:hover:bg-accent-gold-dark hover:text-white'
-                                    : 'border-2 border-gray-300 dark:border-gray-700 text-gray-500 cursor-not-allowed'
+                                        ? 'border-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark hover:bg-accent-gold-light dark:hover:bg-accent-gold-dark hover:text-white'
+                                        : 'border-2 border-gray-300 dark:border-gray-700 text-gray-500 cursor-not-allowed'
                                     }`}
                                 aria-label="Buy now"
                             >
@@ -344,8 +340,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                         type="button"
                                         onClick={() => setActiveTab(id as any)}
                                         className={`relative py-4 font-medium text-sm flex items-center space-x-2 whitespace-nowrap transition-colors ${activeTab === id
-                                            ? 'border-b-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark'
-                                            : 'border-b border-transparent text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark'
+                                                ? 'border-b-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark'
+                                                : 'border-b border-transparent text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark'
                                             }`}
                                     >
                                         <Icon className="w-4 h-4" />
@@ -401,9 +397,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                     <div className="space-y-6">
                                         <div>
                                             <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark mb-3">Delivery Information</h4>
-                                            <p className="text-text-secondary-light dark:text-text-secondary-dark mb-4">
-                                                We deliver all days, including bank holidays
-                                            </p>
+                                            <p className="text-text-secondary-light dark:text-text-secondary-dark mb-4">We deliver all days, including bank holidays</p>
                                             <ul className="space-y-2 text-text-secondary-light dark:text-text-secondary-dark">
                                                 <li>• Standard Delivery: 2-7 business days</li>
                                                 <li>• Express Delivery: 1-2 business days</li>
