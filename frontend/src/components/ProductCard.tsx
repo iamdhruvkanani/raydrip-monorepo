@@ -30,7 +30,8 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
         if (product.isOnSale && product.originalPrice && product.salePercentage) {
             const orig = parseFloat(product.originalPrice.replace('₹', '').replace(/,/g, ''))
             const salePrice = orig * (1 - product.salePercentage / 100)
-            return `₹${salePrice.toLocaleString()}`
+            return salePrice.toLocaleString()
+
         }
         return product.price
     }
@@ -83,8 +84,8 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
                             -{product.salePercentage}%
                         </span>
                     )}
-                    {product.badge && !product.isOnSale && (
-                        <span className="absolute top-3 right-2 bg-yellow-400 text-white text-xs px-3 py-1 rounded-full font-semibold z-10 select-none">
+                    {product.badge && (
+                        <span className="absolute top-3 right-3 bg-accent-gold-light dark:bg-accent-gold-dark text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg select-none z-10">
                             {product.badge}
                         </span>
                     )}
@@ -104,8 +105,12 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
                     <div className="mb-4 flex flex-wrap items-center gap-2 text-sm sm:text-base">
                         {product.isOnSale && product.originalPrice ? (
                             <>
-                                <span className="text-yellow-600 dark:text-yellow-400 font-bold text-lg">{getSalePrice()}</span>
-                                <span className="line-through text-gray-400 dark:text-gray-500">{product.originalPrice}</span>
+                                <span className="text-yellow-600 dark:text-yellow-400 font-bold text-lg">
+                                    ₹{getSalePrice()}
+                                </span>
+                                <span className="line-through text-gray-400 dark:text-gray-500">
+                                    ₹{product.originalPrice}
+                                </span>
                                 <span className="rounded-full bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-xs px-2 py-0.5 whitespace-nowrap font-semibold mt-1 sm:mt-0">
                                     Save ₹
                                     {(
@@ -115,7 +120,7 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
                                 </span>
                             </>
                         ) : (
-                            <span className="font-semibold text-gray-900 dark:text-white text-lg">{product.price}</span>
+                            <span className="font-semibold text-gray-900 dark:text-white text-lg">₹{product.price}</span>
                         )}
                     </div>
                     <AddCartButton product={product} onClick={handleAddCart} className="mt-auto" />

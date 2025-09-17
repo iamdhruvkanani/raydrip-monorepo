@@ -12,6 +12,10 @@ const nextConfig = {
       'nayoclothing.com',
       'images.unsplash.com',
       'plus.unsplash.com',
+      'www.suratfabric.com',
+      'textileattire.com',
+      'chidiyaa.com',
+
       // Add any other domains your images come from
     ],
   },

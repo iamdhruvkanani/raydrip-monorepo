@@ -16,7 +16,7 @@ export default function ProductCardMobile({ product }: Props) {
         if (product.isOnSale && product.originalPrice && product.salePercentage) {
             const orig = parseFloat(product.originalPrice.replace('₹', '').replace(/,/g, ''))
             const salePrice = orig * (1 - product.salePercentage / 100)
-            return `₹${salePrice.toLocaleString()}`
+            return salePrice.toLocaleString()
         }
         return product.price
     }
@@ -84,11 +84,11 @@ export default function ProductCardMobile({ product }: Props) {
                     <div className="flex items-center space-x-2 text-sm text-yellow-600 dark:text-yellow-400 font-bold mb-2">
                         {product.isOnSale && product.originalPrice ? (
                             <>
-                                <span>{getSalePrice()}</span>
-                                <span className="line-through text-gray-400 dark:text-gray-500">{product.originalPrice}</span>
+                                <span>₹{getSalePrice()}</span>
+                                <span className="line-through text-gray-400 dark:text-gray-500">₹{product.originalPrice}</span>
                             </>
                         ) : (
-                            <span className="font-semibold text-gray-900 dark:text-white">{product.price}</span>
+                            <span className="font-semibold text-gray-900 dark:text-white">₹{product.price}</span>
                         )}
                     </div>
                     <AddCartButton product={product} onClick={handleAddCart} className="mt-auto" />

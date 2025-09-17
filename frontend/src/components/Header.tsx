@@ -36,6 +36,7 @@ export default function Header() {
         { label: 'Full Sleeves Kurtis', href: '/shop/full-sleeves-kurtis' },
         { label: 'Floral Kurtis', href: '/shop/floral-kurtis' },
         { label: 'Bell Sleeves Kurtis', href: '/shop/bell-sleeves-kurtis' },
+        { label: 'Straight Sleeves Kurtis', href: '/shop/straight-sleeves-kurtis' },
         { label: 'Long Kurtis', href: '/shop/long-kurtis' },
         { label: 'Halter Neck Kurtis', href: '/shop/halter-neck-kurtis' },
     ]

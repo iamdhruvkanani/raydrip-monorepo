@@ -77,7 +77,7 @@ export default function ShopSection({ selectedSubCategory }: ShopSectionProps) {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-bg-light to-surface-light dark:from-bg-dark dark:to-surface-dark">
+        <div>
             {/* Section Header */}
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
