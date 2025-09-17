@@ -112,7 +112,11 @@ export default function SideCart({ isOpen, onClose }: SideCartProps) {
                         </span>
                       )}
                       <img
-                        src={item.imageUrl}
+                        src={
+                          item.imageUrl && item.imageUrl.length > 0
+                            ? item.imageUrl[0]
+                            : "/placeholder-image.png"
+                        }
                         alt={item.name}
                         className="object-top w-20 h-20 rounded-2xl object-cover border-2 border-gray-200 dark:border-gray-700 flex-shrink-0"
                       />
