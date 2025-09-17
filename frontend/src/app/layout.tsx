@@ -33,14 +33,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
-          <CartProvider> {/* Wrap the app with CartProvider */}
+          <CartProvider>
 
             <div className="pt-[5.5rem] min-h-screen bg-bg-light dark:bg-bg-dark text-text-primary-light dark:text-text-primary-dark transition-colors duration-300">
 
               <Header />
               {children}
               <Footer />
-              {/* Add Toaster at the root for toast notifications */}
+              {/*Toaster at the root for toast notifications */}
               <Toaster
                 position="top-right"
                 toastOptions={{
