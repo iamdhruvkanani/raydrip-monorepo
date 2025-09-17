@@ -12,10 +12,10 @@ export const PRODUCTS: Product[] = [
         price: '2299',
         originalPrice: '2999',
         imageUrl:
-            'https://kasthuribaicompany.com/wp-content/uploads/2021/04/5416-1.jpg',
+            ['https://kasthuribaicompany.com/wp-content/uploads/2021/04/5416-1.jpg'],
         isOnSale: true,
         salePercentage: 23,
-        isFeatured: true,
+        isBestSeller: false,
         isNewArrival: false,
         category: 'shop',
         subCategory: ['Floral Kurtis'],
@@ -25,12 +25,13 @@ export const PRODUCTS: Product[] = [
         name: 'Navy Blue Kurti',
         price: '599',
         imageUrl:
-            'https://www.shoplibas.com/cdn/shop/files/29655_1_main.jpg?v=1748424427&width=1080',
-        badge: 'Best Seller',
-        isFeatured: true,
+            ['https://www.shoplibas.com/cdn/shop/files/29655_1_main.jpg?v=1748424427&width=1080'],
+
+        isBestSeller: true,
         isNewArrival: false,
         category: 'shop',
         subCategory: ['Backless Kurtis'],
+        description: "Navy Blue Kurti Test Description"
     },
     {
         id: 'p3',
@@ -38,10 +39,10 @@ export const PRODUCTS: Product[] = [
         price: '1005',
         originalPrice: '1500',
         imageUrl:
-            'https://images.jdmagicbox.com/quickquotes/images_main/printed-kurti-for-women-2008003957-dy21qvl1.jpg',
+            ['https://images.jdmagicbox.com/quickquotes/images_main/printed-kurti-for-women-2008003957-dy21qvl1.jpg'],
         isOnSale: true,
         salePercentage: 33,
-        isFeatured: false,
+        isBestSeller: false,
         isNewArrival: true,
         category: 'shop',
         subCategory: ['Full Sleeves Short Kurtis'],
@@ -51,8 +52,8 @@ export const PRODUCTS: Product[] = [
         name: 'White Short Kurti',
         price: '1200',
         imageUrl:
-            'https://assets0.mirraw.com/images/12091953/A911388_1_zoom.jpg?1701933379',
-        isFeatured: true,
+            ['https://assets0.mirraw.com/images/12091953/A911388_1_zoom.jpg?1701933379'],
+        isBestSeller: true,
         isNewArrival: false,
         category: 'shop',
         subCategory: ['Bell Sleeves Kurtis', 'Halter Neck Kurtis'],
@@ -62,9 +63,9 @@ export const PRODUCTS: Product[] = [
         name: 'White Full Sleeves Kurti',
         price: '7999',
         imageUrl:
-            'https://sutionline.in/cdn/shop/files/18403MISTEDYELLOW1.webp?v=1722076201&width=1200',
-        badge: 'Best Seller',
-        isFeatured: true,
+            ['https://sutionline.in/cdn/shop/files/18403MISTEDYELLOW1.webp?v=1722076201&width=1200'],
+
+        isBestSeller: true,
         isNewArrival: false,
         category: 'shop',
         subCategory: ['Full Sleeves Short Kurtis'],
@@ -73,8 +74,8 @@ export const PRODUCTS: Product[] = [
         id: 'p6',
         name: 'Short Blue Kurti',
         price: '14999',
-        imageUrl: 'https://kanooda.com/wp-content/uploads/2024/04/PIK03230.webp',
-        isFeatured: false,
+        imageUrl: ['https://kanooda.com/wp-content/uploads/2024/04/PIK03230.webp'],
+        isBestSeller: false,
         isNewArrival: true,
         category: 'shop',
         subCategory: ['Backless Kurtis'],
@@ -84,8 +85,8 @@ export const PRODUCTS: Product[] = [
         name: 'Sleeveless Blue Kurti',
         price: '1299',
         imageUrl:
-            'https://nayoclothing.com/cdn/shop/products/BER3118_1_1080x.jpg?v=1754029498',
-        isFeatured: false,
+            ['https://nayoclothing.com/cdn/shop/products/BER3118_1_1080x.jpg?v=1754029498'],
+        isBestSeller: false,
         isNewArrival: true,
         category: 'shop',
         subCategory: ['Backless Kurtis'],
@@ -99,10 +100,10 @@ export const PRODUCTS: Product[] = [
         price: '2299',
         originalPrice: '2999',
         imageUrl:
-            'https://www.suratfabric.com/wp-content/uploads/2024/07/Kalaroop-Kriti-by-Kajree-VIscose-Kurti-Catalog-6-Pcs-3.jpeg',
+            ['https://www.suratfabric.com/wp-content/uploads/2024/07/Kalaroop-Kriti-by-Kajree-VIscose-Kurti-Catalog-6-Pcs-3.jpeg'],
         isOnSale: true,
         salePercentage: 25,
-        isFeatured: true,
+        isBestSeller: true,
         isNewArrival: false,
         category: 'shop',
         subCategory: ['Straight Sleeves Kurtis'],
@@ -113,10 +114,10 @@ export const PRODUCTS: Product[] = [
         price: '2299',
         originalPrice: '2100',
         imageUrl:
-            'https://www.suratfabric.com/wp-content/uploads/2024/07/Kalaroop-Kriti-by-Kajree-VIscose-Kurti-Catalog-6-Pcs-5.jpeg',
+            ['https://www.suratfabric.com/wp-content/uploads/2024/07/Kalaroop-Kriti-by-Kajree-VIscose-Kurti-Catalog-6-Pcs-5.jpeg'],
         isOnSale: false,
         salePercentage: 23,
-        isFeatured: false,
+        isBestSeller: false,
         isNewArrival: true,
         category: 'shop',
         subCategory: ['Long Kurtis'],
@@ -127,12 +128,12 @@ export const PRODUCTS: Product[] = [
         price: '1500',
         originalPrice: '1500',
         imageUrl:
-            'https://www.suratfabric.com/wp-content/uploads/2024/07/Kalaroop-Kriti-by-Kajree-VIscose-Kurti-Catalog-6-Pcs-2.jpeg',
+            ['https://www.suratfabric.com/wp-content/uploads/2024/07/Kalaroop-Kriti-by-Kajree-VIscose-Kurti-Catalog-6-Pcs-2.jpeg', 'https://www.suratfabric.com/wp-content/uploads/2024/07/Kalaroop-Kriti-by-Kajree-VIscose-Kurti-Catalog-6-Pcs-5.jpeg'],
         isOnSale: true,
         salePercentage: 40,
-        isFeatured: false,
+        isBestSeller: false,
         isNewArrival: true,
-        badge: 'Best Seller',
+
         category: 'shop',
         subCategory: ['Halter Neck Kurtis'],
     },
@@ -142,11 +143,11 @@ export const PRODUCTS: Product[] = [
         price: '2299',
         originalPrice: '799',
         imageUrl:
-            'https://textileattire.com//images/product/2024/07/kriti-series-13915-to-13920-kurti-by-kalaroop-designer-with-work-viscose-kurtis-are-available-at-wholesale-price-2024-07-27_17_02_03.jpeg',
+            ['https://textileattire.com//images/product/2024/07/kriti-series-13915-to-13920-kurti-by-kalaroop-designer-with-work-viscose-kurtis-are-available-at-wholesale-price-2024-07-27_17_02_03.jpeg'],
         isOnSale: false,
         salePercentage: 23,
-        badge: 'New Arrival',
-        isFeatured: false,
+
+        isBestSeller: false,
         isNewArrival: true,
         category: 'shop',
         subCategory: ['Full Sleeves Kurtis'],
@@ -157,18 +158,24 @@ export const PRODUCTS: Product[] = [
         price: '2299',
         originalPrice: '2999',
         imageUrl:
-            'https://chidiyaa.com/cdn/shop/files/jpeg-optimizer_IMG_7684.jpg?v=1746013991&width=1533',
+            ['https://chidiyaa.com/cdn/shop/files/jpeg-optimizer_IMG_7684.jpg?v=1746013991&width=1533'],
         isOnSale: false,
         salePercentage: 23,
-        isFeatured: false,
+        isBestSeller: false,
         isNewArrival: true,
         category: 'shop',
         subCategory: ['Full Sleeves Kurtis'],
     },
 ]
 
-export function getFeaturedProducts(): Product[] {
-    return PRODUCTS.filter((p) => p.isFeatured)
+export function getProductBadge(product: Product): string | undefined {
+    if (product.isBestSeller) return 'Best Seller'
+    if (product.isNewArrival) return 'New Arrival'
+    return product.badge
+}
+
+export function getBestSellerProducts(): Product[] {
+    return PRODUCTS.filter((p) => p.isBestSeller)
 }
 
 export function getNewArrivalProducts(): Product[] {
@@ -179,12 +186,7 @@ export function getAllProducts(): Product[] {
     return PRODUCTS
 }
 
-// export function getProductsBySubCategoryNormalized(subCategoryNormalized: string): Product[] {
-//     const normalizedParam = normalizeString(subCategoryNormalized)
-//     return PRODUCTS.filter(
-//         (p) => p.subCategory && normalizeString(p.subCategory) === normalizedParam
-//     )
-// }
+
 export function getProductsBySubCategoryNormalized(subCategoryNormalized: string): Product[] {
     const normalizedParam = normalizeString(subCategoryNormalized)
     return PRODUCTS.filter(

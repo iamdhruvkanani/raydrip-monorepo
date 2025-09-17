@@ -104,7 +104,7 @@ export default function Header() {
                 </AnimatePresence >
 
                 {/* Logo and nav container */}
-                < div className=" max-w-7xl mx-auto flex justify-between items-center px-6 pt-3 -mb-3" >
+                < div className=" max-w-7xl mx-auto flex justify-between items-center px-6 pt-4 -mb-3" >
                     {/* Logo */}
                     < motion.div
                         initial={{ scale: 2 }}

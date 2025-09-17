@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import { motion, AnimatePresence } from 'framer-motion'
 import ProductCard from '@/components/ProductCard'
-import { getFeaturedProducts, getNewArrivalProducts } from '@/data/products'
+import { getBestSellerProducts, getNewArrivalProducts } from '@/data/products'
 import { useRouter } from 'next/navigation'
 import ProductCarousel from '@/components/ProductCarousel'
 
@@ -89,7 +89,7 @@ export default function HomePageClient() {
         }
     }
 
-    const featuredProducts = getFeaturedProducts()
+    const bestSellerProducts = getBestSellerProducts()
     const newArrivalProducts = getNewArrivalProducts()
 
     const nextSlide = useCallback(() => {
@@ -105,12 +105,12 @@ export default function HomePageClient() {
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'ItemList',
-        itemListElement: featuredProducts.map((product, index) => ({
+        itemListElement: bestSellerProducts.map((product, index) => ({
             '@type': 'Product',
             position: index + 1,
             name: product.name,
-            image: product.imageUrl.trimEnd(),
-            url: `https://your-domain.com/products/${product.id}`,
+            image: product.imageUrl && product.imageUrl.length > 0 ? product.imageUrl[0].trimEnd() : '', // Use the first image URL if available
+            url: `https://raydrip.in/products/${product.id}`,
             offers: {
                 '@type': 'Offer',
                 priceCurrency: 'INR',
@@ -123,7 +123,8 @@ export default function HomePageClient() {
                 availability: 'https://schema.org/InStock',
             },
         })),
-    }
+    };
+
 
 
     const navigateToShop = () => {
@@ -136,7 +137,7 @@ export default function HomePageClient() {
                 <title>RayDrip • Premium Ethnic Wear</title>
                 <meta
                     name="description"
-                    content="Shop RayDrip’s curated collection of premium ethnic apparel. Discover featured products, new arrivals, seasonal sales, and best-sellers with exclusive discounts."
+                    content="Shop RayDrip’s curated collection of premium ethnic apparel. Discover BestSeller products, new arrivals, seasonal sales, and best-sellers with exclusive discounts."
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="canonical" href="https://your-domain.com/" />
@@ -144,7 +145,7 @@ export default function HomePageClient() {
                 <meta property="og:title" content="RayDrip • Premium Ethnic Apparel" />
                 <meta
                     property="og:description"
-                    content="Shop RayDrip’s premium ethnic wear. Featured products, new arrivals, sale badges, and exclusive discounts."
+                    content="Shop RayDrip’s premium ethnic wear. BestSeller products, new arrivals, sale badges, and exclusive discounts."
                 />
                 <meta property="og:url" content="https://your-domain.com/" />
                 <meta property="og:type" content="website" />
@@ -247,12 +248,16 @@ export default function HomePageClient() {
                 </section>
 
 
-                <ProductCarousel title="Featured Products">
-                    {featuredProducts.map(product => (
+                {/* BestSeller */}
+                <ProductCarousel title="Best Sellers">
+                    {bestSellerProducts.map(product => (
                         <ProductCard key={product.id} product={product} />
                     ))}
                 </ProductCarousel>
 
+
+
+                {/* NewArrival */}
                 <ProductCarousel title="New Arrivals">
                     {newArrivalProducts.map(product => (
                         <ProductCard key={product.id} product={product} />

@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Product } from '@/types/product'
 import AddCartButton from '@/components/AddToCartButton'
 import toast from 'react-hot-toast'
+import { getProductBadge } from '@/data/products'
 
 interface Props {
     product: Product
@@ -20,6 +21,8 @@ export default function ProductCardMobile({ product }: Props) {
         }
         return product.price
     }
+
+    const badgeText = getProductBadge(product)
 
     const handleAddCart = () => {
         toast.success(
@@ -63,19 +66,20 @@ export default function ProductCardMobile({ product }: Props) {
                             -{product.salePercentage}%
                         </span>
                     )}
-                    {product.badge && !product.isOnSale && (
+                    {badgeText && (
                         <span className="absolute top-2 right-2 bg-yellow-400 text-white text-xs px-2 py-0.5 rounded font-semibold z-10 select-none">
-                            {product.badge}
+                            {badgeText}
                         </span>
                     )}
                     <Image
-                        src={product.imageUrl}
+                        src={product.imageUrl && product.imageUrl.length > 0 ? product.imageUrl[0] : "/placeholder-image.png"}
                         alt={product.name}
                         fill
                         sizes="95vw"
                         priority={false}
                         className="object-contain p-1 sm:p-2 transition-transform scale-100 duration-500 group-hover:scale-105"
                     />
+
                 </div>
                 <div className="p-3 flex flex-col flex-grow">
                     <h3 className="font-semibold text-base line-clamp-2 mb-1 text-gray-900 dark:text-white">

@@ -24,6 +24,7 @@ import {
 import { Product } from '@/types/product'
 import { useCart } from '@/context/CartContext'
 import toast from 'react-hot-toast'
+import { getProductBadge } from '@/data/products'
 
 interface ProductDetailsProps {
     product: Product
@@ -37,6 +38,7 @@ const containerVariants = {
     },
 }
 
+
 const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -47,6 +49,9 @@ const itemVariants = {
 }
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
+    const [selectedImageIndex, setSelectedImageIndex] = React.useState(0)
+
+    const badgeText = getProductBadge(product)
     const { addToCart } = useCart()
     const [selectedSize, setSelectedSize] = useState<string>('')
     const [quantity, setQuantity] = useState(1)
@@ -125,7 +130,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                     <motion.div variants={itemVariants} className="space-y-4">
                         <div className="aspect-[4/5] bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden relative group">
                             <Image
-                                src={product.imageUrl}
+                                src={
+                                    product.imageUrl && product.imageUrl.length > 0
+                                        ? product.imageUrl[selectedImageIndex]
+                                        : "/placeholder-image.png"
+                                }
                                 alt={product.name}
                                 fill
                                 className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
@@ -133,14 +142,15 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 sizes="(max-width: 768px) 100vw, 50vw"
                             />
 
+
                             {product.isOnSale && product.salePercentage && (
                                 <div className="absolute top-4 left-4 bg-red-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
                                     -{product.salePercentage}% OFF
                                 </div>
                             )}
-                            {product.badge && !product.isOnSale && (
-                                <div className="absolute top-4 left-4 bg-accent-gold-light dark:bg-accent-gold-dark text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                                    {product.badge}
+                            {badgeText && (
+                                <div className="absolute bottom-4 left-4 bg-accent-gold-light dark:bg-accent-gold-dark text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                                    {badgeText}
                                 </div>
                             )}
 
@@ -171,21 +181,26 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
                         {/* Thumbnail Images */}
                         <div className="grid grid-cols-4 gap-2">
-                            {[1, 2, 3, 4].map((i) => (
+                            {(product.imageUrl && product.imageUrl.length > 0 ? product.imageUrl : ["/placeholder-image.png"]).map((img, idx) => (
                                 <div
-                                    key={i}
-                                    className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-accent-gold-light dark:hover:ring-accent-gold-dark transition-all"
+                                    key={img + idx}
+                                    onClick={() => setSelectedImageIndex(idx)}
+                                    className={`aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-accent-gold-light dark:hover:ring-accent-gold-dark transition-all
+    ${selectedImageIndex === idx ? 'ring-2 ring-accent-gold-light dark:ring-accent-gold-dark' : ''}
+  `}
                                 >
                                     <Image
-                                        src={product.imageUrl}
-                                        alt={`${product.name} view ${i}`}
+                                        src={img}
+                                        alt={`${product.name} view ${idx + 1}`}
                                         width={100}
                                         height={100}
                                         className="object-contain w-full h-full opacity-80 hover:opacity-100 transition-opacity"
                                     />
                                 </div>
+
                             ))}
                         </div>
+
                     </motion.div>
 
                     {/* Product Info */}
@@ -196,22 +211,14 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 {product.name}
                             </h1>
                             <div className="flex items-center space-x-4 mb-4">
-                                <div className="flex items-center">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star
-                                            key={i}
-                                            className={`w-5 h-5 ${i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300 dark:text-gray-600'}`}
-                                        />
-                                    ))}
-                                    <span className="ml-2 text-sm text-text-secondary-light dark:text-text-secondary-dark">4.2 (127 reviews)</span>
-                                </div>
+
                                 <span className="text-sm text-accent-gold-light dark:text-accent-gold-dark font-medium">In Stock</span>
                             </div>
                         </div>
 
                         {/* Price */}
                         <div className="flex flex-wrap items-baseline gap-3">
-                            <span className="text-3xl font-bold text-text-primary-light dark:text-text-primary-dark">{getSalePrice()}</span>
+                            <span className="text-3xl font-bold text-text-primary-light dark:text-text-primary-dark">₹{getSalePrice()}</span>
                             {product.originalPrice && product.isOnSale && (
                                 <>
                                     <span className="text-xl text-gray-400 dark:text-gray-500 line-through">{product.originalPrice}</span>
@@ -292,6 +299,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 Add to Cart
                             </button>
 
+
                             <button
                                 onClick={handleBuyNow}
                                 disabled={!selectedSize}
@@ -363,16 +371,6 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                         </p>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div>
-                                                <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark mb-3">Specifications</h4>
-                                                <ul className="space-y-2 text-text-secondary-light dark:text-text-secondary-dark">
-                                                    <li>Material: Premium Cotton Blend</li>
-                                                    <li>Fit: Regular</li>
-                                                    <li>Length: Knee Length</li>
-                                                    <li>Sleeve: Full Sleeves</li>
-                                                    <li>Pattern: {product.subCategory}</li>
-                                                </ul>
-                                            </div>
-                                            <div>
                                                 <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark mb-3">Features</h4>
                                                 <ul className="space-y-2 text-text-secondary-light dark:text-text-secondary-dark">
                                                     <li>Breathable fabric</li>
@@ -389,12 +387,13 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                     <div className="space-y-4">
                                         <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark">Care Instructions</h4>
                                         <ul className="space-y-2 text-text-secondary-light dark:text-text-secondary-dark">
-                                            <li>• Machine wash at 30°C</li>
-                                            <li>• Use mild detergent</li>
-                                            <li>• Do not bleach</li>
-                                            <li>• Iron on medium heat</li>
-                                            <li>• Dry in shade</li>
-                                            <li>• Dry clean if needed</li>
+                                            <li>• Always hand wash or machine wash on a gentle cycle in cold water to prevent shrinking and color fading.</li>
+                                            <li>• Use a mild detergent to protect the fabric. Avoid harsh chemicals and bleach.</li>
+                                            <li>• Separate light and dark colors to avoid color bleeding.</li>
+                                            <li>• Avoid soaking the kurti for a long time and do not rub or scrub aggressively.</li>
+                                            <li>• Rinse well and avoid wringing or twisting the fabric to maintain its shape.</li>
+                                            <li>• Dry the kurti in the shade, away from direct sunlight to prevent color fading.</li>
+                                            <li>• Iron on a medium heat setting, preferably turning the kurti inside out and using a cloth over embroidery or prints.</li>
                                         </ul>
                                     </div>
                                 )}

@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { Product } from '@/types/product'
 import AddCartButton from '@/components/AddToCartButton'
 import toast from 'react-hot-toast'
+import { getProductBadge } from '@/data/products'
 
 interface Props {
     product: Product
@@ -14,7 +15,7 @@ interface Props {
 
 const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
     const { ref: scrollRef } = useScrollAnimation()
-
+    const badgeText = getProductBadge(product)
     const setRefs = (node: HTMLDivElement | null) => {
         if (scrollRef && typeof scrollRef === 'object' && 'current' in scrollRef) {
             (scrollRef as React.MutableRefObject<HTMLDivElement | null>).current = node
@@ -84,13 +85,13 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
                             -{product.salePercentage}%
                         </span>
                     )}
-                    {product.badge && (
+                    {badgeText && (
                         <span className="absolute top-3 right-3 bg-accent-gold-light dark:bg-accent-gold-dark text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg select-none z-10">
-                            {product.badge}
+                            {badgeText}
                         </span>
                     )}
                     <Image
-                        src={product.imageUrl}
+                        src={product.imageUrl && product.imageUrl.length > 0 ? product.imageUrl[0] : "/placeholder-image.png"}
                         alt={product.name}
                         fill
                         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
