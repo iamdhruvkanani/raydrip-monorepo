@@ -33,9 +33,11 @@ export default function Header() {
     const shopCategories = [
         { label: 'View All Products', href: '/shop' },
         { label: 'Backless Kurtis', href: '/shop/backless-kurtis' },
-        { label: 'Full Sleeves Short Kurtis', href: '/shop/full-sleeves-short-kurtis' },
+        { label: 'Full Sleeves Kurtis', href: '/shop/full-sleeves-kurtis' },
         { label: 'Floral Kurtis', href: '/shop/floral-kurtis' },
         { label: 'Bell Sleeves Kurtis', href: '/shop/bell-sleeves-kurtis' },
+        { label: 'Long Kurtis', href: '/shop/long-kurtis' },
+        { label: 'Halter Neck Kurtis', href: '/shop/halter-neck-kurtis' },
     ]
 
     useEffect(() => {

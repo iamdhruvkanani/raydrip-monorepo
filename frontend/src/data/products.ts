@@ -18,7 +18,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: true,
         isNewArrival: false,
         category: 'shop',
-        subCategory: 'Floral Kurtis',
+        subCategory: ['Floral Kurtis'],
     },
     {
         id: 'p2',
@@ -30,7 +30,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: true,
         isNewArrival: false,
         category: 'shop',
-        subCategory: 'Backless Kurtis',
+        subCategory: ['Backless Kurtis'],
     },
     {
         id: 'p3',
@@ -44,7 +44,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: false,
         isNewArrival: true,
         category: 'shop',
-        subCategory: 'Full Sleeves Short Kurtis',
+        subCategory: ['Full Sleeves Short Kurtis'],
     },
     {
         id: 'p4',
@@ -55,7 +55,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: true,
         isNewArrival: false,
         category: 'shop',
-        subCategory: 'Bell Sleeves Kurtis',
+        subCategory: ['Bell Sleeves Kurtis', 'Halter Neck Kurtis'],
     },
     {
         id: 'p5',
@@ -67,7 +67,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: true,
         isNewArrival: false,
         category: 'shop',
-        subCategory: 'Full Sleeves Short Kurtis',
+        subCategory: ['Full Sleeves Short Kurtis'],
     },
     {
         id: 'p6',
@@ -77,7 +77,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: false,
         isNewArrival: true,
         category: 'shop',
-        subCategory: 'Backless Kurtis',
+        subCategory: ['Backless Kurtis'],
     },
     {
         id: 'p7',
@@ -88,7 +88,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: false,
         isNewArrival: true,
         category: 'shop',
-        subCategory: 'Backless Kurtis',
+        subCategory: ['Backless Kurtis'],
     },
 
 
@@ -105,7 +105,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: true,
         isNewArrival: false,
         category: 'shop',
-        subCategory: 'Floral Kurtis',
+        subCategory: ['Floral Kurtis'],
     },
     {
         id: 'p9',
@@ -119,7 +119,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: true,
         isNewArrival: false,
         category: 'shop',
-        subCategory: 'Floral Kurtis',
+        subCategory: ['Floral Kurtis'],
     },
     {
         id: 'p10',
@@ -133,7 +133,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: true,
         isNewArrival: false,
         category: 'shop',
-        subCategory: 'Floral Kurtis',
+        subCategory: ['Floral Kurtis'],
     },
     {
         id: 'p11',
@@ -147,7 +147,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: true,
         isNewArrival: false,
         category: 'shop',
-        subCategory: 'Floral Kurtis',
+        subCategory: ['Floral Kurtis'],
     },
     {
         id: 'p12',
@@ -161,7 +161,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: true,
         isNewArrival: false,
         category: 'shop',
-        subCategory: 'Floral Kurtis',
+        subCategory: ['Floral Kurtis'],
     },
     {
         id: 'p13',
@@ -175,7 +175,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: true,
         isNewArrival: false,
         category: 'shop',
-        subCategory: 'Floral Kurtis',
+        subCategory: ['Floral Kurtis'],
     },
     {
         id: 'p14',
@@ -189,7 +189,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: true,
         isNewArrival: false,
         category: 'shop',
-        subCategory: 'Floral Kurtis',
+        subCategory: ['Floral Kurtis'],
     },
     {
         id: 'p15',
@@ -203,7 +203,7 @@ export const PRODUCTS: Product[] = [
         isFeatured: true,
         isNewArrival: false,
         category: 'shop',
-        subCategory: 'Floral Kurtis',
+        subCategory: ['Floral Kurtis'],
     },
 
 
@@ -222,9 +222,15 @@ export function getAllProducts(): Product[] {
     return PRODUCTS
 }
 
+// export function getProductsBySubCategoryNormalized(subCategoryNormalized: string): Product[] {
+//     const normalizedParam = normalizeString(subCategoryNormalized)
+//     return PRODUCTS.filter(
+//         (p) => p.subCategory && normalizeString(p.subCategory) === normalizedParam
+//     )
+// }
 export function getProductsBySubCategoryNormalized(subCategoryNormalized: string): Product[] {
     const normalizedParam = normalizeString(subCategoryNormalized)
     return PRODUCTS.filter(
-        (p) => p.subCategory && normalizeString(p.subCategory) === normalizedParam
+        (p) => p.subCategory && p.subCategory.some(sub => normalizeString(sub) === normalizedParam)
     )
 }
