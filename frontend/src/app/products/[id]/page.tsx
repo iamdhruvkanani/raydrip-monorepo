@@ -2,7 +2,9 @@ import Head from 'next/head';
 import ProductDetails from '@/components/ProductDetails';
 import { PRODUCTS } from '@/data/products';
 
-type Params = { id: string };
+interface Params {
+    id: string
+}
 
 export default function ProductPage({ params }: { params: Params }) {
     const product = PRODUCTS.find(p => p.id === params.id);
