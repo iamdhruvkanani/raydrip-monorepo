@@ -1,74 +1,113 @@
 'use client'
+
 import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { toast } from 'react-hot-toast'
 
-export default function LoginPage() {
-    const router = useRouter()
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+export default function CombinedLogin() {
+    const [input, setInput] = useState('')
+    const [step, setStep] = useState<'input' | 'otp'>('input')
+    const [otp, setOtp] = useState('')
+    const [existingUser, setExistingUser] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    const [success, setSuccess] = useState('')
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
+    const checkUserAndSendOtp = async () => {
+        setLoading(true)
         setError('')
-
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/users/login`, {
+            // Call to your API to check user
+            const res = await fetch('/api/auth/check-user', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ identifier: input }),
             })
+            if (!res.ok) throw new Error('Failed to check user')
+            const data = await res.json()
+            setExistingUser(data.exists)
+            // Then send OTP (create user if not exist)
+            const otpRes = await fetch('/api/auth/send-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ identifier: input }),
+            })
+            if (!otpRes.ok) throw new Error('Failed to send OTP')
+            setSuccess(`OTP sent to ${input}`)
+            setStep('otp')
+        } catch (e) {
+            setError(String(e))
+        } finally {
+            setLoading(false)
+        }
+    }
 
-            // Debug raw text to catch non-JSON error pages:
-            const text = await res.text()
-            let data
-            try {
-                data = JSON.parse(text)
-            } catch {
-                throw new Error('Received non-JSON response:\n' + text)
-            }
-
-            if (!res.ok) throw new Error(data.message || 'Login failed')
-
-            localStorage.setItem('raydrip_token', data.token)
-            router.push('/profile')
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                setError(err.message)
-            } else {
-                setError(String(err)) // fallback for non-Error throwables
-            }
+    const verifyOtp = async () => {
+        setLoading(true)
+        setError('')
+        try {
+            // Verify OTP API call
+            const res = await fetch('/api/auth/verify-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ identifier: input, otp }),
+            })
+            if (!res.ok) throw new Error('OTP verification failed')
+            setSuccess('Login successful')
+            // Redirect or update user session here
+        } catch (e) {
+            setError(String(e))
+        } finally {
+            setLoading(false)
         }
     }
 
     return (
-        <div className="max-w-md mx-auto mt-16 p-6 bg-[#1f1f1f] rounded-md shadow-lg">
-            <h2 className="text-3xl font-serif font-bold text-primary mb-6 text-center">Login</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    required
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full p-3 rounded bg-background text-foreground border border-gray-600 focus:border-primary outline-none"
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    required
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-3 rounded bg-background text-foreground border border-gray-600 focus:border-primary outline-none"
-                />
-                {error && <p className="text-red-500">{error}</p>}
-                <button
-                    type="submit"
-                    className="w-full py-3 bg-primary text-background font-semibold rounded hover:bg-yellow-500 transition"
-                >
-                    Log In
-                </button>
-            </form>
+        <div className='max-w-md mx-auto p-8 bg-white dark:bg-gray-900 rounded-xl shadow-xl mt-20'>
+            <h1 className='text-3xl font-bold mb-6 text-center text-transparent bg-gradient-to-r from-yellow-400 to-amber-600 bg-clip-text'>Welcome Back</h1>
+            {error && <div className='mb-4 p-3 text-red-600 bg-red-100 rounded'>{error}</div>}
+            {success && <div className='mb-4 p-3 text-green-600 bg-green-100 rounded'>{success}</div>}
+
+            {step === 'input' && (
+                <form onSubmit={e => { e.preventDefault(); checkUserAndSendOtp(); }}>
+                    <input
+                        type='text'
+                        placeholder='Enter email or mobile number'
+                        value={input}
+                        onChange={e => setInput(e.target.value)}
+                        required
+                        className='w-full p-3 mb-4 border border-gray-300 rounded'
+                        disabled={loading}
+                    />
+                    <button
+                        type='submit'
+                        disabled={loading}
+                        className='w-full py-3 bg-gradient-to-r from-yellow-400 to-amber-600 text-black rounded hover:brightness-110 transition'
+                    >
+                        {loading ? 'Processing...' : 'Send OTP'}
+                    </button>
+                </form>
+            )}
+
+            {step === 'otp' && (
+                <form onSubmit={e => { e.preventDefault(); verifyOtp(); }}>
+                    <input
+                        type='text'
+                        placeholder='Enter OTP'
+                        value={otp}
+                        onChange={e => setOtp(e.target.value)}
+                        required
+                        className='w-full p-3 mb-4 border border-gray-300 rounded'
+                        disabled={loading}
+                    />
+                    <button
+                        type='submit'
+                        disabled={loading}
+                        className='w-full py-3 bg-gradient-to-r from-yellow-400 to-amber-600 text-black rounded hover:brightness-110 transition'
+                    >
+                        {loading ? 'Verifying...' : 'Verify OTP'}
+                    </button>
+                </form>
+            )}
         </div>
     )
 }
