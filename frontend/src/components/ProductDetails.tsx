@@ -18,7 +18,7 @@ import {
     Info,
     Ruler,
     Package,
-    Slash,
+
     X,
     Lock
 } from 'lucide-react'

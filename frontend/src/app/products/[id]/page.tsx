@@ -2,6 +2,7 @@ import Head from 'next/head';
 import ProductDetails from '@/components/ProductDetails';
 import { PRODUCTS } from '@/data/products';
 
+//push vercel
 interface Params {
     id: string
 }
