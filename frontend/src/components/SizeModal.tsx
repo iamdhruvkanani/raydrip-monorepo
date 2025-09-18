@@ -10,8 +10,8 @@ export function SizeModal({ open, onClose }: SizeModalProps) {
     if (!open) return null;
 
     const sizeData = [
-        ['Size', 'S', 'M', 'L', 'XL', '2XL'],
-        ['Shoulder', '13', '13.5', '14', '14.5', '15'],
+        ['SIZE', 'S', 'M', 'L', 'XL', '2XL'],
+        ['SHOULDER', '13', '13.5', '14', '14.5', '15'],
         ['CHEST', '18', '19', '20', '21', '22'],
         ['Waist', '16', '17', '18', '19', '20'],
         ['HIPS', '19', '20', '21', '22', '23'],

@@ -19,6 +19,14 @@ export const PRODUCTS: Product[] = [
         isNewArrival: false,
         category: 'shop',
         subCategory: ['Floral Kurtis'],
+        stock: {
+            XS: 5,
+            S: 10,
+            M: 15,
+            L: 0,
+            XL: 8,
+            XXL: 0,
+        },
     },
     {
         id: 'p2',
@@ -31,7 +39,15 @@ export const PRODUCTS: Product[] = [
         isNewArrival: false,
         category: 'shop',
         subCategory: ['Backless Kurtis'],
-        description: "Navy Blue Kurti Test Description"
+        description: "Navy Blue Kurti Test Description",
+        stock: {
+            XS: 5,
+            S: 10,
+            M: 15,
+            L: 12,
+            XL: 8,
+            XXL: 0,
+        },
     },
     {
         id: 'p3',
@@ -46,6 +62,14 @@ export const PRODUCTS: Product[] = [
         isNewArrival: true,
         category: 'shop',
         subCategory: ['Full Sleeves Short Kurtis'],
+        stock: {
+            XS: 2,
+            S: 8,
+            M: 15,
+            L: 11,
+            XL: 8,
+            XXL: 0,
+        },
     },
     {
         id: 'p4',
@@ -57,6 +81,14 @@ export const PRODUCTS: Product[] = [
         isNewArrival: false,
         category: 'shop',
         subCategory: ['Bell Sleeves Kurtis', 'Halter Neck Kurtis'],
+        stock: {
+            XS: 5,
+            S: 10,
+            M: 15,
+            L: 12,
+            XL: 8,
+            XXL: 0,
+        },
     },
     {
         id: 'p5',
@@ -69,6 +101,14 @@ export const PRODUCTS: Product[] = [
         isNewArrival: false,
         category: 'shop',
         subCategory: ['Full Sleeves Short Kurtis'],
+        stock: {
+            XS: 5,
+            S: 10,
+            M: 15,
+            L: 12,
+            XL: 8,
+            XXL: 0,
+        },
     },
     {
         id: 'p6',
@@ -79,6 +119,14 @@ export const PRODUCTS: Product[] = [
         isNewArrival: true,
         category: 'shop',
         subCategory: ['Backless Kurtis'],
+        stock: {
+            XS: 5,
+            S: 10,
+            M: 15,
+            L: 12,
+            XL: 8,
+            XXL: 0,
+        },
     },
     {
         id: 'p7',
@@ -90,6 +138,14 @@ export const PRODUCTS: Product[] = [
         isNewArrival: true,
         category: 'shop',
         subCategory: ['Backless Kurtis'],
+        stock: {
+            XS: 5,
+            S: 10,
+            M: 15,
+            L: 12,
+            XL: 8,
+            XXL: 0,
+        },
     },
 
 
@@ -107,6 +163,14 @@ export const PRODUCTS: Product[] = [
         isNewArrival: false,
         category: 'shop',
         subCategory: ['Straight Sleeves Kurtis'],
+        stock: {
+            XS: 5,
+            S: 10,
+            M: 15,
+            L: 12,
+            XL: 8,
+            XXL: 0,
+        },
     },
     {
         id: 'p9',
@@ -121,6 +185,14 @@ export const PRODUCTS: Product[] = [
         isNewArrival: true,
         category: 'shop',
         subCategory: ['Long Kurtis'],
+        stock: {
+            XS: 5,
+            S: 10,
+            M: 15,
+            L: 12,
+            XL: 8,
+            XXL: 0,
+        },
     },
     {
         id: 'p10',
@@ -136,6 +208,14 @@ export const PRODUCTS: Product[] = [
 
         category: 'shop',
         subCategory: ['Halter Neck Kurtis'],
+        stock: {
+            XS: 5,
+            S: 10,
+            M: 15,
+            L: 12,
+            XL: 8,
+            XXL: 0,
+        },
     },
     {
         id: 'p11',
@@ -151,6 +231,14 @@ export const PRODUCTS: Product[] = [
         isNewArrival: true,
         category: 'shop',
         subCategory: ['Full Sleeves Kurtis'],
+        stock: {
+            XS: 5,
+            S: 10,
+            M: 15,
+            L: 12,
+            XL: 8,
+            XXL: 0,
+        },
     },
     {
         id: 'p12',
@@ -165,6 +253,14 @@ export const PRODUCTS: Product[] = [
         isNewArrival: true,
         category: 'shop',
         subCategory: ['Full Sleeves Kurtis'],
+        stock: {
+            XS: 5,
+            S: 10,
+            M: 15,
+            L: 12,
+            XL: 8,
+            XXL: 0,
+        },
     },
 ]
 

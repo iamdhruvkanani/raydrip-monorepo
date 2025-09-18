@@ -19,7 +19,7 @@ import {
     Ruler,
     Package,
 } from 'lucide-react'
-import { Product } from '@/types/product'
+import { Product, Size } from '@/types/product'
 import { useCart } from '@/context/CartContext'
 import toast from 'react-hot-toast'
 import { getProductBadge } from '@/data/products'
@@ -44,18 +44,18 @@ const itemVariants = {
         transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
     },
 }
+const availableSizes: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
     const [isSizeOpen, setIsSizeOpen] = useState(false)
     const [selectedImageIndex, setSelectedImageIndex] = useState(0)
     const badgeText = getProductBadge(product)
     const { addToCart } = useCart()
-    const [selectedSize, setSelectedSize] = useState<string>('')
+    const [selectedSize, setSelectedSize] = useState<Size | null>(null)
     const [quantity, setQuantity] = useState(1)
     const [activeTab, setActiveTab] = useState<'details' | 'care' | 'delivery'>('details')
     const [isWishlisted, setIsWishlisted] = useState(false)
-
-    const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+    const stock = product.stock || {}
 
     const getSalePrice = () => {
         if (product.isOnSale && product.originalPrice && product.salePercentage) {
@@ -67,7 +67,14 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     }
 
     const handleAddToCart = () => {
-        if (!selectedSize) return
+        if (!selectedSize) {
+            toast.error('Please select a size')
+            return
+        }
+        if ((stock[selectedSize] || 0) < quantity) {
+            toast.error(`Only ${stock[selectedSize] || 0} items are available in size ${selectedSize}`)
+            return
+        }
         addToCart(product, quantity, selectedSize)
         toast.success(
             <div className="flex items-center space-x-2">
@@ -95,7 +102,14 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     }
 
     const handleBuyNow = () => {
-        if (!selectedSize) return
+        if (!selectedSize) {
+            toast.error('Please select a size')
+            return
+        }
+        if ((stock[selectedSize] || 0) < quantity) {
+            toast.error(`Only ${stock[selectedSize] || 0} items are available in size ${selectedSize}`)
+            return
+        }
         addToCart(product, quantity, selectedSize)
         window.location.href = '/checkout'
     }
@@ -205,13 +219,17 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 {product.name}
                             </h1>
                             <div className="flex items-center space-x-4 mb-4">
-                                <span className="text-sm text-accent-gold-light dark:text-accent-gold-dark font-medium">In Stock</span>
+                                <span className="text-sm text-accent-gold-light dark:text-accent-gold-dark font-medium">
+                                    In Stock
+                                </span>
                             </div>
                         </div>
 
                         {/* Price */}
                         <div className="flex flex-wrap items-baseline gap-3">
-                            <span className="text-3xl font-bold text-text-primary-light dark:text-text-primary-dark">₹{getSalePrice()}</span>
+                            <span className="text-3xl font-bold text-text-primary-light dark:text-text-primary-dark">
+                                ₹{getSalePrice()}
+                            </span>
                             {product.originalPrice && product.isOnSale && (
                                 <>
                                     <span className="text-xl text-gray-400 dark:text-gray-500 line-through">{product.originalPrice}</span>
@@ -241,25 +259,36 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 </button>
                             </div>
                             <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                                {sizes.map((size) => (
-                                    <button
-                                        key={size}
-                                        type="button"
-                                        onClick={() => setSelectedSize(size)}
-                                        className={`py-3 px-4 border-2 rounded-lg text-sm font-medium transition-all ${selectedSize === size
-                                                ? 'border-accent-gold-light dark:border-accent-gold-dark bg-accent-gold-light dark:bg-accent-gold-dark text-white'
-                                                : 'border-gray-200 dark:border-gray-700 text-text-primary-light dark:text-text-primary-dark hover:border-accent-gold-light dark:hover:border-accent-gold-dark'
-                                            }`}
-                                    >
-                                        {size}
-                                    </button>
-                                ))}
+                                {availableSizes.map((size) => {
+                                    const inStock = (stock[size] || 0) > 0
+                                    const isSelected = selectedSize === size
+                                    return (
+                                        <button
+                                            key={size}
+                                            type="button"
+                                            disabled={!inStock}
+                                            onClick={() => setSelectedSize(size)}
+                                            className={`py-3 px-4 border-2 rounded-lg text-sm font-medium transition-all ${isSelected
+                                                    ? 'border-accent-gold-light dark:border-accent-gold-dark bg-accent-gold-light dark:bg-accent-gold-dark text-white'
+                                                    : inStock
+                                                        ? 'border-gray-200 dark:border-gray-700 text-text-primary-light dark:text-text-primary-dark hover:border-accent-gold-light dark:hover:border-accent-gold-dark'
+                                                        : 'border-gray-200 dark:border-gray-700 text-gray-400 cursor-not-allowed'
+                                                }`}
+                                            aria-pressed={isSelected}
+                                            aria-label={`${size} size${inStock ? '' : ' out of stock'}`}
+                                        >
+                                            {size}
+                                        </button>
+                                    )
+                                })}
                             </div>
                         </div>
 
                         {/* Quantity */}
                         <div>
-                            <label className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark mb-3 block">Quantity</label>
+                            <label className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark mb-3 block">
+                                Quantity
+                            </label>
                             <div className="flex items-center space-x-4">
                                 <button
                                     type="button"
@@ -272,7 +301,10 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 <span className="px-4 py-2 font-medium min-w-[60px] text-center">{quantity}</span>
                                 <button
                                     type="button"
-                                    onClick={() => setQuantity(quantity + 1)}
+                                    onClick={() => {
+                                        const maxStock = selectedSize ? stock[selectedSize] || 0 : Infinity
+                                        setQuantity((q) => (q < maxStock ? q + 1 : q))
+                                    }}
                                     className="p-2 border rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                                     aria-label="Increase quantity"
                                 >
@@ -363,20 +395,21 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 {activeTab === 'details' && (
                                     <div className="prose dark:prose-invert max-w-none">
                                         <p className="text-text-primary-light dark:text-text-primary-dark leading-relaxed mb-6">
-                                            Elegant and comfortable kurti crafted with premium materials. Features include adjustable elements, high-quality stitching, and a modern silhouette that flatters all body types.
+                                            {product.description ||
+                                                'Elegant and comfortable kurti crafted with premium materials. Features include adjustable elements, high-quality stitching, and a modern silhouette that flatters all body types.'}
                                         </p>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div>
-                                                <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark mb-3">Features</h4>
-                                                <ul className="space-y-2 text-text-secondary-light dark:text-text-secondary-dark">
-                                                    <li>Breathable fabric</li>
-                                                    <li>Fade resistant colors</li>
-                                                    <li>Pre-shrunk material</li>
-                                                    <li>Comfortable fit</li>
-                                                    <li>Easy to maintain</li>
-                                                </ul>
+                                        {product.features && product.features.length > 0 && (
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div>
+                                                    <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark mb-3">Features</h4>
+                                                    <ul className="space-y-2 text-text-secondary-light dark:text-text-secondary-dark">
+                                                        {product.features.map((feature, idx) => (
+                                                            <li key={idx}>{feature}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
                                 )}
                                 {activeTab === 'care' && (

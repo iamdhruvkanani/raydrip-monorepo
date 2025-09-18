@@ -1,38 +1,50 @@
-import React from 'react'
-import { notFound } from 'next/navigation'
-import ProductDetails from '@/components/ProductDetails'
-import { PRODUCTS } from '@/data/products'
-import { Metadata } from 'next'
+import Head from 'next/head';
+import ProductDetails from '@/components/ProductDetails';
+import { PRODUCTS } from '@/data/products';
 
-type Params = { id: string }
+type Params = { id: string };
 
-export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
-    const { id } = await params
-    const product = PRODUCTS.find((p) => p.id === id)
+export default function ProductPage({ params }: { params: Params }) {
+    const product = PRODUCTS.find(p => p.id === params.id);
 
     if (!product) {
-        return { title: 'Product Not Found' }
+        // Handle 404 here
+        return <p>Product not found</p>;
     }
 
-    return {
-        title: `${product.name} | RayDrip`,
-        description: `Shop ${product.name} - Premium fashion at its finest. ${product.subCategory} collection.`,
-        openGraph: {
-            title: product.name,
-            description: `Shop ${product.name} - Premium fashion at its finest`,
-            images: product.imageUrl && product.imageUrl.length > 0 ? [product.imageUrl[0]] : []
-
+    const jsonLd = {
+        '@context': 'https://schema.org/',
+        '@type': 'Product',
+        name: product.name,
+        image: product.imageUrl,
+        description: product.description ?? product.subCategory,
+        sku: product.id,
+        brand: {
+            '@type': 'Brand',
+            name: 'RayDrip'
         },
-    }
-}
+        offers: {
+            '@type': 'Offer',
+            url: `https://raydrip.com/products/${product.id}`,
+            priceCurrency: 'USD',
+            price: product.price?.toString() ?? '0',
+            availability: 'https://schema.org/InStock',
+            itemCondition: 'https://schema.org/NewCondition',
+        }
+    };
 
-export default async function ProductPage({ params }: { params: Promise<Params> }) {
-    const { id } = await params
-    const product = PRODUCTS.find((p) => p.id === id)
-
-    if (!product) {
-        notFound()
-    }
-
-    return <ProductDetails product={product} />
+    return (
+        <>
+            <Head>
+                <title>{product.name} | RayDrip</title>
+                <meta name="description" content={`Shop ${product.name} - ${product.subCategory}`} />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                    key="product-jsonld"
+                />
+            </Head>
+            <ProductDetails product={product} />
+        </>
+    );
 }
