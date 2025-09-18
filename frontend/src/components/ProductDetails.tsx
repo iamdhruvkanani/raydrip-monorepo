@@ -18,6 +18,9 @@ import {
     Info,
     Ruler,
     Package,
+    Slash,
+    X,
+    Lock
 } from 'lucide-react'
 import { Product, Size } from '@/types/product'
 import { useCart } from '@/context/CartContext'
@@ -228,7 +231,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                         {/* Price */}
                         <div className="flex flex-wrap items-baseline gap-3">
                             <span className="text-3xl font-bold text-text-primary-light dark:text-text-primary-dark">
-                                ₹{getSalePrice()}
+                                {getSalePrice()}
                             </span>
                             {product.originalPrice && product.isOnSale && (
                                 <>
@@ -268,19 +271,38 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                             type="button"
                                             disabled={!inStock}
                                             onClick={() => setSelectedSize(size)}
-                                            className={`py-3 px-4 border-2 rounded-lg text-sm font-medium transition-all ${isSelected
-                                                    ? 'border-accent-gold-light dark:border-accent-gold-dark bg-accent-gold-light dark:bg-accent-gold-dark text-white'
+                                            className={`
+        relative flex items-center justify-center py-3 px-4 border-2 rounded-lg text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent-gold-light dark:focus-visible:ring-accent-gold-dark
+        ${isSelected
+                                                    ? 'border-yellow-500 bg-yellow-500 text-white shadow-lg shadow-yellow-400/50'
                                                     : inStock
-                                                        ? 'border-gray-200 dark:border-gray-700 text-text-primary-light dark:text-text-primary-dark hover:border-accent-gold-light dark:hover:border-accent-gold-dark'
-                                                        : 'border-gray-200 dark:border-gray-700 text-gray-400 cursor-not-allowed'
-                                                }`}
+                                                        ? 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-text-primary-light dark:text-text-primary-dark hover:border-yellow-500 dark:hover:border-yellow-500'
+                                                        : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
+                                                }
+      `}
                                             aria-pressed={isSelected}
                                             aria-label={`${size} size${inStock ? '' : ' out of stock'}`}
+                                            tabIndex={inStock ? 0 : -1}
                                         >
-                                            {size}
+                                            <span className={`${inStock ? '' : 'opacity-100'}`}>{size}</span>
+                                            {!inStock && (
+                                                <span
+                                                    className="
+            absolute inset-0 rounded-lg bg-gray-700/10
+            flex items-center justify-center
+            text-xs font-semibold tracking-wide text-yellow-400
+            uppercase select-none pointer-events-none
+            shadow-[0_0_6px_rgba(255,207,64,0.8)]
+          "
+                                                >
+                                                    <Lock />
+                                                </span>
+                                            )}
                                         </button>
                                     )
                                 })}
+
+
                             </div>
                         </div>
 
@@ -319,8 +341,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 onClick={handleAddToCart}
                                 disabled={!selectedSize}
                                 className={`w-full flex items-center justify-center py-4 rounded-xl font-bold text-lg tracking-wide transition ${selectedSize
-                                        ? 'bg-gradient-to-r from-accent-gold-light to-yellow-500 dark:from-accent-gold-dark dark:to-yellow-600 text-text-primary-light dark:text-text-primary-dark hover:shadow-xl'
-                                        : 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
+                                    ? 'bg-gradient-to-r from-accent-gold-light to-yellow-500 dark:from-accent-gold-dark dark:to-yellow-600 text-text-primary-light dark:text-text-primary-dark hover:shadow-xl'
+                                    : 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
                                     }`}
                                 aria-label="Add to cart"
                             >
@@ -332,8 +354,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 onClick={handleBuyNow}
                                 disabled={!selectedSize}
                                 className={`w-full py-4 rounded-xl font-bold text-lg tracking-wide transition ${selectedSize
-                                        ? 'border-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark hover:bg-accent-gold-light dark:hover:bg-accent-gold-dark hover:text-white'
-                                        : 'border-2 border-gray-300 dark:border-gray-700 text-gray-500 cursor-not-allowed'
+                                    ? 'border-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark hover:bg-accent-gold-light dark:hover:bg-accent-gold-dark hover:text-white'
+                                    : 'border-2 border-gray-300 dark:border-gray-700 text-gray-500 cursor-not-allowed'
                                     }`}
                                 aria-label="Buy now"
                             >
@@ -372,8 +394,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                         type="button"
                                         onClick={() => setActiveTab(id as any)}
                                         className={`relative py-4 font-medium text-sm flex items-center space-x-2 whitespace-nowrap transition-colors ${activeTab === id
-                                                ? 'border-b-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark'
-                                                : 'border-b border-transparent text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark'
+                                            ? 'border-b-2 border-accent-gold-light dark:border-accent-gold-dark text-accent-gold-light dark:text-accent-gold-dark'
+                                            : 'border-b border-transparent text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark'
                                             }`}
                                     >
                                         <Icon className="w-4 h-4" />
