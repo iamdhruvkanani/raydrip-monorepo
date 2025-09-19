@@ -1,17 +1,56 @@
 import Head from 'next/head';
 import ProductDetails from '@/components/ProductDetails';
 import { PRODUCTS } from '@/data/products';
+import { Metadata } from 'next';
 
-//push vercel
 interface Params {
-    id: string
+    id: string;
 }
 
-export default function ProductPage({ params }: { params: Params }) {
-    const product = PRODUCTS.find(p => p.id === params.id);
+function convertToString(value: string | string[] | undefined): string | undefined {
+    if (Array.isArray(value)) {
+        return value.join(', ');
+    }
+    return value;
+}
+
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+    const resolvedParams = await params;
+    const product = PRODUCTS.find(p => p.id === resolvedParams.id);
 
     if (!product) {
-        // Handle 404 here
+        return {
+            title: 'Product Not Found',
+            description: 'Product does not exist',
+        };
+    }
+
+    const description = convertToString(product.description) ?? '';
+    const subCategory = convertToString(product.subCategory) ?? '';
+
+    return {
+        title: `${product.name} | RayDrip`,
+        description: `Shop ${product.name} - ${subCategory}`,
+        openGraph: {
+            title: product.name,
+            description: description || subCategory,
+            images: product.imageUrl?.[0] ? [{ url: product.imageUrl[0] }] : [],
+            siteName: 'RayDrip',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: product.name,
+            description: description || subCategory,
+            images: product.imageUrl ?? [],
+        },
+    };
+}
+
+export default async function Page({ params }: { params: Promise<Params> }) {
+    const resolvedParams = await params;
+    const product = PRODUCTS.find(p => p.id === resolvedParams.id);
+
+    if (!product) {
         return <p>Product not found</p>;
     }
 
@@ -20,11 +59,11 @@ export default function ProductPage({ params }: { params: Params }) {
         '@type': 'Product',
         name: product.name,
         image: product.imageUrl,
-        description: product.description ?? product.subCategory,
+        description: convertToString(product.description) || convertToString(product.subCategory),
         sku: product.id,
         brand: {
             '@type': 'Brand',
-            name: 'RayDrip'
+            name: 'RayDrip',
         },
         offers: {
             '@type': 'Offer',
@@ -33,14 +72,12 @@ export default function ProductPage({ params }: { params: Params }) {
             price: product.price?.toString() ?? '0',
             availability: 'https://schema.org/InStock',
             itemCondition: 'https://schema.org/NewCondition',
-        }
+        },
     };
 
     return (
         <>
             <Head>
-                <title>{product.name} | RayDrip</title>
-                <meta name="description" content={`Shop ${product.name} - ${product.subCategory}`} />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
