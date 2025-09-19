@@ -20,4 +20,5 @@ export interface Product {
 
     // Stock keyed by defined size literals
     stock?: Partial<Record<Size, number>>
+    rating?: number
 }

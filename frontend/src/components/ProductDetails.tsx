@@ -216,17 +216,72 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
                     {/* Product Info */}
                     <motion.div variants={itemVariants} className="space-y-6">
-                        {/* Title & Rating */}
+                        {/* Title, Rating & Stock Status */}
                         <div>
                             <h1 className="text-3xl lg:text-4xl font-bold text-text-primary-light dark:text-text-primary-dark mb-4">
                                 {product.name}
                             </h1>
                             <div className="flex items-center space-x-4 mb-4">
-                                <span className="text-sm text-accent-gold-light dark:text-accent-gold-dark font-medium">
-                                    In Stock
-                                </span>
+                                {/* Rating stars */}
+                                <div className="flex items-center">
+                                    {[...Array(5)].map((_, i) => {
+                                        const rating = product.rating ?? 0
+                                        return (
+                                            <svg
+                                                key={i}
+                                                className={`w-5 h-5 ${i < Math.round(rating) ? 'text-accent-gold-light dark:text-accent-gold-dark' : 'text-gray-300 dark:text-gray-600'
+                                                    }`}
+                                                fill="currentColor"
+                                                viewBox="0 0 20 20"
+                                                aria-hidden="true"
+                                            >
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.455a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.455c-.784.57-1.838-.196-1.539-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.608 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z" />
+                                            </svg>
+                                        )
+                                    })}
+                                    <span className="ml-2 text-sm font-medium text-text-primary-light dark:text-text-primary-dark">
+                                        {(product.rating ?? 0).toFixed(1)}
+                                    </span>
+                                </div>
+
+                                {/* Stock status */}
+                                {(() => {
+                                    const totalStock = product.stock ? Object.values(product.stock).reduce((sum, qty) => sum + (qty || 0), 0) : 0
+                                    const isOverallInStock = totalStock > 0
+
+                                    if (!isOverallInStock) {
+                                        return (
+                                            <span className="text-sm font-medium text-red-500 dark:text-red-400">
+                                                Out of Stock
+                                            </span>
+                                        )
+                                    }
+
+                                    // If user has selected a size, show stock status of that size
+                                    if (selectedSize && product.stock && selectedSize in product.stock) {
+                                        const qty = product.stock[selectedSize] || 0
+                                        const isLowStock = qty > 0 && qty < 5
+                                        return (
+                                            <span
+                                                className={`text-sm font-medium ${isLowStock ? 'text-yellow-500 dark:text-yellow-400' : 'text-accent-gold-light dark:text-accent-gold-dark'
+                                                    }`}
+                                            >
+                                                {isLowStock ? 'Low in Stock' : 'In Stock'}
+                                            </span>
+                                        )
+                                    }
+
+                                    // Default fallback show In Stock if any stock exists
+                                    return (
+                                        <span className="text-sm font-medium text-accent-gold-light dark:text-accent-gold-dark">
+                                            In Stock
+                                        </span>
+                                    )
+                                })()}
                             </div>
                         </div>
+
+
 
                         {/* Price */}
                         <div className="flex flex-wrap items-baseline gap-3">

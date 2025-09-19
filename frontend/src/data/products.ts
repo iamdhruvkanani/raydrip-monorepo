@@ -27,6 +27,7 @@ export const PRODUCTS: Product[] = [
             XL: 8,
             XXL: 0,
         },
+        rating: 4.5
     },
     {
         id: 'p2',
@@ -48,6 +49,7 @@ export const PRODUCTS: Product[] = [
             XL: 8,
             XXL: 0,
         },
+        rating: 4
     },
     {
         id: 'p3',
@@ -66,10 +68,11 @@ export const PRODUCTS: Product[] = [
             XS: 2,
             S: 8,
             M: 15,
-            L: 11,
+            L: 5,
             XL: 8,
             XXL: 0,
         },
+        rating: 5
     },
     {
         id: 'p4',
@@ -89,6 +92,7 @@ export const PRODUCTS: Product[] = [
             XL: 8,
             XXL: 0,
         },
+        rating: 3.5
     },
     {
         id: 'p5',
@@ -109,6 +113,7 @@ export const PRODUCTS: Product[] = [
             XL: 8,
             XXL: 0,
         },
+        rating: 3
     },
     {
         id: 'p6',
@@ -127,6 +132,7 @@ export const PRODUCTS: Product[] = [
             XL: 8,
             XXL: 0,
         },
+        rating: 4.5
     },
     {
         id: 'p7',
@@ -146,6 +152,7 @@ export const PRODUCTS: Product[] = [
             XL: 8,
             XXL: 0,
         },
+        rating: 4
     },
 
 
@@ -171,6 +178,7 @@ export const PRODUCTS: Product[] = [
             XL: 8,
             XXL: 0,
         },
+        rating: 4
     },
     {
         id: 'p9',
@@ -193,6 +201,7 @@ export const PRODUCTS: Product[] = [
             XL: 8,
             XXL: 0,
         },
+        rating: 4
     },
     {
         id: 'p10',
@@ -216,6 +225,7 @@ export const PRODUCTS: Product[] = [
             XL: 8,
             XXL: 0,
         },
+        rating: 3
     },
     {
         id: 'p11',
@@ -239,6 +249,7 @@ export const PRODUCTS: Product[] = [
             XL: 8,
             XXL: 0,
         },
+        rating: 3.5
     },
     {
         id: 'p12',
@@ -261,6 +272,7 @@ export const PRODUCTS: Product[] = [
             XL: 8,
             XXL: 0,
         },
+        rating: 4.5
     },
 ]
 
