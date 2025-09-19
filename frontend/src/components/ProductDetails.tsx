@@ -15,12 +15,16 @@ import {
     ChevronRight,
     Plus,
     Minus,
-    Info,
+    BadgeInfo,
     Ruler,
     Package,
-
+    PencilRuler,
     X,
-    Lock
+    Lock,
+    ShieldUser,
+    Handshake,
+    WashingMachine
+
 } from 'lucide-react'
 import { Product, Size } from '@/types/product'
 import { useCart } from '@/context/CartContext'
@@ -434,7 +438,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                     onClick={() => setIsSizeOpen(true)}
                                     className="text-sm text-accent-gold-light dark:text-accent-gold-dark hover:underline flex items-center"
                                 >
-                                    <Ruler className="w-4 h-4 mr-1" />
+                                    <PencilRuler className="w-4 h-4 mr-1" />
                                     Size Guide
                                 </button>
                             </div>
@@ -485,32 +489,35 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
                         {/* Quantity */}
                         <div>
-                            <label className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark mb-3 block">
+                            <label className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark mb-4 block tracking-wide">
                                 Quantity
                             </label>
-                            <div className="flex items-center space-x-4">
+                            <div className="inline-flex items-center space-x-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm shadow-gray-200 dark:shadow-black/30">
                                 <button
                                     type="button"
                                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                    className="p-2 border rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                                    className="p-3 rounded-l-lg border-r border-gray-300 dark:border-gray-700 text-text-primary-light dark:text-text-primary-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition focus:outline-none focus:ring-2 focus:ring-accent-gold-light dark:focus:ring-accent-gold-dark"
                                     aria-label="Decrease quantity"
                                 >
-                                    <Minus className="w-4 h-4" />
+                                    <Minus className="w-5 h-5" />
                                 </button>
-                                <span className="px-4 py-2 font-medium min-w-[60px] text-center">{quantity}</span>
+                                <span className="px-6 py-3 font-semibold text-center min-w-[60px] text-lg text-text-primary-light dark:text-text-primary-dark select-none">
+                                    {quantity}
+                                </span>
                                 <button
                                     type="button"
                                     onClick={() => {
                                         const maxStock = selectedSize ? stock[selectedSize] || 0 : Infinity
                                         setQuantity((q) => (q < maxStock ? q + 1 : q))
                                     }}
-                                    className="p-2 border rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                                    className="p-3 rounded-r-lg border-l border-gray-300 dark:border-gray-700 text-text-primary-light dark:text-text-primary-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition focus:outline-none focus:ring-2 focus:ring-accent-gold-light dark:focus:ring-accent-gold-dark"
                                     aria-label="Increase quantity"
                                 >
-                                    <Plus className="w-4 h-4" />
+                                    <Plus className="w-5 h-5" />
                                 </button>
                             </div>
                         </div>
+
 
                         {/* Action Buttons */}
                         <div className="space-y-4">
@@ -547,23 +554,23 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 <span className="text-text-secondary-light dark:text-text-secondary-dark">Free Delivery</span>
                             </div>
                             <div className="flex items-center space-x-3 text-sm">
-                                <RotateCcw className="w-5 h-5 text-accent-gold-light dark:text-accent-gold-dark" />
+                                <Package className="w-5 h-5 text-accent-gold-light dark:text-accent-gold-dark" />
                                 <span className="text-text-secondary-light dark:text-text-secondary-dark">Easy Returns</span>
                             </div>
                             <div className="flex items-center space-x-3 text-sm">
-                                <Shield className="w-5 h-5 text-accent-gold-light dark:text-accent-gold-dark" />
+                                <Handshake className="w-5 h-5 text-accent-gold-light dark:text-accent-gold-dark" />
                                 <span className="text-text-secondary-light dark:text-text-secondary-dark">Secure Payment</span>
                             </div>
                         </div>
                     </motion.div>
 
                     {/* Product Details Tabs */}
-                    <motion.div variants={itemVariants} className="mt-16">
+                    <motion.div variants={itemVariants} >
                         <div className="border-b border-gray-200 dark:border-gray-700">
                             <nav className="flex space-x-8 overflow-x-auto scrollbar-none">
                                 {[
-                                    { id: 'details', label: 'Product Details', icon: Info },
-                                    { id: 'care', label: 'Care Instructions', icon: Package },
+                                    { id: 'details', label: 'Product Details', icon: BadgeInfo },
+                                    { id: 'care', label: 'Care Instructions', icon: WashingMachine },
                                     { id: 'delivery', label: 'Delivery & Returns', icon: Truck },
                                 ].map(({ id, label, icon: Icon }) => (
                                     <button
