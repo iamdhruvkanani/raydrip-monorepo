@@ -600,10 +600,20 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                             >
                                 {activeTab === 'details' && (
                                     <div className="prose dark:prose-invert max-w-none">
-                                        <p className="text-text-primary-light dark:text-text-primary-dark leading-relaxed mb-6">
-                                            {product.description ||
-                                                'Elegant and comfortable kurti crafted with premium materials. Features include adjustable elements, high-quality stitching, and a modern silhouette that flatters all body types.'}
-                                        </p>
+                                        {product.description ? (
+                                            <ul className="list-disc list-inside text-text-primary-light dark:text-text-primary-dark mb-6 space-y-1">
+                                                {product.description
+                                                    .split('. ')
+                                                    .filter((point) => point.trim().length > 0)
+                                                    .map((point, idx) => (
+                                                        <li key={idx}>{point.trim().endsWith('.') ? point.trim() : point.trim() + '.'}</li>
+                                                    ))}
+                                            </ul>
+                                        ) : (
+                                            <p className="text-text-primary-light dark:text-text-primary-dark leading-relaxed mb-6">
+                                                Elegant and comfortable kurti crafted with premium materials. Features include adjustable elements, high-quality stitching, and a modern silhouette that flatters all body types.
+                                            </p>
+                                        )}
                                         {product.features && product.features.length > 0 && (
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 <div>
@@ -618,6 +628,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                         )}
                                     </div>
                                 )}
+
                                 {activeTab === 'care' && (
                                     <div className="space-y-4">
                                         <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark">Care Instructions</h4>

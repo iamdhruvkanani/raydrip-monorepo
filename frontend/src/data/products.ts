@@ -40,7 +40,7 @@ export const PRODUCTS: Product[] = [
         isNewArrival: false,
         category: 'shop',
         subCategory: ['Backless Kurtis'],
-        description: "Navy Blue Kurti Test Description",
+        description: "Navy Blue Kurti Test Description. Halterneck Kurtis are the perfect blend of modern style and traditional charm, designed for women who love to make a bold fashion statement. Featuring a flattering neckline and chic silhouette, these kurtis are ideal for festive occasions, parties, or casual outings. Crafted from premium fabrics, they offer unmatched comfort and elegance while keeping you on-trend. Pair them with palazzos, skirts, or jeans to create a versatile and stylish ethnic look.",
         stock: {
             XS: 0,
             S: 0,
