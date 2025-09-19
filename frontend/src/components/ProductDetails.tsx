@@ -64,7 +64,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         if (product.isOnSale && product.originalPrice && product.salePercentage) {
             const originalAmount = parseFloat(product.originalPrice.replace(/[^0-9.]/g, ''))
             const saleAmount = originalAmount * (1 - product.salePercentage / 100)
-            return `₹${saleAmount.toLocaleString()}`
+            return `${saleAmount.toLocaleString()}`
         }
         return product.price
     }
@@ -231,11 +231,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                         {/* Price */}
                         <div className="flex flex-wrap items-baseline gap-3">
                             <span className="text-3xl font-bold text-text-primary-light dark:text-text-primary-dark">
-                                {getSalePrice()}
+                                ₹{getSalePrice()}
                             </span>
                             {product.originalPrice && product.isOnSale && (
                                 <>
-                                    <span className="text-xl text-gray-400 dark:text-gray-500 line-through">{product.originalPrice}</span>
+                                    <span className="text-xl text-gray-400 dark:text-gray-500 line-through">₹{product.originalPrice}</span>
                                     <span className="text-lg text-green-600 dark:text-green-400 font-semibold">
                                         Save ₹
                                         {(
