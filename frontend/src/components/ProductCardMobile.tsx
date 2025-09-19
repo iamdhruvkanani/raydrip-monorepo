@@ -24,6 +24,12 @@ export default function ProductCardMobile({ product }: Props) {
 
     const badgeText = getProductBadge(product)
 
+
+
+    const hasStock =
+        product.stock &&
+        Object.values(product.stock).some((qty) => (qty ?? 0) > 0);
+
     const handleAddCart = () => {
         toast.success(
             <div className="flex items-center space-x-2">
@@ -95,7 +101,12 @@ export default function ProductCardMobile({ product }: Props) {
                             <span className="font-semibold text-gray-900 dark:text-white">₹{product.price}</span>
                         )}
                     </div>
-                    <AddCartButton product={product} onClick={handleAddCart} className="mt-auto" />
+                    <AddCartButton
+                        product={product}
+                        onClick={handleAddCart}
+                        className="mt-auto"
+                        disabled={!hasStock}
+                    />
                 </div>
             </article>
         </Link>

@@ -14,6 +14,13 @@ interface Props {
 }
 
 const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
+
+
+
+    const hasStock =
+        product.stock &&
+        Object.values(product.stock).some((qty) => (qty ?? 0) > 0);
+
     const { ref: scrollRef } = useScrollAnimation()
     const badgeText = getProductBadge(product)
     const setRefs = (node: HTMLDivElement | null) => {
@@ -124,7 +131,16 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
                             <span className="font-semibold text-gray-900 dark:text-white text-lg">₹{product.price}</span>
                         )}
                     </div>
-                    <AddCartButton product={product} onClick={handleAddCart} className="mt-auto" />
+
+                    <AddCartButton
+                        product={product}
+                        quantity={1}
+                        onClick={handleAddCart}
+                        className="mt-auto"
+                        disabled={!hasStock}
+                    // stockStatus={hasStock ? 'ADD' : 'OUT_OF_STOCK'}
+                    />
+
                 </div>
             </motion.article>
         </Link>
