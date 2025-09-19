@@ -217,36 +217,42 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                     {/* Product Info */}
                     <motion.div variants={itemVariants} className="space-y-6">
 
-
-                        {/* Title, Rating & Stock Status - Ultra Premium Version */}
+                        {/* Title, Rating & Stock Status - Refined Premium Version */}
                         <div className="space-y-8">
-                            {/* Product Title with Gradient Accent */}
-                            <div className="relative">
-                                <h1 className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-text-primary-light via-text-primary-light to-accent-gold-light dark:from-text-primary-dark dark:via-text-primary-dark dark:to-accent-gold-dark bg-clip-text text-transparent leading-tight tracking-tight">
+                            <div className="relative inline-block max-w-full">
+                                <h1 className="text-3xl lg:text-4xl font-extrabold text-text-primary-light dark:text-text-primary-dark leading-snug tracking-wide">
                                     {product.name}
                                 </h1>
-                                <div className="absolute -bottom-2 left-0 w-24 h-1 bg-gradient-to-r from-accent-gold-light to-transparent rounded-full"></div>
+                                <div className="absolute -bottom-1 left-0 w-16 h-0.5 bg-gradient-to-r from-accent-gold-light to-accent-gold-dark rounded-full">
+                                </div>
+                                <span className="block mt-1 text-xs font-medium uppercase text-gray-500 dark:text-gray-400 tracking-widest">
+                                    Premium Quality
+                                </span>
                             </div>
+
 
                             {/* Premium Metrics Container */}
                             <div className="flex flex-wrap items-center gap-8">
-                                {/* Ultra-Modern Rating - Conditional */}
-                                {(product.rating && product.rating > 0) ? (
-                                    <div className="flex items-center space-x-4">
-                                        {/* Rating Score with Modern Design */}
-                                        <div className="relative">
-                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-gold-light/20 to-accent-gold-dark/20 dark:from-accent-gold-dark/20 dark:to-accent-gold-light/20 backdrop-blur-sm border border-accent-gold-light/30 dark:border-accent-gold-dark/30 flex items-center justify-center">
-                                                <span className="text-2xl font-bold text-accent-gold-light dark:text-accent-gold-dark">
-                                                    {product.rating.toFixed(1)}
-                                                </span>
-                                            </div>
-                                            {/* Subtle glow effect */}
-                                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent-gold-light/10 to-accent-gold-dark/10 blur-xl -z-10"></div>
-                                        </div>
 
-                                        {/* Rating Bar Visualization */}
-                                        <div className="flex flex-col space-y-2">
-                                            <div className="flex items-center space-x-2">
+                                {/* Ultra-Modern Rating – No Fire Emoji */}
+                                {(() => {
+                                    const rating = product.rating ?? 0
+                                    const hasRatings = rating > 0
+
+                                    return hasRatings ? (
+                                        <div className="flex items-center space-x-4">
+                                            {/* Numeric Rating Badge */}
+                                            <div className="relative">
+                                                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-accent-gold-light/30 to-accent-gold-dark/30 backdrop-blur-md border-2 border-accent-gold-light/40 dark:border-accent-gold-dark/40 flex items-center justify-center">
+                                                    <span className="text-3xl font-bold text-accent-gold-light dark:text-accent-gold-dark">
+                                                        {rating.toFixed(1)}
+                                                    </span>
+                                                </div>
+                                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-accent-gold-light/20 to-accent-gold-dark/20 blur-2xl -z-10"></div>
+                                            </div>
+
+                                            {/* Rating Bar Visualization */}
+                                            <div className="flex flex-col space-y-2">
                                                 <span className="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark">
                                                     Customer Rating
                                                 </span>
@@ -254,63 +260,62 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                                     {[1, 2, 3, 4, 5].map((star) => (
                                                         <div
                                                             key={star}
-                                                            className={`w-2 h-2 rounded-full transition-all duration-300 ${star <= Math.round(product.rating!)
-                                                                    ? 'bg-accent-gold-light dark:bg-accent-gold-dark shadow-sm'
-                                                                    : 'bg-gray-300 dark:bg-gray-600'
+                                                            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${star <= Math.round(rating)
+                                                                ? 'bg-accent-gold-light dark:bg-accent-gold-dark shadow-md'
+                                                                : 'bg-gray-300 dark:bg-gray-600'
                                                                 }`}
                                                         />
                                                     ))}
                                                 </div>
-                                            </div>
-                                            {/* Progress Bar */}
-                                            <div className="w-32 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                                                <div
-                                                    className="h-full bg-gradient-to-r from-accent-gold-light to-accent-gold-dark rounded-full transition-all duration-700 ease-out"
-                                                    style={{ width: `${(product.rating! / 5) * 100}%` }}
-                                                />
-                                            </div>
-                                            <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
-                                                Based on customer reviews
-                                            </span>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    /* No Rating Yet - Alternative Display */
-                                    <div className="flex items-center space-x-4">
-                                        <div className="relative">
-                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-200/50 to-gray-300/50 dark:from-gray-700/50 dark:to-gray-600/50 backdrop-blur-sm border border-gray-300/30 dark:border-gray-600/30 flex items-center justify-center">
-                                                <span className="text-lg font-medium text-gray-500 dark:text-gray-400">
-                                                    New
+                                                <div className="w-36 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                                    <div
+                                                        className="h-full bg-gradient-to-r from-accent-gold-light to-accent-gold-dark rounded-full transition-all duration-700 ease-out"
+                                                        style={{ width: `${(rating / 5) * 100}%` }}
+                                                    />
+                                                </div>
+                                                <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                                                    Based on customer reviews
                                                 </span>
                                             </div>
                                         </div>
-                                        <div className="flex flex-col space-y-2">
-                                            <span className="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark">
-                                                No Reviews Yet
-                                            </span>
-                                            <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
-                                                Be the first to review this product
-                                            </span>
+                                    ) : (
+                                        <div className="flex items-center space-x-4">
+                                            <div className="relative">
+                                                <div className="w-20 h-20 rounded-3xl bg-gray-200/60 dark:bg-gray-700/60 backdrop-blur-md border-2 border-gray-300/40 dark:border-gray-600/40 flex items-center justify-center">
+                                                    <span className="text-xl font-medium text-gray-500 dark:text-gray-400">
+                                                        New
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col space-y-2">
+                                                <span className="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark">
+                                                    No Reviews Yet
+                                                </span>
+                                                <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                                                    Be the first to review
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )
+                                })()}
 
-
-                                {/* Premium Stock Status - No Inventory Count */}
+                                {/* Premium Stock Status – Fire Only Here */}
                                 {(() => {
-                                    const totalStock = product.stock ? Object.values(product.stock).reduce((sum, qty) => sum + (qty || 0), 0) : 0
+                                    const totalStock = product.stock
+                                        ? Object.values(product.stock).reduce((sum, qty) => sum + (qty || 0), 0)
+                                        : 0
                                     const isOverallInStock = totalStock > 0
 
                                     if (!isOverallInStock) {
                                         return (
                                             <div className="flex items-center space-x-4">
                                                 <div className="relative">
-                                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/20 backdrop-blur-sm border border-red-500/30 flex items-center justify-center">
+                                                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-500/30 to-red-600/30 backdrop-blur-md border-2 border-red-500/40 flex items-center justify-center">
                                                         <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                                                         </svg>
                                                     </div>
-                                                    <div className="absolute inset-0 rounded-xl bg-red-500/10 blur-xl animate-pulse -z-10"></div>
+                                                    <div className="absolute inset-0 rounded-2xl bg-red-500/20 blur-xl animate-pulse -z-10"></div>
                                                 </div>
                                                 <div className="flex flex-col">
                                                     <span className="text-lg font-bold text-red-500 dark:text-red-400">
@@ -324,35 +329,42 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                         )
                                     }
 
-                                    // If user has selected a size, show stock status of that size
                                     if (selectedSize && product.stock && selectedSize in product.stock) {
                                         const qty = product.stock[selectedSize] || 0
                                         const isLowStock = qty > 0 && qty < 5
-                                        const stockPercentage = Math.min((qty / 10) * 100, 100) // Assume max 10 for visualization
+                                        const stockPercentage = Math.min((qty / 10) * 100, 100)
 
                                         return (
                                             <div className="flex items-center space-x-4">
                                                 <div className="relative">
-                                                    <div className={`w-12 h-12 rounded-xl backdrop-blur-sm border flex items-center justify-center ${isLowStock
-                                                        ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500/30'
-                                                        : 'bg-gradient-to-br from-green-500/20 to-emerald-500/20 border-green-500/30'
-                                                        }`}>
-                                                        <svg className={`w-6 h-6 ${isLowStock ? 'text-yellow-500' : 'text-green-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <div
+                                                        className={`w-14 h-14 rounded-2xl backdrop-blur-md border-2 flex items-center justify-center ${isLowStock
+                                                            ? 'bg-gradient-to-br from-yellow-500/30 to-orange-500/30 border-yellow-500/40'
+                                                            : 'bg-gradient-to-br from-green-500/30 to-emerald-500/30 border-green-500/40'
+                                                            }`}
+                                                    >
+                                                        <svg
+                                                            className={`w-6 h-6 ${isLowStock ? 'text-yellow-500' : 'text-green-500'}`}
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                        >
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                                         </svg>
                                                     </div>
-                                                    <div className={`absolute inset-0 rounded-xl blur-xl -z-10 ${isLowStock ? 'bg-yellow-500/10' : 'bg-green-500/10'
-                                                        }`}></div>
+                                                    <div
+                                                        className={`absolute inset-0 rounded-2xl blur-xl -z-10 ${isLowStock ? 'bg-yellow-500/20' : 'bg-green-500/20'
+                                                            }`}
+                                                    ></div>
                                                 </div>
                                                 <div className="flex flex-col space-y-1">
-                                                    <span className={`text-lg font-bold ${isLowStock
-                                                        ? 'text-yellow-600 dark:text-yellow-400'
-                                                        : 'text-green-600 dark:text-green-400'
-                                                        }`}>
-                                                        {isLowStock ? 'Limited Stock' : 'In Stock'}
+                                                    <span
+                                                        className={`text-lg font-bold ${isLowStock ? 'text-yellow-600 dark:text-yellow-400' : 'text-green-600 dark:text-green-400'
+                                                            }`}
+                                                    >
+                                                        {isLowStock ? '🔥 Limited Stock' : 'In Stock'}
                                                     </span>
-                                                    {/* Stock level bar - no specific count */}
-                                                    <div className="w-24 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                                    <div className="w-28 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                                                         <div
                                                             className={`h-full rounded-full transition-all duration-500 ${isLowStock
                                                                 ? 'bg-gradient-to-r from-yellow-500 to-orange-500'
@@ -369,16 +381,15 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                         )
                                     }
 
-                                    // Default fallback - show general availability
                                     return (
                                         <div className="flex items-center space-x-4">
                                             <div className="relative">
-                                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-gold-light/20 to-accent-gold-dark/20 backdrop-blur-sm border border-accent-gold-light/30 dark:border-accent-gold-dark/30 flex items-center justify-center">
+                                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-gold-light/30 to-accent-gold-dark/30 backdrop-blur-md border-2 border-accent-gold-light/40 dark:border-accent-gold-dark/40 flex items-center justify-center">
                                                     <svg className="w-6 h-6 text-accent-gold-light dark:text-accent-gold-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                                     </svg>
                                                 </div>
-                                                <div className="absolute inset-0 rounded-xl bg-accent-gold-light/10 blur-xl -z-10"></div>
+                                                <div className="absolute inset-0 rounded-2xl bg-accent-gold-light/20 blur-xl -z-10"></div>
                                             </div>
                                             <div className="flex flex-col">
                                                 <span className="text-lg font-bold text-accent-gold-light dark:text-accent-gold-dark">
@@ -393,8 +404,6 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 })()}
                             </div>
                         </div>
-
-
 
                         {/* Price */}
                         <div className="flex flex-wrap items-baseline gap-3">
