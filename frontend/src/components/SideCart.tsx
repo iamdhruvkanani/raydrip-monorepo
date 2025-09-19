@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Trash2, ShoppingBag, AlertTriangle, Plus, Minus } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 import Link from 'next/link'
+import type { Size } from '@/types/product'
 
-const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+const SIZES: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
 
 interface SideCartProps {
   isOpen: boolean
@@ -78,7 +79,6 @@ export default function SideCart({ isOpen, onClose }: SideCartProps) {
               </div>
             </header>
 
-
             <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 pb-32">
               {cart.length === 0 ? (
                 <div className="text-center text-gray-500 dark:text-gray-400 space-y-6">
@@ -122,20 +122,22 @@ export default function SideCart({ isOpen, onClose }: SideCartProps) {
                       />
                       <div className="flex-1 min-w-0 space-y-2">
                         <p className="font-semibold text-lg text-gray-900 dark:text-white line-clamp-2">{item.name}</p>
+                        {/* Size Selector showing only available sizes */}
                         <select
                           value={item.selectedSize || ''}
-                          onChange={e => updateSize(item.id, e.target.value, item.selectedSize)}
+                          onChange={e => updateSize(item.id, e.target.value as Size, item.selectedSize)}
                           className="mt-2 w-full text-sm p-2 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 dark:text-gray-100 focus:ring-2 focus:ring-accent-gold-light dark:focus:ring-accent-gold-dark transition"
                         >
                           <option value="" disabled>
                             Select size
                           </option>
-                          {SIZES.map(s => (
+                          {SIZES.filter(s => (item.stock?.[s] ?? 0) > 0).map(s => (
                             <option key={s} value={s}>
                               {s}
                             </option>
                           ))}
                         </select>
+
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-2">
                             <button

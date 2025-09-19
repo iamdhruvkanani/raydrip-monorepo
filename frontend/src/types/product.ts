@@ -1,5 +1,7 @@
 export type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL'
 
+export const SIZES: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+
 export interface Product {
     id: string
     name: string
