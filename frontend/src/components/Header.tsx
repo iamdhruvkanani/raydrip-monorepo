@@ -205,7 +205,7 @@ export default function Header() {
                                                 href={cat.href}
                                                 role="menuitem"
                                                 className={`block px-6 py-3 font-medium whitespace-nowrap ${isActive(cat.href)
-                                                    ? 'text-accent-gold-light dark:text-accent-gold-dark font-semibold'
+                                                    ? 'text-accent-gold-light dark:text-accent-gold-dark font-bold'
                                                     : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark hover:bg-accent-gold-light/[0.07] dark:hover:bg-accent-gold-dark/[0.07]'
                                                     }`}
                                                 onClick={() => setShopOpen(false)}
@@ -269,7 +269,7 @@ export default function Header() {
                                 {isOpen ? (
                                     <X key="close" className="w-6 h-6 text-accent-gold-light dark:text-accent-gold-dark" />
                                 ) : (
-                                    <Menu key="open" className="w-6 h-6 text-accent-gold-light dark:text-accent-gold-dark" />
+                                    <Menu key="open" className="w-6 h-6 text-text-primary-light dark:text-text-primary-dark" />
                                 )}
                             </AnimatePresence>
                         </motion.button>
@@ -342,23 +342,32 @@ export default function Header() {
                                                     transition={{ duration: 0.25, ease: 'easeInOut' }}
                                                     className="pl-4 mt-2 flex flex-col space-y-1 overflow-hidden"
                                                 >
-                                                    {shopCategories.map((cat) => (
-                                                        <Link
-                                                            key={cat.href}
-                                                            href={cat.href}
-                                                            role="menuitem"
-                                                            className={`block py-2 text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark transition-colors duration-300 font-medium ${isActive(cat.href) ? 'text-accent-gold-light dark:text-accent-gold-dark font-semibold' : ''
-                                                                }`}
-                                                            onClick={() => {
-                                                                setIsOpen(false)
-                                                                setMobileShopOpen(false)
-                                                            }}
-                                                        >
-                                                            {cat.label}
-                                                        </Link>
-                                                    ))}
+                                                    {shopCategories.map((cat) => {
+                                                        const active = isActive(cat.href)
+                                                        // console.log('Checking activity:', cat.href, '->', active, 'currentPath:', currentPath);
+
+                                                        return (
+                                                            <Link
+                                                                key={cat.href}
+                                                                href={cat.href}
+                                                                role="menuitem"
+                                                                className={`block py-2 font-medium whitespace-nowrap transition-colors duration-300 ${active
+                                                                    ? 'text-accent-gold-light dark:text-accent-gold-dark font-bold'
+                                                                    : 'text-text-primary-light dark:text-text-primary-dark hover:text-accent-gold-light dark:hover:text-accent-gold-dark hover:bg-accent-gold-light/[0.07] dark:hover:bg-accent-gold-dark/[0.07]'
+                                                                    }`}
+                                                                onClick={() => {
+                                                                    setIsOpen(false)
+                                                                    setMobileShopOpen(false)
+                                                                }}
+                                                            >
+                                                                {cat.label}
+                                                            </Link>
+                                                        )
+                                                    })}
                                                 </motion.div>
                                             )}
+
+
                                         </AnimatePresence>
                                     </div>
                                 </div>
