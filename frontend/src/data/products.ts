@@ -72,7 +72,7 @@ export const PRODUCTS: Product[] = [
             XL: 8,
             XXL: 0,
         },
-        rating: 5
+        // rating: 5
     },
     {
         id: 'p4',
