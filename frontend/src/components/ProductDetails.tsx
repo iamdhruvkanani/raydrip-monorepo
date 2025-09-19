@@ -230,52 +230,73 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
                             {/* Premium Metrics Container */}
                             <div className="flex flex-wrap items-center gap-8">
+                                {/* Ultra-Modern Rating - Conditional */}
+                                {(product.rating && product.rating > 0) ? (
+                                    <div className="flex items-center space-x-4">
+                                        {/* Rating Score with Modern Design */}
+                                        <div className="relative">
+                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-gold-light/20 to-accent-gold-dark/20 dark:from-accent-gold-dark/20 dark:to-accent-gold-light/20 backdrop-blur-sm border border-accent-gold-light/30 dark:border-accent-gold-dark/30 flex items-center justify-center">
+                                                <span className="text-2xl font-bold text-accent-gold-light dark:text-accent-gold-dark">
+                                                    {product.rating.toFixed(1)}
+                                                </span>
+                                            </div>
+                                            {/* Subtle glow effect */}
+                                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent-gold-light/10 to-accent-gold-dark/10 blur-xl -z-10"></div>
+                                        </div>
 
-                                {/* Ultra-Modern Rating */}
-                                <div className="flex items-center space-x-4">
-                                    {/* Rating Score with Modern Design */}
-                                    <div className="relative">
-                                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-gold-light/20 to-accent-gold-dark/20 dark:from-accent-gold-dark/20 dark:to-accent-gold-light/20 backdrop-blur-sm border border-accent-gold-light/30 dark:border-accent-gold-dark/30 flex items-center justify-center">
-                                            <span className="text-2xl font-bold text-accent-gold-light dark:text-accent-gold-dark">
-                                                {(product.rating ?? 0).toFixed(1)}
+                                        {/* Rating Bar Visualization */}
+                                        <div className="flex flex-col space-y-2">
+                                            <div className="flex items-center space-x-2">
+                                                <span className="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark">
+                                                    Customer Rating
+                                                </span>
+                                                <div className="flex space-x-1">
+                                                    {[1, 2, 3, 4, 5].map((star) => (
+                                                        <div
+                                                            key={star}
+                                                            className={`w-2 h-2 rounded-full transition-all duration-300 ${star <= Math.round(product.rating!)
+                                                                    ? 'bg-accent-gold-light dark:bg-accent-gold-dark shadow-sm'
+                                                                    : 'bg-gray-300 dark:bg-gray-600'
+                                                                }`}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            {/* Progress Bar */}
+                                            <div className="w-32 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full bg-gradient-to-r from-accent-gold-light to-accent-gold-dark rounded-full transition-all duration-700 ease-out"
+                                                    style={{ width: `${(product.rating! / 5) * 100}%` }}
+                                                />
+                                            </div>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                                                Based on customer reviews
                                             </span>
                                         </div>
-                                        {/* Subtle glow effect */}
-                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent-gold-light/10 to-accent-gold-dark/10 blur-xl -z-10"></div>
                                     </div>
-
-                                    {/* Rating Bar Visualization */}
-                                    <div className="flex flex-col space-y-2">
-                                        <div className="flex items-center space-x-2">
-                                            <span className="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark">
-                                                Customer Rating
-                                            </span>
-                                            <div className="flex space-x-1">
-                                                {[1, 2, 3, 4, 5].map((star) => (
-                                                    <div
-                                                        key={star}
-                                                        className={`w-2 h-2 rounded-full transition-all duration-300 ${star <= Math.round(product.rating ?? 0)
-                                                            ? 'bg-accent-gold-light dark:bg-accent-gold-dark shadow-sm'
-                                                            : 'bg-gray-300 dark:bg-gray-600'
-                                                            }`}
-                                                    />
-                                                ))}
+                                ) : (
+                                    /* No Rating Yet - Alternative Display */
+                                    <div className="flex items-center space-x-4">
+                                        <div className="relative">
+                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-200/50 to-gray-300/50 dark:from-gray-700/50 dark:to-gray-600/50 backdrop-blur-sm border border-gray-300/30 dark:border-gray-600/30 flex items-center justify-center">
+                                                <span className="text-lg font-medium text-gray-500 dark:text-gray-400">
+                                                    New
+                                                </span>
                                             </div>
                                         </div>
-                                        {/* Progress Bar */}
-                                        <div className="w-32 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                                            <div
-                                                className="h-full bg-gradient-to-r from-accent-gold-light to-accent-gold-dark rounded-full transition-all duration-700 ease-out"
-                                                style={{ width: `${((product.rating ?? 0) / 5) * 100}%` }}
-                                            />
+                                        <div className="flex flex-col space-y-2">
+                                            <span className="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark">
+                                                No Reviews Yet
+                                            </span>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                                                Be the first to review this product
+                                            </span>
                                         </div>
-                                        <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
-                                            Based on customer reviews
-                                        </span>
                                     </div>
-                                </div>
+                                )}
 
-                                {/* Premium Stock Status */}
+
+                                {/* Premium Stock Status - No Inventory Count */}
                                 {(() => {
                                     const totalStock = product.stock ? Object.values(product.stock).reduce((sum, qty) => sum + (qty || 0), 0) : 0
                                     const isOverallInStock = totalStock > 0
@@ -324,18 +345,13 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                                         }`}></div>
                                                 </div>
                                                 <div className="flex flex-col space-y-1">
-                                                    <div className="flex items-center space-x-2">
-                                                        <span className={`text-lg font-bold ${isLowStock
-                                                            ? 'text-yellow-600 dark:text-yellow-400'
-                                                            : 'text-green-600 dark:text-green-400'
-                                                            }`}>
-                                                            {isLowStock ? 'Limited Stock' : 'In Stock'}
-                                                        </span>
-                                                        <span className="px-2 py-1 text-xs font-bold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full">
-                                                            {qty} left
-                                                        </span>
-                                                    </div>
-                                                    {/* Stock level bar */}
+                                                    <span className={`text-lg font-bold ${isLowStock
+                                                        ? 'text-yellow-600 dark:text-yellow-400'
+                                                        : 'text-green-600 dark:text-green-400'
+                                                        }`}>
+                                                        {isLowStock ? 'Limited Stock' : 'In Stock'}
+                                                    </span>
+                                                    {/* Stock level bar - no specific count */}
                                                     <div className="w-24 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                                                         <div
                                                             className={`h-full rounded-full transition-all duration-500 ${isLowStock
