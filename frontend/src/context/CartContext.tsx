@@ -1,6 +1,5 @@
-// context/CartContext.tsx
 'use client'
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { Product } from '@/types/product'
 
 export interface CartItem extends Product {
@@ -22,12 +21,28 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined)
 
 export function CartProvider({ children }: { children: ReactNode }) {
-    const [cart, setCart] = useState<CartItem[]>([])
+    const [cart, setCart] = useState<CartItem[]>(() => {
+        if (typeof window === 'undefined') return []
+        try {
+            const stored = localStorage.getItem('cart')
+            return stored ? JSON.parse(stored) : []
+        } catch {
+            return []
+        }
+    })
+
+    useEffect(() => {
+        try {
+            localStorage.setItem('cart', JSON.stringify(cart))
+        } catch {
+            // ignore write errors
+        }
+    }, [cart])
 
     const addToCart = (product: Product, quantity = 1, size?: string) => {
         setCart((prev) => {
             const existingIndex = prev.findIndex(
-                (item) => item.id === product.id && item.selectedSize === size
+                (item) => item.id === product.id && item.selectedSize === size,
             )
             if (existingIndex >= 0) {
                 const updated = [...prev]
@@ -40,7 +55,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     const removeFromCart = (productId: string, size?: string) => {
         setCart((prev) =>
-            prev.filter((item) => !(item.id === productId && item.selectedSize === size))
+            prev.filter((item) => !(item.id === productId && item.selectedSize === size)),
         )
     }
 
@@ -51,35 +66,30 @@ export function CartProvider({ children }: { children: ReactNode }) {
         }
         setCart((prev) =>
             prev.map((item) =>
-                item.id === productId && item.selectedSize === size ? { ...item, quantity } : item
-            )
+                item.id === productId && item.selectedSize === size ? { ...item, quantity } : item,
+            ),
         )
     }
 
     const updateSize = (productId: string, newSize: string, oldSize?: string) => {
         setCart((prev) => {
-            // Find old item's index
             const indexOld = prev.findIndex(
-                (item) => item.id === productId && item.selectedSize === oldSize
+                (item) => item.id === productId && item.selectedSize === oldSize,
             )
-            if (indexOld === -1) return prev // nothing to update
+            if (indexOld === -1) return prev
 
             const oldItem = prev[indexOld]
-            // Remove old item
             const filtered = prev.filter((_, i) => i !== indexOld)
 
-            // Find if newSize variant exists to merge quantities
             const indexNew = filtered.findIndex(
-                (item) => item.id === productId && item.selectedSize === newSize
+                (item) => item.id === productId && item.selectedSize === newSize,
             )
 
             if (indexNew >= 0) {
-                // Create new array immutably, updating merged quantity
                 return filtered.map((item, idx) =>
-                    idx === indexNew ? { ...item, quantity: item.quantity + oldItem.quantity } : item
+                    idx === indexNew ? { ...item, quantity: item.quantity + oldItem.quantity } : item,
                 )
             } else {
-                // Add new item with updated size, keep rest
                 return [...filtered, { ...oldItem, selectedSize: newSize }]
             }
         })

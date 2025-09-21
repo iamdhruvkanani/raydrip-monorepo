@@ -247,7 +247,7 @@ export default function Header() {
                             type="button"
                         >
                             <ShoppingCart size={20} />
-                            {totalItems > 0 && (
+                            {mounted && totalItems > 0 && (
                                 <span
                                     className="absolute -top-2 -right-2 bg-red-600 text-white text-xs min-w-[18px] min-h-[18px] leading-[18px] px-1.5 rounded-full font-semibold text-center select-none"
                                     aria-live="polite"
