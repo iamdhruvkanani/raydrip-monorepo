@@ -36,9 +36,9 @@ export default function RootLayout({
           <CartProvider>
 
             <div className="pt-[5.5rem] min-h-screen bg-bg-light dark:bg-bg-dark text-text-primary-light dark:text-text-primary-dark transition-colors duration-300">
-
-              <Header />
               {children}
+              <Header />
+
               <Footer />
               {/*Toaster at the root for toast notifications */}
               <Toaster

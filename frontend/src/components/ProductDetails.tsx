@@ -20,7 +20,6 @@ import {
     Package,
     PencilRuler,
     X,
-    Lock,
     ShieldUser,
     Handshake,
     WashingMachine,

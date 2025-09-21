@@ -1,11 +1,14 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Trash2, ShoppingBag, AlertTriangle, Plus, Minus } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 import Link from 'next/link'
 import type { Size } from '@/types/product'
+import { toast } from 'react-hot-toast'
+import ConfirmModal from '@/components/ConfirmModal'
+
 
 const SIZES: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
 
@@ -17,8 +20,16 @@ interface SideCartProps {
 export default function SideCart({ isOpen, onClose }: SideCartProps) {
   const { cart, removeFromCart, updateQuantity, updateSize, clear, totalItems, totalPrice } = useCart()
 
-  const handleClearAll = () => {
-    if (confirm('Clear all items?')) clear()
+
+  const [showConfirm, setShowConfirm] = useState(false)
+
+  const openConfirm = () => setShowConfirm(true)
+  const closeConfirm = () => setShowConfirm(false)
+
+  const handleClearConfirmed = () => {
+    clear() // your clear cart action
+    closeConfirm()
+    toast.success('Cart cleared!', { duration: 1000, position: 'top-center' })
   }
 
   return (
@@ -63,12 +74,21 @@ export default function SideCart({ isOpen, onClose }: SideCartProps) {
               <div className="flex items-center space-x-2">
                 {cart.length > 0 && (
                   <button
-                    onClick={handleClearAll}
+                    onClick={openConfirm}
                     className="text-sm text-error-light dark:text-error-dark hover:underline"
                   >
                     Clear All
                   </button>
                 )}
+
+                <ConfirmModal
+                  isOpen={showConfirm}
+                  message="Are you sure you want to clear all items from the cart?"
+                  onConfirm={handleClearConfirmed}
+                  onCancel={closeConfirm}
+                />
+
+
                 <button
                   onClick={onClose}
                   aria-label="Close"
