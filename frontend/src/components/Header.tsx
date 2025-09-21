@@ -93,8 +93,9 @@ export default function Header() {
 
             <motion.header
                 initial={{ y: -100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
+                animate={mounted ? { y: 0, opacity: 1 } : { y: -100, opacity: 0 }}
                 transition={{ duration: 0.8, ease: 'easeOut' }}
+
                 className={`fixed top-0 w-full z-50 left-0 bg-bg-light/80 dark:bg-bg-dark/80 backdrop-blur-xl border-b border-accent-gold-light/20 dark:border-accent-gold-dark/20 transition-all duration-300 ${isShrunk ? 'py-1.5 shadow-lg' : 'py-3'}`}
             // className={`fixed w-full z-50 top-0 left-0 bg-bg-light/80 dark:bg-bg-dark/80 backdrop-blur-xl border-b border-accent-gold-light/20 dark:border-accent-gold-dark/20 transition-all duration-300 ${isShrunk ? 'py-1.5 shadow-lg' : 'py-3'}`}
             >
