@@ -23,7 +23,8 @@ import {
     Lock,
     ShieldUser,
     Handshake,
-    WashingMachine
+    WashingMachine,
+    Slash
 
 } from 'lucide-react'
 import { Product, Size } from '@/types/product'
@@ -476,7 +477,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             shadow-[0_0_6px_rgba(255,207,64,0.8)]
           "
                                                 >
-                                                    <Lock />
+                                                    <Minus />
                                                 </span>
                                             )}
                                         </button>
