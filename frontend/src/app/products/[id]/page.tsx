@@ -84,7 +84,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
                     key="product-jsonld"
                 />
             </Head>
-            <ProductDetails product={product} />
+            <ProductDetails product={product} allProducts={PRODUCTS} />
         </>
     );
 }

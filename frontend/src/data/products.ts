@@ -18,7 +18,7 @@ export const PRODUCTS: Product[] = [
         isBestSeller: false,
         isNewArrival: false,
         category: 'shop',
-        subCategory: ['Floral Kurtis'],
+        subCategory: ['Floral Kurtis', 'Backless Kurtis'],
         stock: {
             XS: 0,
             S: 0,
@@ -63,7 +63,7 @@ export const PRODUCTS: Product[] = [
         isBestSeller: false,
         isNewArrival: true,
         category: 'shop',
-        subCategory: ['Full Sleeves Short Kurtis'],
+        subCategory: ['Full Sleeves Short Kurtis', 'Backless Kurtis'],
         stock: {
             XS: 2,
             S: 8,
@@ -83,7 +83,7 @@ export const PRODUCTS: Product[] = [
         isBestSeller: true,
         isNewArrival: false,
         category: 'shop',
-        subCategory: ['Bell Sleeves Kurtis', 'Halter Neck Kurtis'],
+        subCategory: ['Bell Sleeves Kurtis', 'Halter Neck Kurtis', 'Backless Kurtis'],
         stock: {
             XS: 5,
             S: 10,

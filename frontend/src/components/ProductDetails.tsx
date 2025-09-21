@@ -5,6 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { SizeModal } from '@/components/SizeModal'
+
+import RelatedProductsCarousel from '@/components/RelatedProductsCarousel'
+
 import {
     Heart,
     Share2,
@@ -33,6 +36,7 @@ import { getProductBadge } from '@/data/products'
 
 interface ProductDetailsProps {
     product: Product
+    allProducts: Product[]
 }
 
 const containerVariants = {
@@ -53,7 +57,27 @@ const itemVariants = {
 }
 const availableSizes: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
 
-export default function ProductDetails({ product }: ProductDetailsProps) {
+export default function ProductDetails({ product, allProducts }: ProductDetailsProps) {
+
+    const relatedProducts = allProducts.filter(
+        (p) => {
+            // Handle string array for subCategory
+            const productSubCategories = Array.isArray(product.subCategory)
+                ? product.subCategory
+                : [product.subCategory]
+            const pSubCategories = Array.isArray(p.subCategory)
+                ? p.subCategory
+                : [p.subCategory]
+
+            return productSubCategories.some(subCat =>
+                pSubCategories.some(pSubCat =>
+                    pSubCat?.toLowerCase().trim() === subCat?.toLowerCase().trim()
+                )
+            ) && p.id !== product.id
+        }
+    )
+
+
     const [isSizeOpen, setIsSizeOpen] = useState(false)
     const [selectedImageIndex, setSelectedImageIndex] = useState(0)
     const badgeText = getProductBadge(product)
@@ -562,6 +586,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 <span className="text-text-secondary-light dark:text-text-secondary-dark">Secure Payment</span>
                             </div>
                         </div>
+
+
                     </motion.div>
 
                     {/* Product Details Tabs */}
@@ -667,8 +693,19 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                                 )}
                             </motion.div>
                         </AnimatePresence>
+
                     </motion.div>
+
+
                 </div>
+
+
+                {relatedProducts.length > 0 && (
+                    <RelatedProductsCarousel
+                        products={relatedProducts}
+                        title="You Might Also Like"
+                    />
+                )}
             </div>
         </motion.div>
     )
