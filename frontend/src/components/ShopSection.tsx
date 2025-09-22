@@ -216,26 +216,43 @@ export default function ShopSection({ selectedSubCategory }: ShopSectionProps) {
                             <Filter className="w-4 h-4 text-gray-500" />
                             <select
                                 onChange={(e) => {
-                                    const val = e.target.value
-                                    setPriceRange(val === 'all' ? [0, Infinity] : val === '0-500' ? [0, 500] : val === '500-1000' ? [500, 1000] : [1000, Infinity])
-                                    setPage(1)
+                                    const val = e.target.value;
+                                    setPriceRange(
+                                        val === 'all'
+                                            ? [0, Infinity]
+                                            : val === '0-1000'
+                                                ? [0, 1000]
+                                                : val === '1000-1500'
+                                                    ? [1000, 1500]
+                                                    : val === '1500-2000'
+                                                        ? [1500, 2000]
+                                                        : [2000, Infinity]
+                                    );
+                                    setPage(1);
                                 }}
-                                className="bg-white dark:bg-transparent border border-gray-200 dark:border-gray-600 rounded-lg ..."
-
+                                className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-2 py-1 text-xs md:text-sm text-black dark:text-white focus:border-accent-gold-light"
                             >
                                 <option value="all">All Prices</option>
-                                <option value="0-500">₹0–₹500</option>
-                                <option value="500-1000">₹500–₹1000</option>
-                                <option value="1000+">₹1000+</option>
+                                <option value="0-1000">₹0–₹1000</option>
+                                <option value="1000-1500">₹1000–₹1500</option>
+                                <option value="1500-2000">₹1500–₹2000</option>
+                                <option value="2000+">₹2000+</option>
                             </select>
                         </div>
                         <button
                             onClick={() => setSortBy(sortBy === 'priceAsc' ? 'priceDesc' : sortBy === 'priceDesc' ? 'rating' : 'priceAsc')}
                             className="p-2 bg-gray-100 dark:bg-gray-700 hover:bg-accent-gold-light hover:text-white rounded-lg transition-all"
                         >
-                            {sortBy === 'priceAsc' ? <SortAsc className="w-4 h-4" /> : sortBy === 'priceDesc' ? <SortDesc className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
+                            {sortBy === 'priceAsc' ? (
+                                <SortAsc className="w-4 h-4" />
+                            ) : sortBy === 'priceDesc' ? (
+                                <SortDesc className="w-4 h-4" />
+                            ) : (
+                                <ChevronUp className="w-4 h-4" />
+                            )}
                         </button>
                     </div>
+
                 </div>
             </motion.div>
             {/* Product grid */}
