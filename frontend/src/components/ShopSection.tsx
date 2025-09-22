@@ -170,6 +170,7 @@ export default function ShopSection({ selectedSubCategory }: ShopSectionProps) {
                                     setSearchActive(true)
                                 }}
                                 onFocus={() => setSearchActive(true)}
+                                style={{ fontSize: isMobile ? '16px' : '14px' }}
                                 className="w-full pl-10 pr-10 py-3 md:py-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm md:text-base focus:border-accent-gold-light focus:ring-1 focus:ring-accent-gold-light/20 transition-all"
                             />
                             {searchTerm && (
