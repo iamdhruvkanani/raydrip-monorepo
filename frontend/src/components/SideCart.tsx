@@ -29,7 +29,9 @@ export default function SideCart({ isOpen, onClose }: SideCartProps) {
   const handleClearConfirmed = () => {
     clear() // your clear cart action
     closeConfirm()
-    toast.success('Cart cleared!', { duration: 1000, position: 'top-center' })
+    toast.success('Cart cleared!')
+    // toast.error('There was a problem with your cart!')
+
   }
 
   return (

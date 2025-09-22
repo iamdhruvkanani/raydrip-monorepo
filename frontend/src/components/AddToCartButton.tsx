@@ -3,7 +3,6 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { ShoppingBag } from 'lucide-react'
 import { Product } from '@/types/product'
-import { useCart } from '@/context/CartContext'
 
 interface AddToCartButtonProps {
     product: Product
@@ -20,13 +19,10 @@ export default function AddToCartButton({
     className = '',
     disabled = false,
 }: AddToCartButtonProps) {
-    const { addToCart } = useCart()
-
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         e.stopPropagation()
         if (disabled) return
-        addToCart(product, quantity)
         if (onClick) onClick(e)
     }
 

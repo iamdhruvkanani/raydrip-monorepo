@@ -108,28 +108,13 @@ export default function ProductDetails({ product, allProducts }: ProductDetailsP
         }
         addToCart(product, quantity, selectedSize)
         toast.success(
-            <div className="flex items-center space-x-2">
+            <div>
                 <span className="font-semibold text-white">{product.name}</span>
-                <span className="font-bold text-white drop-shadow-md">added to cart!</span>
-            </div>,
-            {
-                duration: 1000,
-                style: {
-                    background: 'linear-gradient(90deg, #D4AF37, #FFD700)',
-                    color: '#fff',
-                    borderRadius: '12px',
-                    boxShadow: '0 4px 14px rgba(212, 175, 55, 0.5)',
-                    padding: '12px 20px',
-                    fontWeight: 600,
-                    fontSize: 16,
-                    maxWidth: 360,
-                },
-                iconTheme: {
-                    primary: '#fff',
-                    secondary: '#FFD700',
-                },
-            }
-        )
+                <span className="ml-2 font-bold text-white">added to cart!</span>
+                {/* <div className="text-xs text-yellow-300 mt-1">Select size in cart before checkout.</div> */}
+            </div>
+        );
+
     }
 
     const handleBuyNow = () => {

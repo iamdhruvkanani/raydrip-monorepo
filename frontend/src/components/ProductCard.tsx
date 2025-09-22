@@ -4,19 +4,20 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useScrollAnimation } from '@/hooks/useScrollAnimations'
 import Image from 'next/image'
-import { Product } from '@/types/product'
+import { Product, Size } from '@/types/product'
 import AddCartButton from '@/components/AddToCartButton'
 import toast from 'react-hot-toast'
 import { getProductBadge } from '@/data/products'
+import { useCart } from '@/context/CartContext'
 
 interface Props {
     product: Product
 }
 
 const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
+    const { addToCart } = useCart();
 
-
-
+    // Check if any size is available
     const hasStock =
         product.stock &&
         Object.values(product.stock).some((qty) => (qty ?? 0) > 0);
@@ -36,40 +37,34 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
 
     const getSalePrice = () => {
         if (product.isOnSale && product.originalPrice && product.salePercentage) {
-            const orig = parseFloat(product.originalPrice.replace('₹', '').replace(/,/g, ''))
-            const salePrice = orig * (1 - product.salePercentage / 100)
-            return salePrice.toLocaleString()
-
+            const orig = parseFloat(product.originalPrice.replace('₹', '').replace(/,/g, ''));
+            const salePrice = orig * (1 - product.salePercentage / 100);
+            return salePrice.toLocaleString();
         }
-        return product.price
-    }
+        return product.price;
+    };
 
-    const handleAddCart = () => {
+    // Handle all add-to-cart logic and toast here!
+    const handleAddCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (!hasStock) {
+            toast.error(
+                <span>
+                    <strong>{product.name}</strong> is out of stock.
+                </span>
+            );
+            return;
+        }
+        addToCart(product, 1, undefined); // Size will be chosen in side cart
         toast.success(
-            <div className="flex items-center space-x-2">
+            <div>
                 <span className="font-semibold text-white">{product.name}</span>
-                <span className="font-bold text-white drop-shadow-md">added to cart!</span>
-            </div>,
-            {
-                duration: 1000,
-                position: 'top-center',
-                style: {
-                    background: 'linear-gradient(90deg, #D4AF37, #FFD700)',
-                    color: '#fff',
-                    borderRadius: '12px',
-                    boxShadow: '0 4px 14px rgba(212, 175, 55, 0.5)',
-                    padding: '12px 20px',
-                    fontWeight: 600,
-                    fontSize: 16,
-                    maxWidth: 360,
-                },
-                iconTheme: {
-                    primary: '#fff',
-                    secondary: '#FFD700',
-                },
-            }
-        )
-    }
+                <span className="ml-2 font-bold text-white">added to cart!</span>
+                <div className="text-xs text-yellow-300 mt-1">Select size in cart before checkout</div>
+            </div>
+        );
+    };
 
     return (
         <Link
@@ -131,16 +126,13 @@ const ProductCard = forwardRef<HTMLDivElement, Props>(({ product }, ref) => {
                             <span className="font-semibold text-gray-900 dark:text-white text-lg">₹{product.price}</span>
                         )}
                     </div>
-
                     <AddCartButton
                         product={product}
                         quantity={1}
                         onClick={handleAddCart}
                         className="mt-auto"
                         disabled={!hasStock}
-                    // stockStatus={hasStock ? 'ADD' : 'OUT_OF_STOCK'}
                     />
-
                 </div>
             </motion.article>
         </Link>

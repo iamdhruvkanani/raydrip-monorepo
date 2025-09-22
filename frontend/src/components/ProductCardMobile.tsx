@@ -1,18 +1,26 @@
-// components/ProductCardMobile.tsx
 'use client'
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Product } from '@/types/product'
+import { Product, Size } from '@/types/product'
 import AddCartButton from '@/components/AddToCartButton'
 import toast from 'react-hot-toast'
 import { getProductBadge } from '@/data/products'
+import { useCart } from '@/context/CartContext'
 
 interface Props {
     product: Product
 }
 
 export default function ProductCardMobile({ product }: Props) {
+    const badgeText = getProductBadge(product)
+    const { addToCart } = useCart();
+
+    // Check if ANY size is available
+    const hasStock =
+        product.stock &&
+        Object.values(product.stock).some((qty) => (qty ?? 0) > 0);
+
     const getSalePrice = () => {
         if (product.isOnSale && product.originalPrice && product.salePercentage) {
             const orig = parseFloat(product.originalPrice.replace('₹', '').replace(/,/g, ''))
@@ -22,40 +30,29 @@ export default function ProductCardMobile({ product }: Props) {
         return product.price
     }
 
-    const badgeText = getProductBadge(product)
+    const handleAddCart = (e: React.MouseEvent) => {
+        // Prevent both bubbling and navigation
+        e.preventDefault();
+        e.stopPropagation();
 
-
-
-    const hasStock =
-        product.stock &&
-        Object.values(product.stock).some((qty) => (qty ?? 0) > 0);
-
-    const handleAddCart = () => {
+        if (!hasStock) {
+            toast.error(
+                <span>
+                    <strong>{product.name}</strong> is out of stock.
+                </span>
+            );
+            return;
+        }
+        addToCart(product, 1, undefined);
         toast.success(
-            <div className="flex items-center space-x-2">
+            <div>
                 <span className="font-semibold text-white">{product.name}</span>
-                <span className="font-bold text-white drop-shadow-md">added to cart!</span>
-            </div>,
-            {
-                duration: 1000,
-                position: 'top-center',
-                style: {
-                    background: 'linear-gradient(90deg, #D4AF37, #FFD700)',
-                    color: '#fff',
-                    borderRadius: '12px',
-                    boxShadow: '0 4px 14px rgba(212, 175, 55, 0.5)',
-                    padding: '12px 20px',
-                    fontWeight: 600,
-                    fontSize: 16,
-                    maxWidth: 360,
-                },
-                iconTheme: {
-                    primary: '#fff',
-                    secondary: '#FFD700',
-                },
-            },
-        )
-    }
+                <span className="ml-2 font-bold text-white">added to cart!</span>
+                <div className="text-xs text-yellow-300 mt-1">Select size in cart before checkout</div>
+            </div>
+        );
+    };
+
 
     return (
         <Link
@@ -66,14 +63,13 @@ export default function ProductCardMobile({ product }: Props) {
         >
             <article className="group rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md flex flex-col overflow-hidden h-[380px]">
                 <div className="relative w-full h-[220px] bg-gray-100 dark:bg-gray-800 overflow-hidden rounded-t-lg flex items-center justify-center">
-                    {/* Sale and badge logic */}
                     {product.isOnSale && (
                         <span className="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-0.5 rounded font-bold select-none z-10">
                             -{product.salePercentage}%
                         </span>
                     )}
                     {badgeText && (
-                        <span className="absolute top-2 right-2 bg-yellow-400 text-white text-xs px-2 py-0.5 rounded font-semibold z-10 select-none">
+                        <span className="absolute bottom-2 left-2 bg-yellow-400 text-white text-xs px-2 py-0.5 rounded font-semibold z-10 select-none">
                             {badgeText}
                         </span>
                     )}
@@ -85,7 +81,6 @@ export default function ProductCardMobile({ product }: Props) {
                         priority={false}
                         className="object-contain p-1 sm:p-2 transition-transform scale-100 duration-500 group-hover:scale-105"
                     />
-
                 </div>
                 <div className="p-3 flex flex-col flex-grow">
                     <h3 className="font-semibold text-base line-clamp-2 mb-1 text-gray-900 dark:text-white">
@@ -103,10 +98,12 @@ export default function ProductCardMobile({ product }: Props) {
                     </div>
                     <AddCartButton
                         product={product}
+                        quantity={1}
                         onClick={handleAddCart}
                         className="mt-auto"
                         disabled={!hasStock}
                     />
+
                 </div>
             </article>
         </Link>
