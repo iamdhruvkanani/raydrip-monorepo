@@ -188,7 +188,7 @@ export default function ShopSection({ selectedSubCategory }: ShopSectionProps) {
                                             <Link key={p.id} href={`/products/${p.id}`} className="block">
                                                 <div className="flex items-center p-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 border-b border-gray-100 dark:border-gray-700 last:border-0">
                                                     <div className="relative w-12 h-12 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
-                                                        <Image src={p.imageUrl?.[0] || '/placeholder-image.png'} alt={p.name} fill className="object-cover" sizes="48px" />
+                                                        <Image src={p.imageUrl?.[0] || '/placeholder-image.png'} alt={p.name} fill className="object-contain " sizes="48px" />
                                                     </div>
                                                     <div className="flex-1 ml-3 min-w-0">
                                                         <h4 className="font-medium text-gray-900 dark:text-white text-sm truncate">{highlightSearch(p.name, searchTerm)}</h4>
