@@ -220,7 +220,8 @@ export default function ShopSection({ selectedSubCategory }: ShopSectionProps) {
                                     setPriceRange(val === 'all' ? [0, Infinity] : val === '0-500' ? [0, 500] : val === '500-1000' ? [500, 1000] : [1000, Infinity])
                                     setPage(1)
                                 }}
-                                className="bg-transparent border border-gray-200 dark:border-gray-600 rounded-lg px-2 py-1 text-xs md:text-sm focus:border-accent-gold-light"
+                                className="bg-white dark:bg-transparent border border-gray-200 dark:border-gray-600 rounded-lg ..."
+
                             >
                                 <option value="all">All Prices</option>
                                 <option value="0-500">₹0–₹500</option>
