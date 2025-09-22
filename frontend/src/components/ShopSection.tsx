@@ -252,6 +252,7 @@ export default function ShopSection({ selectedSubCategory }: ShopSectionProps) {
                 </AnimatePresence>
             </motion.div>
             <div ref={loaderRef} className="h-8"></div>
+
             <motion.button
                 onClick={scrollToTop}
                 className="fixed bottom-4 right-4 md:bottom-8 md:right-8 p-3 md:p-4 bg-gradient-to-r from-accent-gold-light to-accent-gold-dark text-white rounded-xl shadow-lg transform hover:scale-110 transition-all z-40"
