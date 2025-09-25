@@ -1,6 +1,8 @@
 'use client'
-
 import React, { useState, useRef, useEffect } from 'react'
+import Link from 'next/link'
+
+
 import { motion, AnimatePresence } from 'framer-motion'
 import toast from 'react-hot-toast'
 import {
@@ -21,11 +23,14 @@ import {
     Check,
     X
 } from 'lucide-react'
+import { useAuth } from '@/context/AuthContext'
+
+
 
 export default function ProfilePage() {
     const [activeTab, setActiveTab] = useState<'profile' | 'password' | 'addresses' | 'orders' | 'wishlist'>('profile')
     const [isMobile, setIsMobile] = useState(false)
-
+    const { user } = useAuth()
     // Profile states
     const [name, setName] = useState('')
     const [email, setEmail] = useState('user@example.com')
@@ -555,29 +560,60 @@ export default function ProfilePage() {
                             )}
 
                             {/* Other tabs with enhanced coming soon */}
-                            {['addresses', 'orders', 'wishlist'].includes(activeTab) && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    className="text-center py-16 lg:py-20"
-                                >
-                                    <div className="max-w-md mx-auto">
-                                        <div className="w-16 h-16 lg:w-20 lg:h-20 mx-auto mb-4 lg:mb-6 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-2xl">
-                                            {React.createElement(tabs.find(tab => tab.id === activeTab)?.icon || User, { className: "w-8 h-8 lg:w-10 lg:h-10 text-white" })}
+
+                            {activeTab === 'orders' ? (
+                                <section className="mt-8">
+                                    <h3 className="text-xl font-semibold mb-4">Your Orders</h3>
+                                    {user?.orders && user.orders.length > 0 ? (
+                                        <div className="space-y-4">
+                                            {user.orders.map(order => (
+                                                <div key={order.id} className="border rounded-xl p-4">
+                                                    <div className="flex justify-between items-start mb-2">
+                                                        <div>
+                                                            <p className="font-semibold">Order #{order.id.slice(-8)}</p>
+                                                            <p className="text-sm text-gray-600">
+                                                                {new Date(order.placedAt).toLocaleDateString()}
+                                                            </p>
+                                                        </div>
+                                                        <p className="font-bold">₹{order.totalPrice.toFixed(2)}</p>
+                                                    </div>
+                                                    <div className="text-sm">
+                                                        {order.cart.map((item, i) => (
+                                                            <p key={i}>• {item.name} (Size: {item.selectedSize}) x{item.quantity}</p>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
-                                        <h3 className="text-xl lg:text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2 lg:mb-4">
-                                            {tabs.find(tab => tab.id === activeTab)?.label}
-                                        </h3>
-                                        <p className="text-slate-600 dark:text-slate-400 mb-6 lg:mb-8 text-sm lg:text-base">
-                                            This feature is coming soon! We're working hard to bring you an amazing experience.
-                                        </p>
-                                        <div className="bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-xl p-4 lg:p-6 border border-yellow-200/50 dark:border-yellow-800/30">
-                                            <p className="text-xs lg:text-sm text-slate-600 dark:text-slate-400">
-                                                Want to be notified when this feature launches? We'll send you an email as soon as it's ready.
+                                    ) : (
+                                        <p>No orders yet. <Link href="/shop" className="text-blue-600 hover:underline">Start shopping</Link></p>
+                                    )}
+                                </section>
+                            ) : (
+                                ['addresses', 'wishlist'].includes(activeTab) && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="text-center py-16 lg:py-20"
+                                    >
+                                        <div className="max-w-md mx-auto">
+                                            <div className="w-16 h-16 lg:w-20 lg:h-20 mx-auto mb-4 lg:mb-6 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-2xl">
+                                                {React.createElement(tabs.find(tab => tab.id === activeTab)?.icon || User, { className: "w-8 h-8 lg:w-10 lg:h-10 text-white" })}
+                                            </div>
+                                            <h3 className="text-xl lg:text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2 lg:mb-4">
+                                                {tabs.find(tab => tab.id === activeTab)?.label}
+                                            </h3>
+                                            <p className="text-slate-600 dark:text-slate-400 mb-6 lg:mb-8 text-sm lg:text-base">
+                                                This feature is coming soon! We're working hard to bring you an amazing experience.
                                             </p>
+                                            <div className="bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-xl p-4 lg:p-6 border border-yellow-200/50 dark:border-yellow-800/30">
+                                                <p className="text-xs lg:text-sm text-slate-600 dark:text-slate-400">
+                                                    Want to be notified when this feature launches? We'll send you an email as soon as it's ready.
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </motion.div>
+                                    </motion.div>
+                                )
                             )}
                         </motion.main>
                     </div>

@@ -20,7 +20,15 @@ export interface Product {
     isBestSeller: boolean
     isNewArrival: boolean
 
-    // Stock keyed by defined size literals
+    /** Stock keyed by defined size literals */
     stock?: Partial<Record<Size, number>>
     rating?: number
+
+    // --- Audit/Tracking ---
+    createdAt?: string | Date
+    updatedAt?: string | Date
+
+    // --- Status & Admin ---
+    isActive?: boolean       // Whether product is live/active (soft delete support)
+    sku?: string             // Inventory management/SKU code
 }

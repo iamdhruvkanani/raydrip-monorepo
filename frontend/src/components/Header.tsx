@@ -14,7 +14,10 @@ import { useRouter } from 'next/navigation'
 
 import AccountDropdown from '@/components/AccountDropdown'
 
+
+
 export default function Header() {
+
     const [isOpen, setIsOpen] = useState(false)
     const [mounted, setMounted] = useState(false)
     const [isShrunk, setIsShrunk] = useState(false)
@@ -235,7 +238,7 @@ export default function Header() {
                         )}
 
                         {/* Account Icon */}
-                        <AccountDropdown onLogout={() => router.push('/login')} />
+                        <AccountDropdown onLogout={() => router.push('/auth')} />
 
 
 
