@@ -189,107 +189,136 @@ export default function HomePageClient() {
                 </ProductCarousel>
 
                 {/* Reel Section */}
-
                 {/* Improved Reel Section */}
-                <section className="relative bg-gradient-to-br from-accent-gold-light/20 via-surface-light to-accent-gold-light/10 dark:from-accent-gold-dark/20 dark:via-surface-dark dark:to-accent-gold-dark/10 py-20 px-6 md:px-12 overflow-hidden">
-                    {/* Background decorative elements */}
-                    <div className="absolute inset-0 opacity-10 dark:opacity-5">
-                        <div className="absolute top-10 left-10 w-32 h-32 bg-accent-gold-light dark:bg-accent-gold-dark rounded-full blur-3xl"></div>
-                        <div className="absolute bottom-10 right-10 w-40 h-40 bg-accent-gold-light dark:bg-accent-gold-dark rounded-full blur-3xl"></div>
-                    </div>
-
-                    <div className="relative max-w-7xl mx-auto">
-                        {/* Header Section */}
+                <section className="bg-surface-light dark:bg-surface-dark py-20 px-6 md:px-12">
+                    <div className="max-w-6xl mx-auto">
+                        {/* Header Section - Matching your other sections */}
                         <div className="text-center mb-16">
-                            <div className="inline-flex items-center justify-center w-16 h-16 bg-accent-gold-light dark:bg-accent-gold-dark rounded-full mb-6">
-                                <svg className="w-8 h-8 text-text-primary-light dark:text-text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1a3 3 0 000-6h-1m2 6h1a3 3 0 100-6h-1m-2 6v6m0-6V4" />
-                                </svg>
-                            </div>
-                            <h3 className="text-4xl sm:text-5xl md:text-6xl font-serif font-extrabold text-text-primary-light dark:text-text-primary-dark mb-6 leading-tight">
+                            <h3 className="text-4xl font-serif font-bold text-text-primary-light dark:text-text-primary-dark mb-8">
                                 Style Tutorial
                             </h3>
-                            <div className="w-24 h-1 bg-accent-gold-light dark:bg-accent-gold-dark mx-auto mb-6 rounded-full"></div>
-                            <h4 className="text-2xl sm:text-3xl md:text-4xl font-serif font-semibold text-accent-gold-light dark:text-accent-gold-dark mb-4">
+                            <h4 className="text-2xl sm:text-3xl font-serif font-semibold text-accent-gold-light dark:text-accent-gold-dark mb-6">
                                 How to Tie a Stylish Kurti Knot
                             </h4>
-                            <p className="text-lg md:text-xl max-w-3xl mx-auto text-text-secondary-light dark:text-text-secondary-dark leading-relaxed">
+                            <p className="text-lg md:text-xl max-w-4xl mx-auto text-text-secondary-light dark:text-text-secondary-dark leading-relaxed">
                                 Master the art of tying a kurti knot with our exclusive step-by-step tutorial.
-                                <span className="text-accent-gold-light dark:text-accent-gold-dark font-semibold"> Elevate your ethnic style</span> and make every moment count.
+                                <span className="text-accent-gold-light dark:text-accent-gold-dark font-semibold"> Elevate your ethnic style</span> and make every moment count with RayDrip.
                             </p>
                         </div>
 
                         {/* Content Grid */}
-                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        <div className="grid lg:grid-cols-2 gap-16 items-start">
                             {/* Instagram Reel */}
                             <div className="order-2 lg:order-1">
-                                <div className="relative bg-white dark:bg-surface-dark rounded-2xl p-6 shadow-2xl border border-accent-gold-light/20 dark:border-accent-gold-dark/20">
-                                    <div className="absolute -top-3 -left-3 w-6 h-6 bg-accent-gold-light dark:bg-accent-gold-dark rounded-full"></div>
-                                    <div className="absolute -top-3 -right-3 w-6 h-6 bg-accent-gold-light dark:bg-accent-gold-dark rounded-full"></div>
-                                    <div className="absolute -bottom-3 -left-3 w-6 h-6 bg-accent-gold-light dark:bg-accent-gold-dark rounded-full"></div>
-                                    <div className="absolute -bottom-3 -right-3 w-6 h-6 bg-accent-gold-light dark:bg-accent-gold-dark rounded-full"></div>
-
-                                    <div className="instagram-reel-embed">
-                                        <blockquote
-                                            className="instagram-media"
-                                            data-instgrm-permalink="https://www.instagram.com/reel/DOfi57MCdE1/"
-                                            data-instgrm-version="14"
-                                            style={{
-                                                background: 'transparent',
-                                                borderRadius: '12px',
-                                                margin: '0 auto',
-                                                maxWidth: '540px',
-                                                width: '100%',
-                                                minHeight: '400px'
-                                            }}
-                                        ></blockquote>
+                                <div className="relative group">
+                                    <div className="absolute -inset-1 bg-gradient-to-r from-accent-gold-light to-accent-gold-dark dark:from-accent-gold-dark dark:to-accent-gold-light rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                                    <div className="relative bg-bg-light dark:bg-bg-dark rounded-2xl p-6 shadow-2xl">
+                                        <div className="instagram-reel-embed">
+                                            <blockquote
+                                                className="instagram-media"
+                                                data-instgrm-permalink="https://www.instagram.com/reel/DOfi57MCdE1/"
+                                                data-instgrm-version="14"
+                                                style={{
+                                                    background: 'transparent',
+                                                    borderRadius: '12px',
+                                                    margin: '0 auto',
+                                                    maxWidth: '540px',
+                                                    width: '100%',
+                                                    minHeight: '400px'
+                                                }}
+                                            ></blockquote>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Feature List */}
-                            <div className="order-1 lg:order-2 space-y-6">
-                                <div className="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-lg border border-accent-gold-light/20 dark:border-accent-gold-dark/20">
-                                    <div className="flex items-center mb-3">
-                                        <div className="w-3 h-3 bg-accent-gold-light dark:bg-accent-gold-dark rounded-full mr-3"></div>
-                                        <h5 className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark">Easy to Follow</h5>
+                            <div className="order-1 lg:order-2 space-y-8">
+                                <div className="space-y-6">
+                                    <div className="flex items-start space-x-4">
+                                        <div className="flex-shrink-0 w-8 h-8 bg-accent-gold-light dark:bg-accent-gold-dark rounded-full flex items-center justify-center">
+                                            <span className="text-sm font-bold text-text-primary-light dark:text-text-primary-dark">1</span>
+                                        </div>
+                                        <div>
+                                            <h5 className="text-xl font-semibold text-text-primary-light dark:text-text-primary-dark mb-2">Easy to Follow</h5>
+                                            <p className="text-text-secondary-light dark:text-text-secondary-dark leading-relaxed">
+                                                Step-by-step instructions perfect for beginners and fashion enthusiasts alike.
+                                            </p>
+                                        </div>
                                     </div>
-                                    <p className="text-text-secondary-light dark:text-text-secondary-dark">Step-by-step instructions perfect for beginners</p>
-                                </div>
 
-                                <div className="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-lg border border-accent-gold-light/20 dark:border-accent-gold-dark/20">
-                                    <div className="flex items-center mb-3">
-                                        <div className="w-3 h-3 bg-accent-gold-light dark:bg-accent-gold-dark rounded-full mr-3"></div>
-                                        <h5 className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark">Professional Styling</h5>
+                                    <div className="flex items-start space-x-4">
+                                        <div className="flex-shrink-0 w-8 h-8 bg-accent-gold-light dark:bg-accent-gold-dark rounded-full flex items-center justify-center">
+                                            <span className="text-sm font-bold text-text-primary-light dark:text-text-primary-dark">2</span>
+                                        </div>
+                                        <div>
+                                            <h5 className="text-xl font-semibold text-text-primary-light dark:text-text-primary-dark mb-2">Professional Styling</h5>
+                                            <p className="text-text-secondary-light dark:text-text-secondary-dark leading-relaxed">
+                                                Get that perfect ethnic look every time with expert techniques and tips.
+                                            </p>
+                                        </div>
                                     </div>
-                                    <p className="text-text-secondary-light dark:text-text-secondary-dark">Get that perfect ethnic look every time</p>
-                                </div>
 
-                                <div className="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-lg border border-accent-gold-light/20 dark:border-accent-gold-dark/20">
-                                    <div className="flex items-center mb-3">
-                                        <div className="w-3 h-3 bg-accent-gold-light dark:bg-accent-gold-dark rounded-full mr-3"></div>
-                                        <h5 className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark">RayDrip Exclusive</h5>
+                                    <div className="flex items-start space-x-4">
+                                        <div className="flex-shrink-0 w-8 h-8 bg-accent-gold-light dark:bg-accent-gold-dark rounded-full flex items-center justify-center">
+                                            <span className="text-sm font-bold text-text-primary-light dark:text-text-primary-dark">3</span>
+                                        </div>
+                                        <div>
+                                            <h5 className="text-xl font-semibold text-text-primary-light dark:text-text-primary-dark mb-2">RayDrip Exclusive</h5>
+                                            <p className="text-text-secondary-light dark:text-text-secondary-dark leading-relaxed">
+                                                Styling tips and techniques from our fashion experts and designers.
+                                            </p>
+                                        </div>
                                     </div>
-                                    <p className="text-text-secondary-light dark:text-text-secondary-dark">Styling tips from our fashion experts</p>
                                 </div>
 
                                 {/* CTA Button */}
-                                <div className="pt-4">
+                                <div className="pt-6">
                                     <button
                                         onClick={() => window.open('https://www.instagram.com/raydrip.in/', '_blank')}
-                                        className="w-full bg-accent-gold-light dark:bg-accent-gold-dark text-text-primary-light dark:text-text-primary-dark px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 border-2 border-transparent hover:border-accent-gold-light dark:hover:border-accent-gold-dark"
+                                        className="
+                            bg-accent-gold-light dark:bg-accent-gold-dark
+                            text-text-primary-light dark:text-text-primary-dark
+                            px-10 py-4 rounded-full font-semibold text-lg 
+                            hover:shadow-[0_8px_20px_rgba(201,169,110,0.6)]
+                            active:scale-95 transition-transform duration-300
+                            shadow-lg select-none
+                            ring-2 ring-transparent hover:ring-accent-gold-light dark:hover:ring-accent-gold-dark
+                            focus:outline-none focus-visible:ring-accent-gold-light dark:focus-visible:ring-accent-gold-dark
+                            flex items-center justify-center w-full sm:w-auto
+                        "
                                     >
                                         Follow More Tutorials
-                                        <svg className="w-5 h-5 ml-2 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                         </svg>
                                     </button>
                                 </div>
-
                             </div>
+                        </div>
+
+                        {/* Bottom Call-to-Action - Matching your other sections */}
+                        <div className="text-center mt-16 pt-12 border-t border-accent-gold-light/20 dark:border-accent-gold-dark/20">
+                            <p className="text-lg text-text-secondary-light dark:text-text-secondary-dark mb-6">
+                                Want to see more styling tutorials and behind-the-scenes content?
+                            </p>
+                            <button
+                                onClick={() => window.open('https://www.instagram.com/raydrip.in/', '_blank')}
+                                className="
+                    inline-flex items-center text-accent-gold-light dark:text-accent-gold-dark 
+                    font-semibold hover:underline transition-all duration-300
+                "
+                            >
+                                Follow @raydrip.in on Instagram
+                                <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </section>
+
+
 
 
 
